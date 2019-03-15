@@ -38,7 +38,7 @@ public class GoogleAPI {
 			e.printStackTrace();
 		}
 		
-		String query = String.format("origin=place_id:%s&destination=place_id:%s",origin_id,des_id);
+		String query = String.format("origin=place_id:%s&destination=place_id:%s&key=%s",origin_id,des_id,key);
 		String url = direction_URL+ "/json?" + query;
 
 		try {
