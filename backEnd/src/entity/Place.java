@@ -3,7 +3,7 @@ package entity;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Place {
+public class Place implements Comparable<Place>{
 	
 	private String place_id;
 	private String name;
@@ -12,6 +12,18 @@ public class Place {
 	private Set<String> types;
 	private String icon_url;
 	private double rating;
+	
+	//Descending sort by rating
+	@Override
+	public int compareTo(Place o) {
+		if(this.getRating() < o.getRating()){
+			return 1;
+		}else if(this.getRating() == o.getRating()){
+			return 0;
+		}else{
+			return -1;
+		}
+	}
 	
 	
 	public static class PlaceBuilder {
@@ -63,6 +75,9 @@ public class Place {
 			return new Place(this);
 		}
 		
+		
+		
+		
 	}
 	
 	private Place(PlaceBuilder builder) {
@@ -104,6 +119,9 @@ public class Place {
 	public double getRating() {
 		return rating;
 	}
+
+
+
 
 
 
