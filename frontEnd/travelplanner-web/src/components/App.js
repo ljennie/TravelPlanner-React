@@ -1,18 +1,59 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import HomeTab from './HomeTab';
+import Navigation from './Navigation';
+import Board from './Board';
 import '../styles/App.css';
-import {WrappedTravelMap} from "./TravelMap"
+
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'home',
+    };
+  }
+
+  renderPlanDetails() {
+    return (<Board />);
+  }
+
+  renderNavigation() {
+    return (<Navigation
+      onClick={(tabName) => this.changeTab(tabName)}
+      selectedTab={this.state.selectedTab}
+    />);
+  }
+
+  renderTabContent() {
+    switch (this.state.selectedTab) {
+      case 'home':
+      default:
+        return <HomeTab />;
+      case 'travelplan':
+        return this.renderPlanDetails();
+    }
+  }
+
+  changeTab(tabName) {
+    this.setState({
+      selectedTab: tabName,
+    });
+  }
+
   render() {
     return (
-      <WrappedTravelMap
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `600px` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
-      />
+      <div className="App">
+        {this.renderNavigation()}
+        <div className="App-body">
+          {this.renderTabContent()}
+        </div>
+      </div>
     );
   }
+
+
 }
 
 export default App;
