@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -94,7 +96,6 @@ public class GoogleAPI {
 				JSONObject leg_item = legs.getJSONObject(0);
 				JSONArray steps = leg_item.getJSONArray("steps");
 				
-
 				//TODO:1. Parse distance/duration/start location/end location /start address/end address of Leg
 				LegBuilder leg_builder = new LegBuilder();
 				leg_builder.setDistance(leg_item.getJSONObject("distance").getInt("value"));
@@ -106,13 +107,11 @@ public class GoogleAPI {
 				leg_builder.setStart_location_lat(leg_item.getJSONObject("start_location").getString("lat"));
 				leg_builder.setStart_location_lot(leg_item.getJSONObject("start_location").getString("lot"));
 				
-				
 				for(int i=0;i<steps.length();i++) {
 					JSONObject step_item = steps.getJSONObject(i);
 					StepBuilder step_builder = new StepBuilder();
 					
 					//TODO:2. Parse start location/ end location /distance / duration of step_item
-					
 					step_builder.setDistance(step_item.getJSONObject("distance").getInt("value"));
 					step_builder.setDuration(step_item.getJSONObject("duration").getInt("value"));
 					step_builder.setEnd_location_lat(step_item.getJSONObject("end_location").getString("lat"));
@@ -121,12 +120,8 @@ public class GoogleAPI {
 					step_builder.setStart_location_lot(step_item.getJSONObject("start_location").getString("lot"));
 					
 					//TODO:3. Create a new Step Entity and store in Leg
-					
 					leg_builder.addStep(step_builder.build());
-					
 				}
-				
-				
 				//TODO: 4. Return created leg
 				return leg_builder.build();
 			
@@ -237,8 +232,13 @@ public class GoogleAPI {
 				}
 				
 				placeList.add(builder.build());
-				return placeList;
+				
 			}
+			
+			//Descending Sort By Rating
+			Collections.sort(placeList);
+			
+			return placeList;
 		}
 		catch (Exception e) {
 			System.out.print(e);
@@ -247,5 +247,4 @@ public class GoogleAPI {
 		return placeList;
 	}
 	
-
 }
