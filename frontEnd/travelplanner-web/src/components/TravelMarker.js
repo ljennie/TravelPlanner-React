@@ -68,6 +68,7 @@ export class TravelMarker extends React.Component {
 
                             }
                             <p>{`Day ${this.props.day}: ${this.props.name}`}</p>
+                            <a class="btn btn-success" href={`https://en.wikipedia.org/wiki/${this.props.name}`} target ="_blank">Learn More</a>
                         </div>
                     </InfoWindow> : null
                 }
