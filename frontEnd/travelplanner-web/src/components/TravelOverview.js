@@ -89,13 +89,26 @@ export class TravelOverview extends React.Component {
             // TODO: route to detail with data
 
 
-        }).catch(
-
-        );
+        }).catch((e) => {
+            this.setState({isLoadingPosts: false, error: e.message})
+        });
 
     }
 
-
+    handleOnDayChange = (pointId, day) => {
+        var points = this.state.points;
+        for (let i in points) {
+            if (points[i]['pointId'] === pointId) {
+                points[i]['day'] = parseInt(day);
+                continue;
+            }
+        }
+        this.setState((prevState) => {
+            return {
+                points:points
+            };
+        });
+    }
 
     render() {
         return (
@@ -105,6 +118,7 @@ export class TravelOverview extends React.Component {
               containerElement={<div style={{ height: `600px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
               points={this.state.points}
+              handleOnDayChange={this.handleOnDayChange}
               //loadNearbyPosts={this.loadNearbyPosts}
           />
         );

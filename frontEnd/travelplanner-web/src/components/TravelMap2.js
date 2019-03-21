@@ -1,21 +1,21 @@
 import React from 'react';
-import {
-    withScriptjs,
-    withGoogleMap,
-    GoogleMap,
-} from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 //import { POS_KEY } from "../constants";
 import { TravelMarker2 } from "./TravelMarker2";
 import { relative } from 'path';
 
 class TravelMap2 extends React.Component {
-
+    constructor(props) {
+        super(props);
+        this.points = props.points;
+    }
     componentDidMount(){
 
     }
     saveMapRef = (mapInstance) => {
         this.map = mapInstance;
     }
+
    
     render() {
         return (
@@ -26,7 +26,7 @@ class TravelMap2 extends React.Component {
                 >
                 {this.props.points.map((point) => {
                     return (
-                      <TravelMarker2 key={point.pointId} point={point}/>
+                      <TravelMarker2 key={point.pointId} point={point} onDayChange={this.props.handleOnDayChange}/>
                     )
                  })}    
              </GoogleMap>

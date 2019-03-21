@@ -10,6 +10,7 @@ export class TravelMarker2 extends React.Component {
         isOpen:false,
         isOptionOpen:false
     }
+
     onToggleOpen = () => {
         this.setState((prevState) => {
             return {
@@ -24,6 +25,10 @@ export class TravelMarker2 extends React.Component {
         console.log("open option");
     }
 
+    onOptionClick = (e) => {
+        console.log('click', e)
+        this.props.onDayChange(this.props.point.pointId, e.key);
+    }
 
     render() {
         //const {location, url, message, user, type} = this.props.post;
@@ -32,9 +37,10 @@ export class TravelMarker2 extends React.Component {
         console.log(poi_name);
         const totalDays = 3;
 
-
         const menu = (
-            <Menu>
+            <Menu
+                onClick={this.onOptionClick}
+            >
                 <Menu.Item key="0">Delete</Menu.Item>
 
                 {
@@ -66,8 +72,6 @@ export class TravelMarker2 extends React.Component {
                 icon = undefined;
         }
 
-
-
         return (
             <Marker
                 position={{ lat: lat, lng: lon }}
@@ -82,14 +86,14 @@ export class TravelMarker2 extends React.Component {
                         <div>
                             <img src={image_url} alt={poi_name} className="travel-marker-image"/>
                             <p>{`Day ${day}: ${poi_name}`}</p>
-                            <a class="btn btn-success" href={`https://en.wikipedia.org/wiki/${poi_name}`} target ="_blank">Learn More</a>
+                            <a className="btn btn-success" href={`https://en.wikipedia.org/wiki/${poi_name}`} target ="_blank">Learn More</a>
                         </div>
                     </InfoWindow> : null
                 }
 
                 <OverlayView
-                    position = {{lat: lat, lng: lon}}
-                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                    position = { {lat: lat, lng: lon} }
+                    mapPaneName={ OverlayView.OVERLAY_MOUSE_TARGET }
                     //getPixelPositionOffset={getPixelPositionOffset}
                 >
                     <Dropdown overlay={menu} trigger={['contextMenu']}>
