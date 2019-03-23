@@ -59,8 +59,6 @@ export default class Board extends React.Component {
         var drake = Dragula([container1,container2,container3]);
     } 
 
-
-
     render() {
         return (
             <div className="Board">
