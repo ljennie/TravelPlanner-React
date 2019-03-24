@@ -21,7 +21,7 @@ const response =[{key:1, lat:40.7829, lng: -73.9654, name:"central park", url:"h
 {key:6, lat:40.8296, lng: -73.9262,  name: "Yankee Stadium", url: "https://www.wheretraveler.com/sites/default/files/styles/wt17_promoted_large/public/images/YANKEE%20STADIUM_OVE%23747D12.jpg?itok=KHnOsPcI&timestamp=1451406398", day:3}
 ]
 
-class TravelMap extends React.Component {
+export class TravelMap extends React.Component {
     constructor(props) {
         super(props);
         this.filtermarkers = this.filtermarkers.bind(this);

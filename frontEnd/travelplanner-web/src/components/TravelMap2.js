@@ -7,7 +7,6 @@ import { relative } from 'path';
 class TravelMap2 extends React.Component {
     constructor(props) {
         super(props);
-        this.points = props.points;
     }
     componentDidMount(){
 
