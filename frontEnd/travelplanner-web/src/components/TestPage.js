@@ -7,6 +7,7 @@ export class TestPage extends React.Component {
         super(props);
         console.log(props.location.state);
     }
+<<<<<<< HEAD
 
 // // /update_paths
 //     request json:
@@ -42,6 +43,8 @@ export class TestPage extends React.Component {
 onDrag = () => {
 
     }
+=======
+>>>>>>> 11938d319efce6b2bc45203d929218e655753c48
     render() {
         return (
             <div>

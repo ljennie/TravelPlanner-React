@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-    Marker,
-    InfoWindow
-} from "react-google-maps";
+import { Marker, InfoWindow, OverlayView } from "react-google-maps";
+import { Menu, Dropdown } from 'antd';
 
 import blueMarkerUrl from '../assets/images/blue-marker.svg';
 import blackMarkerUrl from '../assets/images/black-marker.png';
@@ -12,6 +10,7 @@ export class TravelMarker extends React.Component {
         isOpen:false,
         isOptionOpen:false
     }
+
     onToggleOpen = () => {
         this.setState((prevState) => {
             return {
@@ -26,11 +25,34 @@ export class TravelMarker extends React.Component {
         console.log("open option");
     }
 
+    onOptionClick = (e) => {
+        console.log('click', e)
+        this.props.onDayChange(this.props.point.pointId, e.key);
+    }
+
     render() {
         //const {location, url, message, user, type} = this.props.post;
         //const {lat, lon} = location;
+        const {type, lat, lon, poi_name, image_url, day} = this.props.point;
+        console.log(poi_name);
+        const totalDays = 3;
+
+        const menu = (
+            <Menu
+                onClick={this.onOptionClick}
+            >
+                <Menu.Item key="0">Delete</Menu.Item>
+
+                {
+                    [...Array(totalDays).keys()].filter((i) => (i + 1) !== day).map((i)=>
+                    <Menu.Item key={i + 1}>{`Change to Day ${i + 1}`}</Menu.Item>)
+
+                }
+            </Menu>
+        )
+
         let icon;
-        switch (this.props.day) {
+        switch (day) {
             case 1:
                 icon = undefined;
                 break;
@@ -50,10 +72,9 @@ export class TravelMarker extends React.Component {
                 icon = undefined;
         }
 
-
         return (
             <Marker
-                position={{ lat: this.props.lat, lng: this.props.lng }}
+                position={{ lat: lat, lng: lon }}
                 onMouseOver={ this.onToggleOpen}
                 onMouseOut={this.onToggleOpen}
                 onClick={this.onToggleOpen}
@@ -63,15 +84,23 @@ export class TravelMarker extends React.Component {
                 {this.state.isOpen ?
                     <InfoWindow onCloseClick={this.onToggleOpen}>
                         <div>
-                            {
-                                <img src={this.props.url} alt={this.props.name} className="travel-marker-image"/>
-
-                            }
-                            <p>{`Day ${this.props.day}: ${this.props.name}`}</p>
-                            <a class="btn btn-success" href={`https://en.wikipedia.org/wiki/${this.props.name}`} target ="_blank">Learn More</a>
+                            <img src={image_url} alt={poi_name} className="travel-marker-image"/>
+                            <p>{`Day ${day}: ${poi_name}`}</p>
+                            <a className="btn btn-success" href={`https://en.wikipedia.org/wiki/${poi_name}`} target ="_blank">Learn More</a>
                         </div>
                     </InfoWindow> : null
                 }
+
+                <OverlayView
+                    position = { {lat: lat, lng: lon} }
+                    mapPaneName={ OverlayView.OVERLAY_MOUSE_TARGET }
+                    //getPixelPositionOffset={getPixelPositionOffset}
+                >
+                    <Dropdown overlay={menu} trigger={['contextMenu']}>
+                        <span style={{ userSelect: 'none' }}>Right Click on Me</span>
+                    </Dropdown>
+                </OverlayView>
+
 
             </Marker>
         );

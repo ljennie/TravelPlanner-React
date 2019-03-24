@@ -3,7 +3,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import HomeTab from './HomeTab';
 import Navigation from './Navigation';
 import Board from './Board';
+import { TravePlan } from './TravelPlan';
 import '../styles/App.css';
+
 
 
 class App extends Component {
@@ -16,9 +18,11 @@ class App extends Component {
   }
 
   renderPlanDetails() {
-    return (<Board />);
+    return (<Board/>);
   }
-
+  renderTravelPlan() {
+    return (<TravePlan/>);
+  }
   renderNavigation() {
     return (<Navigation
       onClick={(tabName) => this.changeTab(tabName)}
@@ -31,8 +35,10 @@ class App extends Component {
       case 'home':
       default:
         return <HomeTab />;
-      case 'travelplan':
+      case 'details':
         return this.renderPlanDetails();
+      case 'travelplan':
+      return this.renderTravelPlan();
     }
   }
 

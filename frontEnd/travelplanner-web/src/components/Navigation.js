@@ -10,7 +10,11 @@ export default class Navigation extends React.Component {
         </li>
         <li className="nav-item">
           <a className={"nav-link " + (this.props.selectedTab === 'travelplan' ? 'active': '')} onClick={() => this.props.onClick("travelplan")}
-          id="travelplan-tab" data-toggle="tab" href="#travelplan" role="tab" aria-controls="travelplan" aria-selected={this.props.selectedTab === 'travelplan'}>PlanDetail</a>
+          id="travelplan-tab" data-toggle="tab" href="#travelplan" role="tab" aria-controls="travelplan" aria-selected={this.props.selectedTab === 'travelplan'}>TravelPlan</a>
+        </li>
+        <li className="nav-item">
+          <a className={"nav-link " + (this.props.selectedTab === 'details' ? 'active': '')} onClick={() => this.props.onClick("details")}
+          id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected={this.props.selectedTab === 'details'}>PlanDetail</a>
         </li>
       </ul>
     );
