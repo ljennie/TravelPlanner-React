@@ -1,5 +1,6 @@
 import React from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
+import {  Polyline } from "react-google-maps"
 //import { POS_KEY } from "../constants";
 import { TravelMarker } from "./TravelMarker";
 import { relative } from 'path';
@@ -28,7 +29,23 @@ class TravelMap extends React.Component {
                     return (
                       <TravelMarker key={point.pointId} point={point} onDayChange={this.props.handleOnDayChange}/>
                     )
-                 })}    
+                 })} 
+                 {
+                   (this.props.paths!=null&& typeof this.props.paths!= 'undefined') &&<Polyline
+                   path={this.props.paths}
+                   options={{
+                       strokeColor: '#ff2343',
+                       strokeOpacity: '1.0',
+                       strokeWeight: 3,
+                       icons: [{
+                           icon: "hello",
+                           offset: '0',
+                           repeat: '10px'
+                       }],
+                   }}
+               />   
+                 }
+                
              </GoogleMap>
         );
     }
