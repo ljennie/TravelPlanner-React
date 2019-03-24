@@ -85,11 +85,7 @@ export class TravePlan extends React.Component {
                     handleOnDayChange={this.filtermarkers}
                     //loadNearbyPosts={this.loadNearbyPosts}
                      >
-                     {(this.state.SelectedPoints||[]).map((point) => {
-                    return (
-                      <Line key={point.pointId} point={point} onDayChange={this.props.handleOnDayChange}/>
-                    )
-                 })} 
+                   
                   </WrappedTravelMap>
             </div>
         );
