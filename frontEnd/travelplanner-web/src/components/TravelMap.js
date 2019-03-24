@@ -43,6 +43,7 @@ class TravelMap extends React.Component {
           )
 
         }
+    
       
     saveMapRef = (mapInstance) => {
         this.map = mapInstance;
