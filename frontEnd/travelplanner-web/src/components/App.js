@@ -5,6 +5,7 @@ import Navigation from './Navigation';
 import Board from './Board';
 import { TravePlan } from './TravelPlan';
 import '../styles/App.css';
+import { TestPage } from './TestPage';
 
 
 
