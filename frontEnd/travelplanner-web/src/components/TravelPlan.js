@@ -51,7 +51,7 @@ export class TravePlan extends React.Component {
         console.log(temp2);
         if(temp2!=null&& typeof temp2!= 'undefined'){
         const ori = temp2[0];
-        const des = temp2.length >= 2 ? temp2[temp2.length-1]:origin;
+        const des = temp2.length >= 2 ? temp2[temp2.length-1]:ori;
         var midpoints= [];
         var temp1=[];
         midpoints= temp2.length>2?temp2.slice(1,-1): []
