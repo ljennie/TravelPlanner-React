@@ -26,7 +26,7 @@ export class TravelMarker extends React.Component {
     }
 
     onOptionClick = (e) => {
-        console.log('click', e)
+        console.log('click', e);
         this.props.onDayChange(this.props.point.pointId, e.key);
     }
 
@@ -73,6 +73,7 @@ export class TravelMarker extends React.Component {
         }
 
         return (
+            <div>
             <Marker
                 position={{ lat: lat, lng: lon }}
                 onMouseOver={ this.onToggleOpen}
@@ -103,6 +104,9 @@ export class TravelMarker extends React.Component {
 
 
             </Marker>
+
+
+            </div>
         );
     }
 }
