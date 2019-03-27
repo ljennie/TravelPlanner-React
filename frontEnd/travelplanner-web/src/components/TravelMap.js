@@ -14,15 +14,10 @@ class TravelMap extends React.Component {
     componentDidMount() {
 
     }
+
     saveMapRef = (mapInstance) => {
         this.map = mapInstance;
     }
-    componentDidMount() {
-    }
-
-
-
-
 
     render() {
         return (
@@ -33,9 +28,14 @@ class TravelMap extends React.Component {
             >
                 {(this.props.points || []).map((point) => {
                     return (
-                        <TravelMarker key={point.pointId} point={point} onDayChange={this.props.handleOnDayChange} />
+                        <TravelMarker
+                            key={point.placeID}
+                            point={point}
+                            totalDays={this.props.totalDays}
+                            onDayChange={this.props.handleOnDayChange} />
                     )
                 })}
+
                 {
                  (this.props.directions)&&
                  <DirectionsRenderer directions={this.props.directions} suppressMarkers={this.props.markers} />

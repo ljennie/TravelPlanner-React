@@ -8,3 +8,10 @@
     width: 200px;
     background-color: aqua;
 }
+
+.right-click-icon {
+    height: 15px;
+    width:15px;
+    position: relative;
+    top: -5px;
+}
