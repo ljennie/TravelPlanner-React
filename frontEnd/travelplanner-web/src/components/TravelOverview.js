@@ -1,3 +1,4 @@
+/*global google*/
 import React from 'react';
 //import $ from 'jquery'
 //import { Tabs, Spin, Row, Col, Radio } from 'antd';
@@ -8,6 +9,7 @@ import { API_ROOT } from "../constants"
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown, Input } from 'antd';
+import {GOOGLE_GEOCODE_API, PLACE_API_KEY} from "../constants";
 
 export class TravelOverview extends React.Component {
 
@@ -100,33 +102,39 @@ export class TravelOverview extends React.Component {
     }
 
     onInputEntered = (day, e) => {
-        console.log(e.target.value);
+
         //TODO convert address to place ID, lat, lon
-        this.startPoints.push({
-            placeID: "xxx",
-            type: "start",
-            lat: 0,
-            lon: 0,
-            name: "",
-            image_url: "",
-            day: day,
-            intradayIndex: 0
+        fetch(`${GOOGLE_GEOCODE_API}?address=${encodeURI(e.target.value)}&key=${PLACE_API_KEY}`, {
+            method: 'GET',
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then((data) => {
+            this.startPoints.push({
+                placeID: data['results'][0]['place_id'],
+                type: "start",
+                lat: data['results'][0]['geometry']['location']['lat'],
+                lon: data['results'][0]['geometry']['location']['lng'],
+                name: "",
+                image_url: "",
+                day: day,
+                intradayIndex: 0
+            });
+            console.log(this.startPoints);
+            if (!this.state.isInputEntered) {
+                this.setState((prevState) => {
+                    return {
+                        isInputEntered: true,
+                    };
+                });
+            }
+        }).catch((e) => {
+            console.log(e.message);
         });
 
-        if (!this.state.isInputEntered) {
-            this.setState((prevState) => {
-                return {
-                    isInputEntered: true,
-                };
-            });
-        }
     }
 
-    handleStartPoints = () => {
-        //TODO: change address to lat, lon
-        //TODO: store starting points, add to points and setState
-
-    }
 
     onGeneratePathsButtonPressed = () => {
         console.log("generate paths button pressed");
@@ -144,6 +152,7 @@ export class TravelOverview extends React.Component {
         }).then((data) => {
             // TODO: loading sign ?
             this.generatedPoints = data.places;
+
         }).catch((e) => {
             console.log(e.message);
         });
@@ -166,6 +175,7 @@ export class TravelOverview extends React.Component {
             };
         });
     }
+
 
     render() {
         const dayOptionsMenu = (
