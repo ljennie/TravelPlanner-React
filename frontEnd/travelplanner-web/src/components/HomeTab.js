@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 
 import { TravelOverview } from "./TravelOverview"
 import { TestPage } from "./TestPage" // for testing
+import { POS_KEY} from "../constants"
 
 import { BrowserRouter, Route, Link, Switch, Redirect } from 'react-router-dom';
 
 class HomeTab extends Component {
+
+
+
     render() {
         return (
             <BrowserRouter>
