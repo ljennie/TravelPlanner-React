@@ -5,8 +5,8 @@ import { Polyline } from "react-google-maps"
 import { TravelMarker } from "./TravelMarker";
 import { relative } from 'path';
 
-
 class TravelMap extends React.Component {
+
     constructor(props) {
         super(props);
     }
