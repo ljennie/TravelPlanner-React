@@ -84,12 +84,14 @@ export class TravelOverview extends React.Component {
         })
     }
 
-    onSavePlacesButtonClick = () => {
+    onSavePlacesButtonClick = (placeID, day, intradayIndex) => {
         // Request
         const endPoint = 'update_places';
+        let obj = {placeID, day, intradayIndex};
+        console.log(JSON.stringify({"newSchedule": [obj]}));
         /*fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"newSchedule": this.changedPoints}),
+            body: JSON.stringify({"newSchedule": [obj]}),
             headers: {
                 'Content-Type':'application/json'
             }
@@ -97,14 +99,11 @@ export class TravelOverview extends React.Component {
             console.log(e.message);
         });
         */
-        this.changedPoints =[];
 
     }
 
     onInputEntered = (day, e) => {
-
-        //TODO convert address to place ID, lat, lon
-        fetch(`${GOOGLE_GEOCODE_API}?address=${encodeURI(e.target.value)}&key=${PLACE_API_KEY}`, {
+        fetch(`${GOOGLE_GEOCODE_API}?address=${encodeURI(e.target.value)}&key=${PLACE_API_K}`, {
             method: 'GET',
         }).then((response) => {
             if (response.ok) {
@@ -139,6 +138,8 @@ export class TravelOverview extends React.Component {
     onGeneratePathsButtonPressed = () => {
         console.log("generate paths button pressed");
         const endPoint = 'generate_paths';
+        console.log(JSON.stringify({"startPlaces": this.startPoints}));
+        /*
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"startPlaces": this.startPoints}),
@@ -156,12 +157,13 @@ export class TravelOverview extends React.Component {
         }).catch((e) => {
             console.log(e.message);
         });
+        */
 
     }
 
     handleOnDayChange = (pointId, day) => {
-        /*let dayNum = parseInt(day);
-        this.changedPoints.push({placeID: pointId, day: dayNum});
+        let dayNum = parseInt(day);
+        //this.changedPoints.push({placeID: pointId, day: dayNum});
         var points = this.state.points;
         for (let i in points) {
             if (points[i]['placeID'] === pointId) {
@@ -169,14 +171,14 @@ export class TravelOverview extends React.Component {
                 continue;
             }
         }
-        */
+
         this.setState((prevState) => {
             return {
-                points:points.filter(pair => pair.day !== -1)
+                points:points.filter(point => point.day !== -1)
             };
         });
 
-        onSavePlacesButtonClick()
+        this.onSavePlacesButtonClick(pointId, day, -1);
     }
 
 
@@ -219,7 +221,7 @@ export class TravelOverview extends React.Component {
                         : null
                     }
 
-                    {this.state.isInputEntered ?
+                    {//this.state.isInputEntered ?
                         <Link
                             onClick={this.onGeneratePathsButtonPressed}
                             to={{
@@ -229,7 +231,7 @@ export class TravelOverview extends React.Component {
                                 }
                             }}>
                             Generate Paths
-                        </Link> : null
+                        </Link> //: null
                     }
                 </div>
 

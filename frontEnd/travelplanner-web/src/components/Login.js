@@ -16,7 +16,7 @@ class NormalLoginForm extends React.Component {
                     url: `${API_ROOT}/login`,
                     method: 'POST',
                     data: JSON.stringify({
-                        username: values.username,
+                        user_id: values.username,
                         password: values.password,
                     })
                 }).then((response) => {
@@ -24,7 +24,7 @@ class NormalLoginForm extends React.Component {
                     this.props.handleLogin(response);
                     // const token = response;
                     // localStorage.setItem('TOKEN_KEY', token);
-
+                    this.props.history.push('/home');
                     console.log(response);
 
                 },(response) => {

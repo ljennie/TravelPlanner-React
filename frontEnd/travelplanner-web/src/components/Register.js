@@ -22,8 +22,10 @@ class RegisterationForm extends React.Component {
                     url: `${API_ROOT}/signup`,
                     method: 'POST',
                     data: JSON.stringify ({
-                        username: values.username,
+                        user_id: values.username,
                         password: values.password,
+                        first_name: values.firstname,
+                        last_name: values.lastname
                     })//把这个json object变成string
                 }).then((response) => {
                     message.success(response);
@@ -120,6 +122,24 @@ class RegisterationForm extends React.Component {
                         }],
                     })(
                         <Input type="password" onBlur={this.handleConfirmBlur}/>
+                    )}
+                </Form.Item>
+                <Form.Item
+                    label="Firstname"
+                >
+                    {getFieldDecorator('firstname', {
+                        rules: [{required: true, message: 'Please input your first name!', whitespace: true}],
+                    })(
+                        <Input/>
+                    )}
+                </Form.Item>
+                <Form.Item
+                    label="Lastname"
+                >
+                    {getFieldDecorator('lastname', {
+                        rules: [{required: true, message: 'Please input your last name!', whitespace: true}],
+                    })(
+                        <Input/>
                     )}
                 </Form.Item>
 

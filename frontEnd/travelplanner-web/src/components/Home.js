@@ -3,8 +3,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import HomeTab from './HomeTab';
 import Navigation from './Navigation';
 import Board from './Board';
-import { TravePlan } from './TravelPlan';
+import { TravelPlan } from './TravelPlan';
 import '../styles/App.css';
+import {TravelOverview} from "./TravelOverview"
 
 export class Home extends React.Component{
     constructor(props) {
@@ -13,12 +14,14 @@ export class Home extends React.Component{
         selectedTab: 'home',
       };
     }
-
+    renderOverview(){
+        return (<HomeTab/>)
+    }
     renderPlanDetails() {
       return (<Board/>);
     }
     renderTravelPlan() {
-      return (<TravePlan/>);
+      return (<TravelPlan/>);
     }
     renderNavigation() {
       return (<Navigation
@@ -31,7 +34,7 @@ export class Home extends React.Component{
       switch (this.state.selectedTab) {
         case 'home':
         default:
-          return <HomeTab />;
+          return this.renderOverview();
         case 'details':
           return this.renderPlanDetails();
         case 'travelplan':
