@@ -8,37 +8,6 @@ import { TOKEN_KEY} from "../constants"
 
 class App extends Component {
 
-<<<<<<< HEAD
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedTab: 'home',
-    };
-  }
-
-  //renderPlanDetails() {
-    //return (<Board/>);
-  //}
-  renderTravelPlan() {
-    return (<TravePlan/>);
-  }
-  renderNavigation() {
-    return (<Navigation
-      onClick={(tabName) => this.changeTab(tabName)}
-      selectedTab={this.state.selectedTab}
-    />);
-  }
-
-  renderTabContent() {
-    switch (this.state.selectedTab) {
-      case 'home':
-      default:
-        return <HomeTab />;
-      //case 'details':
-        //return this.renderPlanDetails();
-      case 'travelplan':
-      return this.renderTravelPlan();
-=======
     state = {
         isLoggedIn: Boolean(localStorage.getItem('TOKEN_KEY'))
     }
