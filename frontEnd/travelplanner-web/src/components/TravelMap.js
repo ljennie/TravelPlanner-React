@@ -1,7 +1,7 @@
 import React from 'react';
 import { DirectionsRenderer,withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps";
 import { Polyline } from "react-google-maps"
-//import { POS_KEY } from "../constants";
+import { POS_KEY } from "../constants";
 import { TravelMarker } from "./TravelMarker";
 import { relative } from 'path';
 

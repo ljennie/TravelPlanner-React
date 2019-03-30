@@ -11,7 +11,7 @@ const paths1=[
     { lat:40.7614, lng: -73.9776},
     {lat: 40.7425, lng: -74.0061}
   ]
-export class TravePlan extends React.Component {
+export class TravelPlan extends React.Component {
     SelectedPoints = [];
     paths=[];
     directions={};

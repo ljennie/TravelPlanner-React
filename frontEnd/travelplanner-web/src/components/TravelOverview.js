@@ -9,7 +9,11 @@ import { API_ROOT } from "../constants"
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown, Input } from 'antd';
+<<<<<<< HEAD
 import {GOOGLE_GEOCODE_API, PLACE_API_KEY} from "../constants";
+=======
+import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
 
 export class TravelOverview extends React.Component {
 
@@ -23,9 +27,15 @@ export class TravelOverview extends React.Component {
     ];
 
     testingStartPoints = [
+<<<<<<< HEAD
         {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:0, index_in_the_day: 0},
         {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:1, index_in_the_day: 0},
         {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:2, index_in_the_day: 0},
+=======
+        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:0, intradayIndex: 0},
+        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:1, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:2, intradayIndex: 0},
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
     ];
 
     testingGeneratedPoints = [
@@ -65,7 +75,11 @@ export class TravelOverview extends React.Component {
         }).then((data) => {
             this.setState((prevState) => {
                 return {
+<<<<<<< HEAD
                     points: this.data.points, // what is the key?
+=======
+                    points: this.data.places,
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
                     isDayOptionsChosen: true
                 }
             })
@@ -84,12 +98,23 @@ export class TravelOverview extends React.Component {
         })
     }
 
+<<<<<<< HEAD
     onSavePlacesButtonClick = () => {
         // Request
         const endPoint = 'update_places';
         /*fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"newSchedule": this.changedPoints}),
+=======
+    onSavePlacesButtonClick = (placeID, day, intradayIndex) => {
+        // Request
+        const endPoint = 'update_places';
+        let obj = {placeID, day, intradayIndex};
+        console.log(JSON.stringify({"newSchedule": [obj]}));
+        /*fetch(`${API_ROOT}/${endPoint}`, {
+            method: 'POST',
+            body: JSON.stringify({"newSchedule": [obj]}),
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
             headers: {
                 'Content-Type':'application/json'
             }
@@ -97,14 +122,21 @@ export class TravelOverview extends React.Component {
             console.log(e.message);
         });
         */
+<<<<<<< HEAD
         this.changedPoints =[];
+=======
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
 
     }
 
     onInputEntered = (day, e) => {
+<<<<<<< HEAD
 
         //TODO convert address to place ID, lat, lon
         fetch(`${GOOGLE_GEOCODE_API}?address=${encodeURI(e.target.value)}&key=${PLACE_API_KEY}`, {
+=======
+        fetch(`${GOOGLE_GEOCODE_API}?address=${encodeURI(e.target.value)}&key=${PLACE_API_K}`, {
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
             method: 'GET',
         }).then((response) => {
             if (response.ok) {
@@ -139,9 +171,15 @@ export class TravelOverview extends React.Component {
     onGeneratePathsButtonPressed = () => {
         console.log("generate paths button pressed");
         const endPoint = 'generate_paths';
+        console.log(JSON.stringify({"startPlaces": this.startPoints}));
+        /*
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
+<<<<<<< HEAD
             body: JSON.stringify({"newSchedule": this.changedPoints, "startPlaces": this.startPoints}),
+=======
+            body: JSON.stringify({"startPlaces": this.startPoints}),
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
             headers: {
                 'Constent-Type':'application/json'
             }
@@ -161,7 +199,11 @@ export class TravelOverview extends React.Component {
 
     handleOnDayChange = (pointId, day) => {
         let dayNum = parseInt(day);
+<<<<<<< HEAD
         this.changedPoints.push({placeID: pointId, day: dayNum});
+=======
+        //this.changedPoints.push({placeID: pointId, day: dayNum});
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
         var points = this.state.points;
         for (let i in points) {
             if (points[i]['placeID'] === pointId) {
@@ -169,13 +211,23 @@ export class TravelOverview extends React.Component {
                 continue;
             }
         }
+
         this.setState((prevState) => {
             return {
+<<<<<<< HEAD
                 points:points.filter(pair => pair.day !== -1)
+=======
+                points:points.filter(point => point.day !== -1)
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
             };
         });
+
+<<<<<<< HEAD
+=======
+        this.onSavePlacesButtonClick(pointId, day, -1);
     }
 
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
 
     render() {
         const dayOptionsMenu = (
@@ -211,11 +263,32 @@ export class TravelOverview extends React.Component {
 
 
                     {this.state.isDayOptionsChosen ?
+<<<<<<< HEAD
                         <button onClick={this.onSavePlacesButtonClick}>
                             Save Places
                         </button> : null
+=======
+                        [...Array(this.totalDays).keys()].map(i =>
+                            <Input key={i} placeholder={`Day ${i+1} Start Address`} onPressEnter={(e) => this.onInputEntered(i, e)}/>)
+                        : null
                     }
 
+                    {//this.state.isInputEntered ?
+                        <Link
+                            onClick={this.onGeneratePathsButtonPressed}
+                            to={{
+                                pathname: "/detail",
+                                state: {
+                                    points: this.generatedPoints
+                                }
+                            }}>
+                            Generate Paths
+                        </Link> //: null
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
+                    }
+                </div>
+
+<<<<<<< HEAD
 
                     {this.state.isDayOptionsChosen ?
                         [...Array(this.totalDays).keys()].map(i =>
@@ -237,6 +310,8 @@ export class TravelOverview extends React.Component {
                     }
                 </div>
 
+=======
+>>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
             </div>
 
         );

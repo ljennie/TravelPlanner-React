@@ -57,7 +57,7 @@ export default class Board extends React.Component {
         var container2 = this.swimlanes.day2.current;
         var container3 = this.swimlanes.day3.current;
         var drake = Dragula([container1,container2,container3]);
-    } 
+    }
 
     render() {
         return (
