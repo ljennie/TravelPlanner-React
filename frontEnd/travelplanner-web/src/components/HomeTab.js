@@ -18,9 +18,9 @@ class HomeTab extends Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    //<Route path = "/register" component={Register}/>
-                    //<Route path = "/login" component={Login} />
-                    <Route exact path="/home"  component={TravelOverview} />
+                    <Route path = "/register" component={Register}/>
+                    <Route path = "/login" component={Login} />
+                    <Route exact path="/home"  component={Register} />
                     <Route exact path="/detail" component={TravelPlan} />
 
                 </Switch>

@@ -14,18 +14,18 @@ import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
 export class TravelOverview extends React.Component {
 
     testingPoints =  [
-        {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", image_url: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwoerwCoEdvGa-as", type: "poi", lat: 40.7794, lon: -73.9632, name: "The Metropolitan Museum of Art", image_url: "https://cdn.getyourguide.com/img/tour_img-210854-148.jpg", day: 0, intradayIndex: -1},
-        {placeID: "ChIJavd7uFVYwokRXCoEdwsu-wA", type: "poi", lat: 40.7614, lon: -73.9776, name: "MoMa", image_url: "https://images.musement.com/cover/0001/31/moma-museum-of-modern-art-tickets-tours-jpg_header-30520.jpeg?&q=60&fit=crop&lossless=true&auto=format&w=412&h=250", day: 1, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwokRXCoEdvGc-re", type: "poi", lat: 40.7425, lon: -74.0061, name: "Chelsea Market", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chelsea_Market.jpg/350px-Chelsea_Market.jpg", day:1, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwdtwXCosdfGu-sA", type: "poi", lat: 40.7308, lon: -73.9973, name: "Washington Square Park", image_url:"https://media.cntraveler.com/photos/55f6f83ef36883a0540d6845/4:5/w_767,c_limit/Washington-Square-Park-cr-getty.jpg", day:2, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwokRXCoEdvds-zA", type: "poi", lat: 40.8296, lon: -73.9262, name: "Yankee Stadium", image_url: "https://www.wheretraveler.com/sites/default/files/styles/wt17_promoted_large/public/images/YANKEE%20STADIUM_OVE%23747D12.jpg?itok=KHnOsPcI&timestamp=1451406398", day:2, intradayIndex: -1}
+        {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", imageURL: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: -1},
+        {placeID: "ChIJgzD7uFVYwoerwCoEdvGa-as", type: "poi", lat: 40.7794, lon: -73.9632, name: "The Metropolitan Museum of Art", imageURL: "https://cdn.getyourguide.com/img/tour_img-210854-148.jpg", day: 0, intradayIndex: -1},
+        {placeID: "ChIJavd7uFVYwokRXCoEdwsu-wA", type: "poi", lat: 40.7614, lon: -73.9776, name: "MoMa", imageURL: "https://images.musement.com/cover/0001/31/moma-museum-of-modern-art-tickets-tours-jpg_header-30520.jpeg?&q=60&fit=crop&lossless=true&auto=format&w=412&h=250", day: 1, intradayIndex: -1},
+        {placeID: "ChIJgzD7uFVYwokRXCoEdvGc-re", type: "poi", lat: 40.7425, lon: -74.0061, name: "Chelsea Market", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chelsea_Market.jpg/350px-Chelsea_Market.jpg", day:1, intradayIndex: -1},
+        {placeID: "ChIJgzD7uFVYwdtwXCosdfGu-sA", type: "poi", lat: 40.7308, lon: -73.9973, name: "Washington Square Park", imageURL:"https://media.cntraveler.com/photos/55f6f83ef36883a0540d6845/4:5/w_767,c_limit/Washington-Square-Park-cr-getty.jpg", day:2, intradayIndex: -1},
+        {placeID: "ChIJgzD7uFVYwokRXCoEdvds-zA", type: "poi", lat: 40.8296, lon: -73.9262, name: "Yankee Stadium", imageURL: "https://www.wheretraveler.com/sites/default/files/styles/wt17_promoted_large/public/images/YANKEE%20STADIUM_OVE%23747D12.jpg?itok=KHnOsPcI&timestamp=1451406398", day:2, intradayIndex: -1}
     ];
 
     testingStartPoints = [
-        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:0, intradayIndex: 0},
-        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:1, intradayIndex: 0},
-        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:2, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:0, intradayIndex: 0},
+        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:1, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:2, intradayIndex: 0},
     ];
 
     testingGeneratedPoints = [
@@ -33,6 +33,7 @@ export class TravelOverview extends React.Component {
     ]
 
     totalDays = 0;
+    userID = "AndyLau";
 
     changedPoints = [];
 
@@ -53,10 +54,10 @@ export class TravelOverview extends React.Component {
 
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
-        const endPoint = 'initial_recommend';
-        const username = 'John Smith'; // for testing
+        const endPoint = 'InitialRecommend';
+
         /*
-        fetch(`${API_ROOT}/${endPoint}?username=${username}&totalDays=${totalDays}`, {
+        fetch(`${API_ROOT}/${endPoint}?userID=${this.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
             if (response.ok) {
@@ -65,7 +66,7 @@ export class TravelOverview extends React.Component {
         }).then((data) => {
             this.setState((prevState) => {
                 return {
-                    points: this.data.places,
+                    points: data.places,
                     isDayOptionsChosen: true
                 }
             })
@@ -86,9 +87,9 @@ export class TravelOverview extends React.Component {
 
     onSavePlacesButtonClick = (placeID, day, intradayIndex) => {
         // Request
-        const endPoint = 'update_places';
+        const endPoint = 'UpdateInterestedPlaces';
         let obj = {placeID, day, intradayIndex};
-        console.log(JSON.stringify({"newSchedule": [obj]}));
+        console.log(JSON.stringify({"userID": this.userID, "newSchedule": [obj]}));
         /*fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"newSchedule": [obj]}),
@@ -116,7 +117,7 @@ export class TravelOverview extends React.Component {
                 lat: data['results'][0]['geometry']['location']['lat'],
                 lon: data['results'][0]['geometry']['location']['lng'],
                 name: "",
-                image_url: "",
+                imageURL: "",
                 day: day,
                 intradayIndex: 0
             });
@@ -137,12 +138,12 @@ export class TravelOverview extends React.Component {
 
     onGeneratePathsButtonPressed = () => {
         console.log("generate paths button pressed");
-        const endPoint = 'generate_paths';
+        const endPoint = 'GeneratePaths';
         console.log(JSON.stringify({"startPlaces": this.startPoints}));
         /*
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"startPlaces": this.startPoints}),
+            body: JSON.stringify({"userID": this.userID, "startPlaces": this.startPoints}),
             headers: {
                 'Constent-Type':'application/json'
             }
