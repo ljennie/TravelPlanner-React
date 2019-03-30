@@ -4,6 +4,7 @@ import { API_ROOT } from "../constants"
 import { Button, Radio, Icon } from 'antd';
 import { Rectangle, withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline } from "react-google-maps"
 import { WrappedTravelMap } from "./TravelMap";
+import Board from "./Board";
 const paths1=[
     { lat: 40.7829, lng: -73.9654},
     { lat: 40.7794, lng: -73.9632},
@@ -99,6 +100,7 @@ export class TravePlan extends React.Component {
         
         return (
             <div>
+                <div id="map content" style={{float: `left`, width:`65%`}}>
                 <div>
                     <Radio.Group onChange={this.filtermarkers}>
                         <Radio.Button value="1">Day1</Radio.Button>
@@ -110,12 +112,16 @@ export class TravePlan extends React.Component {
                 <WrappedTravelMap
                     googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbj7eqr0u0RFbaNFGU9JAWYAoi5JmwY&v=3.exp&libraries=geometry,drawing,places"}
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `600px` }} />}
+                    containerElement={<div style={{ height: `400px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     handleOnDayChange={this.filtermarkers}
                     directions={this.state.directions}
                     markers={this.start_points.markers}
                 />
+                </div>
+                </div>
+                <div id ="board" style={{float:`right`, width:`25%`}} >
+                    <Board/>
                 </div>
             </div>
         );

@@ -18,9 +18,9 @@ class App extends Component {
     };
   }
 
-  renderPlanDetails() {
-    return (<Board/>);
-  }
+  //renderPlanDetails() {
+    //return (<Board/>);
+  //}
   renderTravelPlan() {
     return (<TravePlan/>);
   }
@@ -36,8 +36,8 @@ class App extends Component {
       case 'home':
       default:
         return <HomeTab />;
-      case 'details':
-        return this.renderPlanDetails();
+      //case 'details':
+        //return this.renderPlanDetails();
       case 'travelplan':
       return this.renderTravelPlan();
     }

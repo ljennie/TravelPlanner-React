@@ -61,17 +61,11 @@ export default class Board extends React.Component {
 
     render() {
         return (
-            <div className="Board">
+            <div className="Board"style={{ width:`100`}}>
                 <div className="container-fluid">
                     <div className="row" >
                         <div className="col-md-4">
                             {this.renderSwimlane('Day 1', this.state.spots.day1, this.swimlanes.day1)}
-                        </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 2', this.state.spots.day2, this.swimlanes.day2)}
-                        </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 3', this.state.spots.day3, this.swimlanes.day3)}
                         </div>
                     </div>
                 </div>
