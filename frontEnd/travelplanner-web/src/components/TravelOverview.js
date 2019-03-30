@@ -23,9 +23,9 @@ export class TravelOverview extends React.Component {
     ];
 
     testingStartPoints = [
-        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:0, index_in_the_day: 0},
-        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:1, index_in_the_day: 0},
-        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:2, index_in_the_day: 0},
+        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:0, intradayIndex: 0},
+        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:1, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", image_url: "", day:2, intradayIndex: 0},
     ];
 
     testingGeneratedPoints = [
@@ -65,7 +65,7 @@ export class TravelOverview extends React.Component {
         }).then((data) => {
             this.setState((prevState) => {
                 return {
-                    points: this.data.points, // what is the key?
+                    points: this.data.places, // what is the key?
                     isDayOptionsChosen: true
                 }
             })
@@ -141,7 +141,7 @@ export class TravelOverview extends React.Component {
         const endPoint = 'generate_paths';
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"newSchedule": this.changedPoints, "startPlaces": this.startPoints}),
+            body: JSON.stringify({"startPlaces": this.startPoints}),
             headers: {
                 'Constent-Type':'application/json'
             }
