@@ -1,13 +1,26 @@
 .Swimlane-title {
-  text-align: left;
+  text-align: mid;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 30px;
+  background-color:rgb(75, 189, 241);
+  color : #E0FFFF;
 }
   
+
+.Swimlane-column {
+  border-radius:25px;
+  background-color:rgb(75, 189, 241);
+}
+
 .Swimlane-dragColumn {
-  height: calc(100vh - 100px);
+  height: auto;
   overflow-y: auto;
-  background-color: #f5f5f5;
+  background-color:rgb(75, 189, 241);
   padding: 16px 8px;
+
+}
+
+.Board{
+  background-color:#A2D5F7;
 }
   
