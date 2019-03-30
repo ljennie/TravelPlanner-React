@@ -9,7 +9,7 @@ import { API_ROOT } from "../constants"
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown, Input } from 'antd';
-import {GOOGLE_GEOCODE_API, PLACE_API_KEY} from "../constants";
+import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
 
 export class TravelOverview extends React.Component {
 
@@ -65,7 +65,7 @@ export class TravelOverview extends React.Component {
         }).then((data) => {
             this.setState((prevState) => {
                 return {
-                    points: this.data.places, // what is the key?
+                    points: this.data.places,
                     isDayOptionsChosen: true
                 }
             })
@@ -160,7 +160,7 @@ export class TravelOverview extends React.Component {
     }
 
     handleOnDayChange = (pointId, day) => {
-        let dayNum = parseInt(day);
+        /*let dayNum = parseInt(day);
         this.changedPoints.push({placeID: pointId, day: dayNum});
         var points = this.state.points;
         for (let i in points) {
@@ -169,11 +169,14 @@ export class TravelOverview extends React.Component {
                 continue;
             }
         }
+        */
         this.setState((prevState) => {
             return {
                 points:points.filter(pair => pair.day !== -1)
             };
         });
+
+        onSavePlacesButtonClick()
     }
 
 
@@ -208,13 +211,6 @@ export class TravelOverview extends React.Component {
                     <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
                         <button style={{ userSelect: 'none' }}>Day Options</button>
                     </Dropdown>
-
-
-                    {this.state.isDayOptionsChosen ?
-                        <button onClick={this.onSavePlacesButtonClick}>
-                            Save Places
-                        </button> : null
-                    }
 
 
                     {this.state.isDayOptionsChosen ?

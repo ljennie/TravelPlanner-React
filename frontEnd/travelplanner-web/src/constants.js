@@ -8,6 +8,6 @@ export const GEO_OPTIONS = {
 export const POS_KEY = "POS_KEY";
 export const AUTH_PREFIX = 'Bearer';
 export const LOC_SHAKE = 0.02;
-export const PLACE_API_KEY="AIzaSyCBFKBddwjugs0mVECaUVavtsWkIO0zjMQ";
+export const PLACE_API_K="";
 export const GOOGLE_GEOCODE_API = "https://maps.google.com/maps/api/geocode/json";
 
