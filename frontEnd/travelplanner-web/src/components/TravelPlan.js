@@ -36,6 +36,50 @@ export class TravelPlan extends React.Component {
 
     componentWillMount(){
         const testingGeneratedPoints=this.props.points;
+        var temp=this.props.points.filter(place => (place.day+1).toString() === "1");
+        console.log(temp)
+        //start=temp.filter(place => (place.type) === "start");
+        //sort by index_in the day 
+        var temp2=[]
+        //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
+        temp.map((dayplaces, i) =>
+            temp2.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
+        );
+        //console.log(temp2);
+        if(temp2!=null&& typeof temp2!= 'undefined'){
+        const ori = temp2[0];
+        const des = temp2.length >= 2 ? temp2[temp2.length-1]:ori;
+        var midpoints= [];
+        var temp3=[];
+        midpoints= temp2.length>2?temp2.slice(1,-1): []
+        midpoints.map((point=>{
+           var mid={}
+           mid["location"] ={"lat":point.lat, "lng":point.lng};
+           mid["stopover"]=true
+           temp3.push(mid);
+        }
+        ));
+       //console.log(temp3);
+       const DirectionsService = new google.maps.DirectionsService();
+       DirectionsService.route({
+         //origin: new google.maps.LatLng( 40.7829,-73.9654),
+         //origin:new google.maps.LatLng(41.8507300, -87.6512600),
+         origin: ori,
+          waypoints: temp3,
+         //destination: new google.maps.LatLng(41.8525800, -87.6514100),
+         destination: des,
+         travelMode: google.maps.TravelMode.DRIVING,
+       }, (result, status) => {
+         if (status === google.maps.DirectionsStatus.OK) {
+           this.setState({
+             directions: {...result},
+             markers: false
+           })
+           //console.log(result)
+         } else {
+           console.log(`error fetching directions ${result}`);
+         }
+       });
         this.setState(
             {
                 points: testingGeneratedPoints,
@@ -44,6 +88,7 @@ export class TravelPlan extends React.Component {
         )
 
     }
+  }
     
     handeldrop= (e) => {
         //console.log(e);
@@ -83,7 +128,7 @@ export class TravelPlan extends React.Component {
          if (status === google.maps.DirectionsStatus.OK) {
            this.setState({
              directions: {...result},
-             markers: true
+             markers: false
            })
            //console.log(result)
          } else {
@@ -141,7 +186,7 @@ export class TravelPlan extends React.Component {
          if (status === google.maps.DirectionsStatus.OK) {
            this.setState({
              directions: {...result},
-             markers: true
+             markers: false
            })
            //console.log(result)
          } else {
@@ -196,4 +241,4 @@ export class TravelPlan extends React.Component {
             </div>
         );
     }
-}
+  }
