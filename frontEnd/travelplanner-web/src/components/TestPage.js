@@ -54,12 +54,7 @@ export class TestPage extends React.Component {
     render() {
         return (
             <div>
-<<<<<<< HEAD
-                <RatioButtons/>
-           </div>
-=======
             </div>
->>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
         );
     }
 }

@@ -4,6 +4,10 @@ import '../styles/App.css';
 import { Header} from "./Header"
 import { Main } from "./Main"
 import { TOKEN_KEY} from "../constants"
+import {TravelPlan} from "./TravelPlan"
+import {SortableComponent} from "./SortableList"
+import { TravelOverview } from './TravelOverview';
+    
 
 
 class App extends Component {
@@ -15,7 +19,6 @@ class App extends Component {
     handleLogin = (token) => {
         localStorage.setItem('TOKEN_KEY', token);
         this.setState({isLoggedIn: true});
->>>>>>> de14eec8764e2a547c00aeca6fd681821c2e8755
     }
 
     handleLogout = () => {
@@ -25,10 +28,11 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
-                <Header isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout}/>
-                <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
-            </div>
+           // <div className="App">
+             //   <Header isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout}/>
+               // <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
+            //</div>
+            <TravelOverview/>
         );
     }
 
