@@ -1,6 +1,7 @@
 import React from 'react';
 import { GoogleMap } from "react-google-maps";
 import { Link } from "react-router-dom";
+import RatioButtons from "./RatioButtons"
 //import{ MyMapComponent}  from "MyMapComponent"
 //mport {MyMapComponent} from './MyMapComponent';
 const paths=[

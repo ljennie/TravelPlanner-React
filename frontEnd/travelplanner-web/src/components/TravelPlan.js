@@ -4,6 +4,11 @@ import { API_ROOT } from "../constants"
 import { Button, Radio, Icon } from 'antd';
 import { Rectangle, withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline } from "react-google-maps"
 import { WrappedTravelMap } from "./TravelMap";
+import Board from "./Board";
+import RatioButtons from "./RatioButtons";
+import  {SortableComponent} from "./SortableList"
+import {arrayMove} from 'array-move'
+
 const paths1=[
     { lat: 40.7829, lng: -73.9654},
     { lat: 40.7794, lng: -73.9632},
@@ -12,6 +17,8 @@ const paths1=[
   ]
 export class TravelPlan extends React.Component {
     SelectedPoints = [];
+    ChangePoints=[];
+    start={};
     paths=[];
     directions={};
     start_points = [
@@ -22,36 +29,93 @@ export class TravelPlan extends React.Component {
 
     state = {
         // for testing
-        points: [
-            { pointId: 0, type: "poi", lat: 40.7829, lon: -73.9654, poi_name: "central park", image_url: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day: 1, index_in_the_day: 1 },
-            { pointId: 1, type: "poi", lat: 40.7794, lon: -73.9632, poi_name: "The Metropolitan Museum of Art", image_url: "https://cdn.getyourguide.com/img/tour_img-210854-148.jpg", day: 2, index_in_the_day: 1 },
-            { pointId: 2, type: "poi", lat: 40.7614, lon: -73.9776, poi_name: "MoMa", image_url: "https://images.musement.com/cover/0001/31/moma-museum-of-modern-art-tickets-tours-jpg_header-30520.jpeg?&q=60&fit=crop&lossless=true&auto=format&w=412&h=250", day: 2, index_in_the_day: 2 },
-            { pointId: 3, type: "poi", lat: 40.7425, lon: -74.0061, poi_name: "Chelsea Market", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chelsea_Market.jpg/350px-Chelsea_Market.jpg", day: 3, index_in_the_day: 1 },
-            { pointId: 4, type: "poi", lat: 40.7308, lon: -73.9973, poi_name: "Washington Square Park", image_url: "https://media.cntraveler.com/photos/55f6f83ef36883a0540d6845/4:5/w_767,c_limit/Washington-Square-Park-cr-getty.jpg", day: 3, index_in_the_day: 2 },
-            { pointId: 5, type: "poi", lat: 40.8296, lon: -73.9262, poi_name: "Yankee Stadium", image_url: "https://www.wheretraveler.com/sites/default/files/styles/wt17_promoted_large/public/images/YANKEE%20STADIUM_OVE%23747D12.jpg?itok=KHnOsPcI&timestamp=1451406398", day: 3, index_in_the_day: 3 }
-        ],
-
+        points: []
+        
     }
 
-    componentDidMount() {
-        //load points from overview
-    }
-  
+    componentWillMount(){
+        const testingGeneratedPoints=this.props.location.state.points
+        this.setState(
+            {
+                points: testingGeneratedPoints,
 
-    filtermarkers = (e) => {
-        var temp = [];
-        var temp2 = [];
-        var temp3=[];
-        temp = this.state.points.filter(place => place.day.toString() === e.target.value);
-        //sort by index_in the day 
-        temp.sort((a, b) => a.timeM - b.timeM);
+             }
+        )
+
+    }
+    
+    handeldrop= (e) => {
+        console.log(e);
+        var temp=e
+        temp.map((sort,i)=>{
+            temp[i].intradayIndex=i
+        })
+        var temp2=[]
+        temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
         temp.map((dayplaces, i) =>
             temp2.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
         );
-        console.log(temp2);
+        //console.log(temp3);
+        if(temp2!=null&& typeof temp2!= 'undefined'){
+            const ori = temp2[0];
+            const des = temp2.length >= 2 ? temp2[temp2.length-1]:ori;
+            var midpoints= [];
+            var temp3=[];
+            midpoints= temp2.length>2?temp2.slice(1,-1): []
+            midpoints.map((point=>{
+               var mid={}
+               mid["location"] ={"lat":point.lat, "lng":point.lng};
+               mid["stopover"]=true;
+               temp3.push(mid);
+            }
+            ));
+       const DirectionsService = new google.maps.DirectionsService();
+       DirectionsService.route({
+         //origin: new google.maps.LatLng( 40.7829,-73.9654),
+         //origin:new google.maps.LatLng(41.8507300, -87.6512600),
+          origin: ori,
+          waypoints: temp3,
+         //destination: new google.maps.LatLng(41.8525800, -87.6514100),
+         destination: des,
+         travelMode: google.maps.TravelMode.DRIVING,
+       }, (result, status) => {
+         if (status === google.maps.DirectionsStatus.OK) {
+           this.setState({
+             directions: {...result},
+             markers: true
+           })
+           //console.log(result)
+         } else {
+           console.log(`error fetching directions ${result}`);
+         }
+       });
+        this.setState(
+            {
+                SelectedPoints: temp,
+
+             }
+                )   
+      }
+    }
+    
+    filtermarkers = (e) => {
+        //console.log(this.state.SelectedPoints)
+        var start=[];
+        var temp = [];
+        var temp2 = [];
+        var temp3=[];
+        //var temp4=[];
+        temp=this.state.points.filter(place => (place.day+1).toString() === e.target.value);
+        start=temp.filter(place => (place.type) === "start");
+        //sort by index_in the day 
+        //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
+        temp.map((dayplaces, i) =>
+            temp2.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
+        );
+        //console.log(temp2);
         if(temp2!=null&& typeof temp2!= 'undefined'){
         const ori = temp2[0];
-        const des = temp2.length >= 2 ? temp2[temp2.length-1]:origin;
+        const des = temp2.length >= 2 ? temp2[temp2.length-1]:ori;
         var midpoints= [];
         var temp1=[];
         midpoints= temp2.length>2?temp2.slice(1,-1): []
@@ -62,7 +126,7 @@ export class TravelPlan extends React.Component {
            temp3.push(mid);
         }
         ));
-       console.log(temp3);
+       //console.log(temp3);
        const DirectionsService = new google.maps.DirectionsService();
        DirectionsService.route({
          //origin: new google.maps.LatLng( 40.7829,-73.9654),
@@ -78,7 +142,7 @@ export class TravelPlan extends React.Component {
              directions: {...result},
              markers: true
            })
-           console.log(result)
+           //console.log(result)
          } else {
            console.log(`error fetching directions ${result}`);
          }
@@ -86,7 +150,8 @@ export class TravelPlan extends React.Component {
         this.setState(
             {
                 SelectedPoints: temp,
-                paths:temp2
+                paths:temp2,
+                start:start
             }
         )
     }
@@ -96,26 +161,37 @@ export class TravelPlan extends React.Component {
    }
     
     render() {
-        
+        const totalDays=3
         return (
-            <div>
+            <div style={{display:`flex`}}>
+                <div id="map content" style={{ float:`left`, width :`800px`,height:`500px`}}>
                 <div>
                     <Radio.Group onChange={this.filtermarkers}>
-                        <Radio.Button value="1">Day1</Radio.Button>
-                        <Radio.Button value="2">Day2</Radio.Button>
-                        <Radio.Button value="3">Day3</Radio.Button>
+                    {
+                     [...Array(totalDays).keys()].map(i =>
+                      <Radio.Button value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                     )
+                   }
                     </Radio.Group>
                 </div>
                 <div>
                 <WrappedTravelMap
                     googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbj7eqr0u0RFbaNFGU9JAWYAoi5JmwY&v=3.exp&libraries=geometry,drawing,places"}
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `600px` }} />}
+                    containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     handleOnDayChange={this.filtermarkers}
                     directions={this.state.directions}
                     markers={this.start_points.markers}
                 />
+                </div>
+                </div>
+                <div id ="board" style={{ float:`right`,width:`500px`, height:`600px`}} >
+                    {
+                      (this.state.SelectedPoints||typeof(this.state.SelectedPoints)!="undefined")&&(
+                        <SortableComponent items={this.state.SelectedPoints} change={this.handeldrop} />
+                      )  
+                    } 
                 </div>
             </div>
         );

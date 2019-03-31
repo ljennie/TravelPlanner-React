@@ -27,7 +27,11 @@ export class TravelOverview extends React.Component {
         {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:2, intradayIndex: 0},
     ];
 
+<<<<<<< HEAD
     testingGeneratedPoints = [
+=======
+     testingGeneratedPoints = [
+>>>>>>> cef9fe223ad4fa98081912d9ee13768bc0c1aa8c
         {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", imageURL: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: -1},
         {placeID: "ChIJgzD7uFVYwoerwCoEdvGa-as", type: "poi", lat: 40.7794, lon: -73.9632, name: "The Metropolitan Museum of Art", imageURL: "https://cdn.getyourguide.com/img/tour_img-210854-148.jpg", day: 0, intradayIndex: -1},
         {placeID: "ChIJavd7uFVYwokRXCoEdwsu-wA", type: "poi", lat: 40.7614, lon: -73.9776, name: "MoMa", imageURL: "https://images.musement.com/cover/0001/31/moma-museum-of-modern-art-tickets-tours-jpg_header-30520.jpeg?&q=60&fit=crop&lossless=true&auto=format&w=412&h=250", day: 1, intradayIndex: -1},
@@ -37,8 +41,12 @@ export class TravelOverview extends React.Component {
         {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:0, intradayIndex: 0},
         {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:1, intradayIndex: 0},
         {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:2, intradayIndex: 0},
+<<<<<<< HEAD
     ];
 
+=======
+    ]
+>>>>>>> cef9fe223ad4fa98081912d9ee13768bc0c1aa8c
 
     totalDays = 0;
     userID = "AndyLau";
@@ -116,9 +124,35 @@ export class TravelOverview extends React.Component {
     }
 
 
+<<<<<<< HEAD
     onGeneratePathsButtonPressed = (generatedPoints) => {
         this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
         //this.props.homeCallback(generatedPoints,this.totalDays);
+=======
+    onGeneratePathsButtonPressed = () => {
+        console.log("generate paths button pressed");
+        const endPoint = 'GeneratePaths';
+        console.log(JSON.stringify({"startPlaces": this.startPoints}));
+        
+        fetch(`${API_ROOT}/${endPoint}`, {
+            method: 'POST',
+            body: JSON.stringify({"userID": this.userID, "startPlaces": this.startPoints}),
+            headers: {
+                'Constent-Type':'application/json'
+            }
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then((data) => {
+            // TODO: loading sign ?
+            this.generatedPoints = data.places;
+
+        }).catch((e) => {
+            console.log(e.message);
+        });
+
+>>>>>>> cef9fe223ad4fa98081912d9ee13768bc0c1aa8c
     }
 
     handleOnDayChange = (pointId, day) => {
