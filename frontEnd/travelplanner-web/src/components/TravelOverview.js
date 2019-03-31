@@ -49,7 +49,6 @@ export class TravelOverview extends React.Component {
     generatedPoints=[];
 
     state = {
-        // for testing
         points: [],
         isDayOptionsChosen : false,
         isInputEntered : false,
@@ -64,7 +63,6 @@ export class TravelOverview extends React.Component {
         const endPoint = 'InitialRecommend';
         console.log(`days: ${this.totalDays}`);
 
-        /*
         fetch(`${API_ROOT}/${endPoint}?userID=${this.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
@@ -82,15 +80,14 @@ export class TravelOverview extends React.Component {
         }).catch((e) => {
             console.log(e.message);
         });
-        */
 
         // for testing
-        this.setState((prevState) => {
+        /*this.setState((prevState) => {
             return {
                 points: this.testingPoints,
                 isDayOptionsChosen: true
             };
-        })
+        })*/
     }
 
     onSavePlacesButtonClick = (placeID, day, intradayIndex) => {
@@ -98,7 +95,7 @@ export class TravelOverview extends React.Component {
         const endPoint = 'UpdateInterestedPlaces';
         let obj = {placeID, day, intradayIndex};
         console.log(JSON.stringify({"userID": this.userID, "newSchedule": [obj]}));
-        /*fetch(`${API_ROOT}/${endPoint}`, {
+        fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"newSchedule": [obj]}),
             headers: {
@@ -107,16 +104,13 @@ export class TravelOverview extends React.Component {
         }).catch((e) => {
             console.log(e.message);
         });
-        */
 
-    }
 
-    onInputEntered = (day, e) => {
     }
 
     onGeneratePathsButtonPressed = (generatedPoints) => {
-        this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
-        //this.props.homeCallback(generatedPoints,this.totalDays);
+        //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
+        this.props.homeCallback(generatedPoints,this.totalDays);
     }
 
     handleOnDayChange = (pointId, day) => {

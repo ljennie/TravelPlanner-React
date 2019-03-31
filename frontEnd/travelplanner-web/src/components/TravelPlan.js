@@ -13,7 +13,7 @@ const paths1=[
     { lat: 40.7829, lng: -73.9654},
     { lat: 40.7794, lng: -73.9632},
     { lat:40.7614, lng: -73.9776},
-    {lat: 40.7425, lng: -74.0061}
+    { lat: 40.7425, lng: -74.0061}
   ]
 export class TravelPlan extends React.Component {
     SelectedPoints = [];
