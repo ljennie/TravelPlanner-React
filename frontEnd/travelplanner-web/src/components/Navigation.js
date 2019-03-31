@@ -5,8 +5,8 @@ export default class Navigation extends React.Component {
     return (
       <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item">
-          <a className={"nav-link " + (this.props.selectedTab === 'home' ? 'active': '')} onClick={() => this.props.onClick("home")}
-            id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected={this.props.selectedTab === 'home'}>Home</a>
+          <a className={"nav-link " + (this.props.selectedTab === 'traveloverview' ? 'active': '')} onClick={() => this.props.onClick("traveloverview")}
+            id="traveloverview-tab" data-toggle="tab" href="#traveloverview" role="tab" aria-controls="traveloverview" aria-selected={this.props.selectedTab === 'traveloverview'}>TravelOverview</a>
         </li>
         <li className="nav-item">
           <a className={"nav-link " + (this.props.selectedTab === 'travelplan' ? 'active': '')} onClick={() => this.props.onClick("travelplan")}

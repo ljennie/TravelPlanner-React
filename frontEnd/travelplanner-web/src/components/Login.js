@@ -24,7 +24,6 @@ class NormalLoginForm extends React.Component {
                     this.props.handleLogin(response);
                     // const token = response;
                     // localStorage.setItem('TOKEN_KEY', token);
-                    this.props.history.push('/homeGIT');
                     console.log(response);
 
                 },(response) => {
@@ -32,6 +31,7 @@ class NormalLoginForm extends React.Component {
                 }).catch((e) => {
                     console.log(e);
                 });
+
             }
         });
     }

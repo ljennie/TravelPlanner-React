@@ -127,20 +127,14 @@ class RegisterationForm extends React.Component {
                 <Form.Item
                     label="Firstname"
                 >
-                    {getFieldDecorator('firstname', {
-                        rules: [{required: true, message: 'Please input your first name!', whitespace: true}],
-                    })(
                         <Input/>
-                    )}
+
                 </Form.Item>
                 <Form.Item
                     label="Lastname"
                 >
-                    {getFieldDecorator('lastname', {
-                        rules: [{required: true, message: 'Please input your last name!', whitespace: true}],
-                    })(
                         <Input/>
-                    )}
+
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>

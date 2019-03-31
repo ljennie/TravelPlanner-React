@@ -3,6 +3,8 @@ import { Register } from './Register';
 import { Login } from './Login';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Home } from './Home';
+import {TravelPlan} from "./TravelPlan"
+import {TravelOverview} from "./TravelOverview"
 
 
 export class Main extends React.Component {
@@ -26,6 +28,8 @@ export class Main extends React.Component {
                     <Route path="/login" render={this.getLogin}/>
                     <Route path="/register" component={Register}/> //router has one props(history)
                     <Route path="/home" render={this.getHome}/>
+                    <Route exact path="/home"  component={TravelOverview} />
+                    <Route exact path="/detail" component={TravelPlan} />
                     <Route render={this.getRoot}/>
                 </Switch>
             </div>
