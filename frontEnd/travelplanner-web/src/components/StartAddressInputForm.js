@@ -16,12 +16,15 @@ class AdvancedSearchForm extends React.Component {
                     <Form.Item label={`Day ${i + 1} Start Address`}>
                         {getFieldDecorator(`day_${i}`, {
                             initialValue:"370 Canal St, New York, NY 10013",
+
                             rules: [{
                                 required: i == 0 ? true : false,
                                 message: i == 0 ? 'Must fill in start place address for at least one day' : null
                             }],
                         })(
+                            <div>
                             <Input placeholder={"370 Canal St, New York, NY 10013"}/>
+                            </div>
                         )}
                     </Form.Item>
                 </Col>

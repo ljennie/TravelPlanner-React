@@ -10,7 +10,7 @@ const SortableItem = SortableElement(({value, index}) =>
 
 const SortableList = SortableContainer(({items}) => {
   return (
-     items&&<List  header={<h1><b>Day{items[0].day}</b></h1>} bordered>
+     items&&<List  header={<h1><b>Day{items[0].day+1}</b></h1>} bordered>
       {items.map((value, index) => (
         <SortableItem key={`item-${index}`} index={index} value={value.name} />
       ))}

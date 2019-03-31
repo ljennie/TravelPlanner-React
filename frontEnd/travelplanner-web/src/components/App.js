@@ -14,10 +14,11 @@ class App extends Component {
 
     state = {
         //isLoggedIn: Boolean(localStorage.getItem('TOKEN_KEY'))
-        isLoggedIn:true // for testing
+        //isLoggedIn:false // for testing login without JWT
+        isLoggedIn:true // for testing bypass login
     }
 
-    handleLogin = (token) => {
+    handleLogin = (token, userid) => {
         localStorage.setItem('TOKEN_KEY', token);
         this.setState({isLoggedIn: true});
     }
@@ -32,7 +33,7 @@ class App extends Component {
 
             <div className="App">
                 <Header />
-                <Main isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout}/>
+                <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
             </div>
 
         );

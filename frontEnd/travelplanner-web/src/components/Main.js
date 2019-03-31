@@ -8,12 +8,19 @@ import {TravelOverview} from "./TravelOverview"
 
 
 export class Main extends React.Component {
+    userID="";
+
+    handleUserID = (userID) => {
+        this.userID = userID;
+    }
+
     getHome = () => {
         return this.props.isLoggedIn ? <Home/> : <Redirect to="/login"/>;
     }
 
     getLogin = () => {
-        return this.props.isLoggedIn ? <Redirect to="/home"/> : <Login handleLogin={this.props.handleLogin}/>
+        return this.props.isLoggedIn ? <Redirect to={{ pathname: '/home', state: {userID: this.userID}}} />
+            : <Login handleLogin={this.props.handleLogin} handleUserID={this.handleUserID}/>
     }
 
     getRoot = () => {
@@ -25,11 +32,9 @@ export class Main extends React.Component {
             <div className="main">
                 <Switch>
                     <Route exact path="/" render={this.getRoot}/>
-                    <Route path="/login" render={this.getLogin}/>
                     <Route path="/register" component={Register}/> //router has one props(history)
+                    <Route path="/login" render={this.getLogin}/>
                     <Route path="/home" render={this.getHome}/>
-                    <Route exact path="/home"  component={TravelOverview} />
-                    <Route exact path="/detail" component={TravelPlan} />
                     <Route render={this.getRoot}/>
                 </Switch>
             </div>

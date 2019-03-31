@@ -32,6 +32,7 @@ export class TravelPlan extends React.Component {
         points: []
         
     }
+    userID = this.props.userID;
 
     componentWillMount(){
         const testingGeneratedPoints=this.props.points;

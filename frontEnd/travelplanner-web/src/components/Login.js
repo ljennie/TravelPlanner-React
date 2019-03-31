@@ -22,6 +22,7 @@ class NormalLoginForm extends React.Component {
                 }).then((response) => {
                     message.success('login success!');
                     this.props.handleLogin(response);
+                    this.props.handleUserID(values.username);
                     // const token = response;
                     // localStorage.setItem('TOKEN_KEY', token);
                     console.log(response);

@@ -40,7 +40,7 @@ export class TravelOverview extends React.Component {
         {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:2, intradayIndex: 0},
     ];
     totalDays = 0;
-    userID = "AndyLau";
+    userID = this.props.userID;
 
     changedPoints = [];
 
@@ -156,8 +156,6 @@ export class TravelOverview extends React.Component {
             </Menu>
         )
 
-
-
         return (
             <div>
 
@@ -181,7 +179,6 @@ export class TravelOverview extends React.Component {
                         <StartAddressInputForm totalDays={this.totalDays} onGeneratePathsButtonPressed={this.onGeneratePathsButtonPressed} />
                         : null
                     }
-
 
                 </div>
 

@@ -25,14 +25,14 @@ export class Home extends React.Component{
     }
 
     renderOverview() {
-        return (<TravelOverview homeCallback={this.homeCallback} />)
+        return (<TravelOverview homeCallback={this.homeCallback} userID={this.props.userID}/>)
     }
     renderPlanDetails() {
-        // return (<Board points={this.points} totalDays={this.totalDays}/>);
-        return (<TestPage points={this.points} totalDays={this.totalDays}/>);
+        return (<Board points={this.points} totalDays={this.totalDays} userID={this.props.userID}/>);
+        //return (<TestPage points={this.points} totalDays={this.totalDays}/>);
     }
     renderTravelPlan() {
-       return (<TravelPlan points={this.points} totalDays={this.totalDays}/>);
+       return (<TravelPlan points={this.points} totalDays={this.totalDays} userID={this.props.userID}/>);
     }
     renderNavigation() {
       return (<Navigation
