@@ -36,7 +36,7 @@ class AdvancedSearchForm extends React.Component {
             console.log("generate paths button pressed");
             console.log('Received values of form: ', values);
             const endPoint = 'GeneratePaths';
-            Promise.all(
+            /*Promise.all(
                 Object.entries(values).map((entry) =>
                     fetch(`${GOOGLE_GEOCODE_API}?address=${encodeURI(entry[1])}&key=${PLACE_API_K}`)
                     .then((response) => {
@@ -56,7 +56,7 @@ class AdvancedSearchForm extends React.Component {
                         intradayIndex: 0 })
                     }).catch(err => message.error(`${entry[0]} address is not valid`))
                 )
-            )/*
+            )
             .then((data)=>{
                     fetch(`${API_ROOT}/${endPoint}`, {
                         method: 'POST',

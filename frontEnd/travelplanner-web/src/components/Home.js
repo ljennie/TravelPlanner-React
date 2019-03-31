@@ -1,6 +1,5 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import HomeTab from './HomeTab';
 import Navigation from './Navigation';
 import Board from './Board';
 import { TravelPlan } from './TravelPlan';
@@ -33,7 +32,7 @@ export class Home extends React.Component{
         return (<TestPage points={this.points} totalDays={this.totalDays}/>);
     }
     renderTravelPlan() {
-       //return (<TravelPlan points={this.points} totalDays={this.totalDays}/>);
+       return (<TravelPlan points={this.points} totalDays={this.totalDays}/>);
     }
     renderNavigation() {
       return (<Navigation
