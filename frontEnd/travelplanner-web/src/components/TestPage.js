@@ -13,9 +13,13 @@ const paths=[
 export class TestPage extends React.Component {
     constructor(props) {
         super(props);
-        //console.log(props.location.state);
+        //console.log(this.props.location.state);
     }
 
+    componentWillMount() {
+        console.log(this.props.points);
+        console.log(this.props.totalDays);
+    }
 // // /update_paths
 //     request json:
 //         {
@@ -54,6 +58,7 @@ export class TestPage extends React.Component {
     render() {
         return (
             <div>
+                test
             </div>
         );
     }

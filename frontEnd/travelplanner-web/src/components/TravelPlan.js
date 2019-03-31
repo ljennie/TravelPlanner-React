@@ -32,9 +32,10 @@ export class TravelPlan extends React.Component {
         points: []
         
     }
+    userID = this.props.userID;
 
     componentWillMount(){
-        const testingGeneratedPoints=this.props.location.state.points
+        const testingGeneratedPoints=this.props.points;
         this.setState(
             {
                 points: testingGeneratedPoints,
@@ -45,7 +46,7 @@ export class TravelPlan extends React.Component {
     }
     
     handeldrop= (e) => {
-        console.log(e);
+        //console.log(e);
         var temp=e
         temp.map((sort,i)=>{
             temp[i].intradayIndex=i
@@ -161,15 +162,14 @@ export class TravelPlan extends React.Component {
    }
     
     render() {
-        const totalDays=3
         return (
             <div style={{display:`flex`}}>
                 <div id="map content" style={{ float:`left`, width :`800px`,height:`500px`}}>
                 <div>
                     <Radio.Group onChange={this.filtermarkers}>
                     {
-                     [...Array(totalDays).keys()].map(i =>
-                      <Radio.Button value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                     [...Array(this.props.totalDays).keys()].map(i =>
+                      <Radio.Button key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
                      )
                    }
                     </Radio.Group>

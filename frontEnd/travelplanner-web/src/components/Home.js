@@ -1,27 +1,38 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import HomeTab from './HomeTab';
 import Navigation from './Navigation';
 import Board from './Board';
 import { TravelPlan } from './TravelPlan';
 import '../styles/App.css';
 import {TravelOverview} from "./TravelOverview"
+import {TestPage} from './TestPage';
 
 export class Home extends React.Component{
-    constructor(props) {
-      super(props);
-      this.state = {
-        selectedTab: 'home',
-      };
+
+    state = {
+        selectedTab: 'traveloverview',
+
+    };
+
+    points = [];
+    totalDays = 0;
+
+    homeCallback = (pts, tds) => {
+        console.log("home callback");
+        this.points = pts;
+        this.totalDays = tds;
+        this.changeTab('travelplan');
     }
-    renderOverview(){
-        return (<HomeTab/>)
+
+    renderOverview() {
+        return (<TravelOverview homeCallback={this.homeCallback} userID={this.props.userID}/>)
     }
     renderPlanDetails() {
-      return (<Board/>);
+        return (<Board points={this.points} totalDays={this.totalDays} userID={this.props.userID}/>);
+        //return (<TestPage points={this.points} totalDays={this.totalDays}/>);
     }
     renderTravelPlan() {
-      return (<TravelPlan/>);
+       return (<TravelPlan points={this.points} totalDays={this.totalDays} userID={this.props.userID}/>);
     }
     renderNavigation() {
       return (<Navigation
@@ -32,7 +43,7 @@ export class Home extends React.Component{
 
     renderTabContent() {
       switch (this.state.selectedTab) {
-        case 'home':
+        case 'traveloverview':
         default:
           return this.renderOverview();
         case 'details':
@@ -43,8 +54,10 @@ export class Home extends React.Component{
     }
 
     changeTab(tabName) {
-      this.setState({
-        selectedTab: tabName,
+      this.setState((prevState) => {
+          return {
+              selectedTab: tabName,
+          };
       });
     }
 

@@ -13,10 +13,12 @@ import { TravelOverview } from './TravelOverview';
 class App extends Component {
 
     state = {
-        isLoggedIn: Boolean(localStorage.getItem('TOKEN_KEY'))
+        //isLoggedIn: Boolean(localStorage.getItem('TOKEN_KEY'))
+        //isLoggedIn:false // for testing login without JWT
+        isLoggedIn:true // for testing bypass login
     }
 
-    handleLogin = (token) => {
+    handleLogin = (token, userid) => {
         localStorage.setItem('TOKEN_KEY', token);
         this.setState({isLoggedIn: true});
     }
@@ -28,11 +30,12 @@ class App extends Component {
 
     render() {
         return (
-           // <div className="App">
-             //   <Header isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout}/>
-               // <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
-            //</div>
-            <TravelOverview/>
+
+            <div className="App">
+                <Header />
+                <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
+            </div>
+
         );
     }
 
