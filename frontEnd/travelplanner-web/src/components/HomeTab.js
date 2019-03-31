@@ -20,8 +20,10 @@ class HomeTab extends Component {
                 <Switch>
                     <Route path = "/register" component={Register}/>
                     <Route path = "/login" component={Login} />
-                    <Route exact path="/home"  component={TravelOverview} />
-                    <Route exact path="/detail" component={TestPage} />
+
+                    <Route exact path="/home"  component={Register} />
+                    <Route exact path="/detail" component={TravelPlan} />
+
 
                 </Switch>
             </BrowserRouter>

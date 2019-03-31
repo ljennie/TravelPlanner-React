@@ -32,7 +32,7 @@ export class TravelMarker extends React.Component {
     }
 
     render() {
-        const {type, lat, lon, name, image_url, day} = this.props.point;
+        const {type, lat, lon, name, imageURL, day} = this.props.point;
         console.log(name);
         const totalDays = this.props.totalDays;
 
@@ -83,7 +83,7 @@ export class TravelMarker extends React.Component {
                     {this.state.isOpen ?
                         <InfoWindow onCloseClick={this.onToggleOpen}>
                             <div>
-                                <img src={image_url} alt={name} className="travel-marker-image"/>
+                                <img src={imageURL} alt={name} className="travel-marker-image"/>
                                 <p>{`Day ${day}: ${name}`}</p>
                                 <a className="btn btn-success" href={`https://en.wikipedia.org/wiki/${name}`} target ="_blank">Learn More</a>
                             </div>
