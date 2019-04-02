@@ -81,33 +81,23 @@ const jsonArray = [
     }
 ]
 
+/*day1: spots.filter(spot => spot.day && spot.day === 1),
+day2: spots.filter(spot => spot.day && spot.day === 2),
+day3: spots.filter(spot => spot.day && spot.day === 3),
+day4: spots.filter(spot => spot.day && spot.day === 4),
+day5: spots.filter(spot => spot.day && spot.day === 5),
+day6: spots.filter(spot => spot.day && spot.day === 6),
+day7: spots.filter(spot => spot.day && spot.day === 7),
+day8: spots.filter(spot => spot.day && spot.day === 8),
+day9: spots.filter(spot => spot.day && spot.day === 9),
+day10: spots.filter(spot => spot.day && spot.day === 10),
+day11: spots.filter(spot => spot.day && spot.day === 11),
+day12: spots.filter(spot => spot.day && spot.day === 12),
+day13: spots.filter(spot => spot.day && spot.day === 13),
+day14: spots.filter(spot => spot.day && spot.day === 14),
+day15: spots.filter(spot => spot.day && spot.day === 15),*/
 
-
-export default class Board extends React.Component {
-    constructor(props) {
-        super(props);
-        const spots = this.getSpots();
-        this.state = {
-            spots: {
-                day1: spots.filter(spot => spot.day && spot.day === 1),
-                day2: spots.filter(spot => spot.day && spot.day === 2),
-                day3: spots.filter(spot => spot.day && spot.day === 3),
-                day4: spots.filter(spot => spot.day && spot.day === 4),
-                day5: spots.filter(spot => spot.day && spot.day === 5),
-                day6: spots.filter(spot => spot.day && spot.day === 6),
-                day7: spots.filter(spot => spot.day && spot.day === 7),
-                day8: spots.filter(spot => spot.day && spot.day === 8),
-                day9: spots.filter(spot => spot.day && spot.day === 9),
-                day10: spots.filter(spot => spot.day && spot.day === 10),
-                day11: spots.filter(spot => spot.day && spot.day === 11),
-                day12: spots.filter(spot => spot.day && spot.day === 12),
-                day13: spots.filter(spot => spot.day && spot.day === 13),
-                day14: spots.filter(spot => spot.day && spot.day === 14),
-                day15: spots.filter(spot => spot.day && spot.day === 15),
-            }
-        }
-        this.swimlanes = {
-            day1: React.createRef(),
+          /*  day1: React.createRef(),
             day2: React.createRef(),
             day3: React.createRef(),
             day4: React.createRef(),
@@ -121,7 +111,32 @@ export default class Board extends React.Component {
             day12: React.createRef(),
             day13: React.createRef(),
             day14: React.createRef(),
-            day15: React.createRef(),
+            day15: React.createRef(),*/
+
+export default class Board extends React.Component {
+    constructor(props) {
+        super(props);
+        const spots = this.getSpots();
+        var days = new Array();
+        var refs = new Array();
+        for (var i=1;i<=15;i++){
+           days[i] = spots.filter(spot => spot.day && spot.day === i);
+           refs[i] = React.createRef();
+        }
+       
+        this.state = {
+            days: days
+        }
+        this.swimlanes = {
+            day: refs
+        }
+
+        this.rows = {
+            row1: React.createRef(), 
+            row2: React.createRef(), 
+            row3: React.createRef(), 
+            row4: React.createRef(), 
+            row5: React.createRef(), 
         }
     }
 
@@ -145,88 +160,92 @@ export default class Board extends React.Component {
     }
 
     componentDidMount() {
-        var container1 = this.swimlanes.day1.current;
-        var container2 = this.swimlanes.day2.current;
-        var container3 = this.swimlanes.day3.current;
-        var container4 = this.swimlanes.day4.current;
-        var container5 = this.swimlanes.day5.current;
-        var container6 = this.swimlanes.day6.current;
-        var container7 = this.swimlanes.day7.current;
-        var container8 = this.swimlanes.day8.current;
-        var container9 = this.swimlanes.day9.current;
-        var container10 = this.swimlanes.day10.current;
-        var container11 = this.swimlanes.day11.current;
-        var container12 = this.swimlanes.day12.current;
-        var container13 = this.swimlanes.day13.current;
-        var container14 = this.swimlanes.day14.current;
-        var container15 = this.swimlanes.day15.current;
+        var container = new Array();
+        var drake_days = Dragula([
+            this.rows.row1.current,
+            this.rows.row2.current,
+            this.rows.row3.current,
+            this.rows.row4.current,
+            this.rows.row5.current,
+        ],
+        {invalid: function (el, handle) {
+            return el.className === "Swimlane-dragColumn";
+          }}
+        );
+        for (var i=1;i<=15;i++){
+            container[i] = this.swimlanes.day[i].current; 
+        }
         var drake_spots = Dragula([
-            container1, container2, container3,
-            container4, container5, container6,
-            container7, container8, container9,
-            container10, container11, container12,
-            container13, container14, container15,
+            ...container
         ]);
-
+        drake_days.on('drop',(el,target,source,sibling)=>{
+            console.log(sibling.id);
+            console.log(el.id);
+       //     this.setState({
+        //         days: this.state.days.splice(sibling.id,1,...this.state.days.splice(el.id, 1 , this.state.days[sibling.id])),
+          //  });
+        });        
     }
+
+
 
     render() {
         return (
             <div className="Board">
                 <div className="container-fluid">
-                    <div className="row" >
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 1', this.state.spots.day1, this.swimlanes.day1)}
+                    <div className="row" ref={this.rows.row1}>
+                        <div className="col-md-4" id='1' >
+                            {this.renderSwimlane('Day 1', this.state.days[1], this.swimlanes.day[1])}
                         </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 2', this.state.spots.day2, this.swimlanes.day2)}
+                        <div className="col-md-4" id='2' >
+                            {this.renderSwimlane('Day 2', this.state.days[2], this.swimlanes.day[2])}
                         </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 3', this.state.spots.day3, this.swimlanes.day3)}
-                        </div>
-                    </div>
-                    <div className="row" >
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 4', this.state.spots.day4, this.swimlanes.day4)}
-                        </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 5', this.state.spots.day5, this.swimlanes.day5)}
-                        </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 6', this.state.spots.day6, this.swimlanes.day6)}
+                        <div className="col-md-4" id='3' >
+                            {this.renderSwimlane('Day 3', this.state.days[3], this.swimlanes.day[3])}
                         </div>
                     </div>
                     <div className="row" >
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 7', this.state.spots.day7, this.swimlanes.day7)}
+                        <div className="col-md-4" id='4' >
+                            {this.renderSwimlane('Day 4', this.state.days[4], this.swimlanes.day[4])}
                         </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 8', this.state.spots.day8, this.swimlanes.day8)}
+                        <div className="col-md-4" id='5' >
+                            {this.renderSwimlane('Day 5', this.state.days[5], this.swimlanes.day[5])}
                         </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 9', this.state.spots.day9, this.swimlanes.day9)}
-                        </div>
-                    </div>
-                    <div className="row" >
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 10', this.state.spots.day10, this.swimlanes.day10)}
-                        </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 11', this.state.spots.day11, this.swimlanes.day11)}
-                        </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 12', this.state.spots.day12, this.swimlanes.day12)}
+                        <div className="col-md-4" id='6' >
+                            {this.renderSwimlane('Day 6', this.state.days[6], this.swimlanes.day[6])}
                         </div>
                     </div>
                     <div className="row" >
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 13', this.state.spots.day13, this.swimlanes.day13)}
+                        <div className="col-md-4" id='7' >
+                            {this.renderSwimlane('Day 7', this.state.days[7], this.swimlanes.day[7])}
                         </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 14', this.state.spots.day14, this.swimlanes.day14)}
+                        <div className="col-md-4" id='8' >
+                            {this.renderSwimlane('Day 8', this.state.days[8], this.swimlanes.day[8])}
                         </div>
-                        <div className="col-md-4">
-                            {this.renderSwimlane('Day 15', this.state.spots.day15, this.swimlanes.day15)}
+                        <div className="col-md-4" id='9' >
+                            {this.renderSwimlane('Day 9', this.state.days[9], this.swimlanes.day[9])}
+                        </div>
+                    </div>
+                    <div className="row" >
+                        <div className="col-md-4" id='10' >
+                            {this.renderSwimlane('Day 10', this.state.days[10], this.swimlanes.day[10])}
+                        </div>
+                        <div className="col-md-4" id='11' >
+                            {this.renderSwimlane('Day 11', this.state.days[11], this.swimlanes.day[11])}
+                        </div>
+                        <div className="col-md-4" id='12' >
+                            {this.renderSwimlane('Day 12', this.state.days[12], this.swimlanes.day[12])}
+                        </div>
+                    </div>
+                    <div className="row" >
+                        <div className="col-md-4" id='13' >
+                            {this.renderSwimlane('Day 13', this.state.days[13], this.swimlanes.day[13])}
+                        </div>
+                        <div className="col-md-4" id='14' >
+                            {this.renderSwimlane('Day 14', this.state.days[14], this.swimlanes.day[14])}
+                        </div>
+                        <div className="col-md-4" id='15' >
+                            {this.renderSwimlane('Day 15', this.state.days[15], this.swimlanes.day[15])}
                         </div>
                     </div>
                 </div>

@@ -16,6 +16,7 @@ export default class Spot extends React.Component {
       <div>
 
         <Collapse
+          className="intre-spots"
           bordered={false}
           defaultActiveKey={['0']}
           expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}
