@@ -181,9 +181,9 @@ export default class Board extends React.Component {
         drake_days.on('drop',(el,target,source,sibling)=>{
             console.log(sibling.id);
             console.log(el.id);
-       //     this.setState({
-        //         days: this.state.days.splice(sibling.id,1,...this.state.days.splice(el.id, 1 , this.state.days[sibling.id])),
-          //  });
+            this.setState({
+                 days: this.state.days.splice(sibling.id,1,...this.state.days.splice(el.id, 1 , this.state.days[sibling.id])),
+            });
         });        
     }
 
