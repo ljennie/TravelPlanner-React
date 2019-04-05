@@ -1,64 +1,43 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import HomeTab from './HomeTab';
-import Navigation from './Navigation';
-import Board from './Board';
-import { TravePlan } from './TravelPlan';
 import '../styles/App.css';
-import { TestPage } from './TestPage';
-
+import { Header} from "./Header"
+import { Main } from "./Main"
+import { TOKEN_KEY} from "../constants"
+import {TravelPlan} from "./TravelPlan"
+import {SortableComponent} from "./SortableList"
+import { TravelOverview } from './TravelOverview';
+    
 
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedTab: 'home',
-    };
-  }
-
-  renderPlanDetails() {
-    return (<Board/>);
-  }
-  renderTravelPlan() {
-    return (<TravePlan/>);
-  }
-  renderNavigation() {
-    return (<Navigation
-      onClick={(tabName) => this.changeTab(tabName)}
-      selectedTab={this.state.selectedTab}
-    />);
-  }
-
-  renderTabContent() {
-    switch (this.state.selectedTab) {
-      case 'home':
-      default:
-        return <HomeTab />;
-      case 'details':
-        return this.renderPlanDetails();
-      case 'travelplan':
-      return this.renderTravelPlan();
+    state = {
+        //isLoggedIn: Boolean(localStorage.getItem('TOKEN_KEY'))
+        //isLoggedIn:false // for testing login without JWT
+        isLoggedIn:true // for testing bypass login
     }
-  }
 
-  changeTab(tabName) {
-    this.setState({
-      selectedTab: tabName,
-    });
-  }
+    handleLogin = (token, userid) => {
+        localStorage.setItem('TOKEN_KEY', token);
+        this.setState({isLoggedIn: true});
+    }
 
-  render() {
-    return (
-      <div className="App">
-        {this.renderNavigation()}
-        <div className="App-body">
-          {this.renderTabContent()}
-        </div>
-      </div>
-    );
-  }
+    handleLogout = () => {
+        localStorage.removeItem(TOKEN_KEY);
+        this.setState({isLoggedIn: false});
+    }
+
+    render() {
+        return (
+
+            <div className="App">
+                <Header />
+                <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin}/>
+            </div>
+
+        );
+    }
 
 
 }

@@ -10,8 +10,8 @@ export default class Swimlane extends React.Component {
       const spot = this.props.spots.map(spot => {
         return (
           <Spot
-            key={spot.id}
-            id={spot.id}
+            key={spot.placeID}
+            id={spot.intradayIndex}
             name={spot.name}
             day={spot.day}
             url={spot.url}

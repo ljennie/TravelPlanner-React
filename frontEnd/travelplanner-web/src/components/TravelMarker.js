@@ -32,7 +32,7 @@ export class TravelMarker extends React.Component {
     }
 
     render() {
-        const {type, lat, lon, name, image_url, day} = this.props.point;
+        const {type, lat, lon, name, imageURL, day} = this.props.point;
         console.log(name);
         const totalDays = this.props.totalDays;
 
@@ -49,27 +49,6 @@ export class TravelMarker extends React.Component {
             </Menu>
         )
 
-        let icon;
-        switch (parseInt(day)) {
-            case 0:
-                icon = undefined;
-                break;
-            case 1:
-                icon = {
-                    url: blueMarkerUrl,
-                    scaledSize: new window.google.maps.Size(26, 41),
-                }
-                break;
-            case 2:
-                icon = {
-                    url: blackMarkerUrl,
-                    scaledSize: new window.google.maps.Size(26, 41),
-                }
-                break;
-            default:
-                icon = undefined;
-        }
-
         return (
             <div>
                 <Marker
@@ -78,12 +57,13 @@ export class TravelMarker extends React.Component {
                     onMouseOut={this.onToggleOpen}
                     onClick={this.onToggleOpen}
                     onRightClick={this.onOptionOpen}
-                    icon={icon}
+                    icon={{url: require(`../assets/images/c${day+1}-marker.svg`),
+                          scaledSize: new window.google.maps.Size(26, 41)}}
                 >
                     {this.state.isOpen ?
                         <InfoWindow onCloseClick={this.onToggleOpen}>
                             <div>
-                                <img src={image_url} alt={name} className="travel-marker-image"/>
+                                <img src={imageURL} alt={name} className="travel-marker-image"/>
                                 <p>{`Day ${day}: ${name}`}</p>
                                 <a className="btn btn-success" href={`https://en.wikipedia.org/wiki/${name}`} target ="_blank">Learn More</a>
                             </div>
