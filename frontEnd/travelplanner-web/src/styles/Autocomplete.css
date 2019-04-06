@@ -1,0 +1,23 @@
+.Autocomplete {
+
+    display: inline-block;
+    margin: 0 8px;
+    border-radius: 5px;
+    font-size: 18px;
+
+}
+.Generate {
+
+    width: 100px;
+    border-radius: 5px;
+    font-size: 20px;
+
+    display: inline-block;
+}
+.input {
+    display: inline-block;
+    border: 1px solid #D6D6D6;
+    border-radius: 5px;
+    font-size: 18px;
+    width: 300px;
+}

@@ -13,7 +13,7 @@ class NormalLoginForm extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', values);
                 $.ajax({
-                    url: `${API_ROOT}/login`,
+                    url: `${API_ROOT}/Login`,
                     method: 'POST',
                     data: JSON.stringify({
                         user_id: values.username,
@@ -21,8 +21,9 @@ class NormalLoginForm extends React.Component {
                     })
                 }).then((response) => {
                     message.success('login success!');
-                    this.props.handleLogin(response);
-                    this.props.handleUserID(values.username);
+                    //this.props.handleLogin(response, values.username);
+                    this.props.handleLogin("xxx", values.username); // for testing
+
                     // const token = response;
                     // localStorage.setItem('TOKEN_KEY', token);
                     console.log(response);
@@ -32,6 +33,9 @@ class NormalLoginForm extends React.Component {
                 }).catch((e) => {
                     console.log(e);
                 });
+
+                //this.props.handleLogin("xxx", values.username); //for testing
+
 
             }
         });

@@ -23,9 +23,11 @@ export class Home extends React.Component{
         this.points = pts;
         this.totalDays = tds;
         this.changeTab('travelplan');
+
     }
 
     renderOverview() {
+        console.log(this.props)
         return (<TravelOverview homeCallback={this.homeCallback} userID={this.props.userID}/>)
     }
     renderPlanDetails() {

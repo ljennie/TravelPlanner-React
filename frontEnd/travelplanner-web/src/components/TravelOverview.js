@@ -22,25 +22,24 @@ export class TravelOverview extends React.Component {
     ];
 
     testingStartPoints = [
-        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:0, intradayIndex: 0},
-        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:1, intradayIndex: 0},
-        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:2, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "aa", imageURL: "", day:0, intradayIndex: 0},
+        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "bb", imageURL: "", day:1, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "cc", imageURL: "", day:2, intradayIndex: 0},
     ];
 
     testingGeneratedPoints = [
 
-        {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", imageURL: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwoerwCoEdvGa-as", type: "poi", lat: 40.7794, lon: -73.9632, name: "The Metropolitan Museum of Art", imageURL: "https://cdn.getyourguide.com/img/tour_img-210854-148.jpg", day: 0, intradayIndex: -1},
-        {placeID: "ChIJavd7uFVYwokRXCoEdwsu-wA", type: "poi", lat: 40.7614, lon: -73.9776, name: "MoMa", imageURL: "https://images.musement.com/cover/0001/31/moma-museum-of-modern-art-tickets-tours-jpg_header-30520.jpeg?&q=60&fit=crop&lossless=true&auto=format&w=412&h=250", day: 1, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwokRXCoEdvGc-re", type: "poi", lat: 40.7425, lon: -74.0061, name: "Chelsea Market", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chelsea_Market.jpg/350px-Chelsea_Market.jpg", day:1, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwdtwXCosdfGu-sA", type: "poi", lat: 40.7308, lon: -73.9973, name: "Washington Square Park", imageURL:"https://media.cntraveler.com/photos/55f6f83ef36883a0540d6845/4:5/w_767,c_limit/Washington-Square-Park-cr-getty.jpg", day:2, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwokRXCoEdvds-zA", type: "poi", lat: 40.8296, lon: -73.9262, name: "Yankee Stadium", imageURL: "https://www.wheretraveler.com/sites/default/files/styles/wt17_promoted_large/public/images/YANKEE%20STADIUM_OVE%23747D12.jpg?itok=KHnOsPcI&timestamp=1451406398", day:2, intradayIndex: -1},
-        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:0, intradayIndex: 0},
-        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:1, intradayIndex: 0},
-        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "", imageURL: "", day:2, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", imageURL: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: 1},
+        {placeID: "ChIJgzD7uFVYwoerwCoEdvGa-as", type: "poi", lat: 40.7794, lon: -73.9632, name: "The Metropolitan Museum of Art", imageURL: "https://cdn.getyourguide.com/img/tour_img-210854-148.jpg", day: 0, intradayIndex: 2},
+        {placeID: "ChIJavd7uFVYwokRXCoEdwsu-wA", type: "poi", lat: 40.7614, lon: -73.9776, name: "MoMa", imageURL: "https://images.musement.com/cover/0001/31/moma-museum-of-modern-art-tickets-tours-jpg_header-30520.jpeg?&q=60&fit=crop&lossless=true&auto=format&w=412&h=250", day: 1, intradayIndex: 3},
+        {placeID: "ChIJgzD7uFVYwokRXCoEdvGc-re", type: "poi", lat: 40.7425, lon: -74.0061, name: "Chelsea Market", imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Chelsea_Market.jpg/350px-Chelsea_Market.jpg", day:1, intradayIndex: 2},
+        {placeID: "ChIJgzD7uFVYwdtwXCosdfGu-sA", type: "poi", lat: 40.7308, lon: -73.9973, name: "Washington Square Park", imageURL:"https://media.cntraveler.com/photos/55f6f83ef36883a0540d6845/4:5/w_767,c_limit/Washington-Square-Park-cr-getty.jpg", day:2, intradayIndex: 3},
+        {placeID: "ChIJgzD7uFVYwokRXCoEdvds-zA", type: "poi", lat: 40.8296, lon: -73.9262, name: "Yankee Stadium", imageURL: "https://www.wheretraveler.com/sites/default/files/styles/wt17_promoted_large/public/images/YANKEE%20STADIUM_OVE%23747D12.jpg?itok=KHnOsPcI&timestamp=1451406398", day:2, intradayIndex: 1},
+        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "hotel1", imageURL: "", day:0, intradayIndex: 0},
+        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "hotel2", imageURL: "", day:1, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "hotel3", imageURL: "", day:2, intradayIndex: 0},
     ];
     totalDays = 0;
-    userID = this.props.userID;
 
     changedPoints = [];
 
@@ -49,7 +48,6 @@ export class TravelOverview extends React.Component {
     generatedPoints=[];
 
     state = {
-        // for testing
         points: [],
         isDayOptionsChosen : false,
         isInputEntered : false,
@@ -64,14 +62,14 @@ export class TravelOverview extends React.Component {
         const endPoint = 'InitialRecommend';
         console.log(`days: ${this.totalDays}`);
 
-        /*
-        fetch(`${API_ROOT}/${endPoint}?userID=${this.userID}&totalDays=${this.totalDays}`, {
+        fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
             if (response.ok) {
                 return response.json();
             }
         }).then((data) => {
+            console.log(data);
             this.setState((prevState) => {
                 return {
                     points: data.places,
@@ -82,23 +80,22 @@ export class TravelOverview extends React.Component {
         }).catch((e) => {
             console.log(e.message);
         });
-        */
 
         // for testing
-        this.setState((prevState) => {
+        /*this.setState((prevState) => {
             return {
                 points: this.testingPoints,
                 isDayOptionsChosen: true
             };
-        })
+        })*/
     }
 
     onSavePlacesButtonClick = (placeID, day, intradayIndex) => {
         // Request
         const endPoint = 'UpdateInterestedPlaces';
         let obj = {placeID, day, intradayIndex};
-        console.log(JSON.stringify({"userID": this.userID, "newSchedule": [obj]}));
-        /*fetch(`${API_ROOT}/${endPoint}`, {
+        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": [obj]}));
+        fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"newSchedule": [obj]}),
             headers: {
@@ -107,16 +104,13 @@ export class TravelOverview extends React.Component {
         }).catch((e) => {
             console.log(e.message);
         });
-        */
 
-    }
 
-    onInputEntered = (day, e) => {
     }
 
     onGeneratePathsButtonPressed = (generatedPoints) => {
-        this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
-        //this.props.homeCallback(generatedPoints,this.totalDays);
+        //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
+        this.props.homeCallback(generatedPoints,this.totalDays);
     }
 
     handleOnDayChange = (pointId, day) => {
@@ -176,7 +170,9 @@ export class TravelOverview extends React.Component {
                     </Dropdown>
 
                     {this.state.isDayOptionsChosen ?
-                        <StartAddressInputForm totalDays={this.totalDays} onGeneratePathsButtonPressed={this.onGeneratePathsButtonPressed} />
+                        <StartAddressInputForm totalDays={this.totalDays}
+                                               onGeneratePathsButtonPressed={this.onGeneratePathsButtonPressed}
+                                               userID={this.props.userID}/>
                         : null
                     }
 
