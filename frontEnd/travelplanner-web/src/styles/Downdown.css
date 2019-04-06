@@ -1,0 +1,7 @@
+
+.Day{
+    height: 40px;
+    display: inline-block;
+    line-height: 40px;
+    width: 500px;
+}
