@@ -86,6 +86,8 @@ const jsonArray = [
 
 const totalDays = 2;
 
+////////////////////////////Replace consts above using props.varname/////////////////////////////////////////////////
+
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
@@ -93,9 +95,9 @@ export default class Board extends React.Component {
         var days = new Array();
         var refs = new Array();
         var rowrefs = new Array();
-      //  console.log(props);
-        for (var i = 0; i <= totalDays-1; i++) {
-            days[i] = spots.filter(spot => spot.day && spot.day === (i+1));
+        //  console.log(props);
+        for (var i = 0; i <= totalDays - 1; i++) {
+            days[i] = spots.filter(spot => spot.day && spot.day === (i + 1));
             refs[i] = React.createRef();
         }
 
@@ -107,7 +109,7 @@ export default class Board extends React.Component {
             days: days
         }
 
-      //  console.log(this.state);
+        //  console.log(this.state);
         this.swimlanes = {
             day: refs
         }
@@ -130,7 +132,26 @@ export default class Board extends React.Component {
         }));
     }
 
-    componentDidMount() {
+
+    componentDidUpdate() {
+
+        function array_move(arr, old_index, new_index) {
+            while (old_index < 0) {
+                old_index += arr.length;
+            }
+            while (new_index < 0) {
+                new_index += arr.length;
+            }
+            if (new_index >= arr.length) {
+                var k = new_index - arr.length + 1;
+                while (k--) {
+                    arr.push(undefined);
+                }
+            }
+            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+            return arr; // for testing purposes
+        };
+
 
         var colcontainer = this.swimlanes.day.map((col) => {
             return col.current;
@@ -150,58 +171,98 @@ export default class Board extends React.Component {
         var drake_spots = Dragula([
             ...colcontainer
         ]);
-<<<<<<< HEAD
-        drake_days.on('drop',(el,target,source,sibling)=>{
-            console.log(sibling.id);
-            console.log(el.id);
-            this.setState({
-                 days: this.state.days.splice(sibling.id,1,...this.state.days.splice(el.id, 1 , this.state.days[sibling.id])),
-            });
-        });        
-=======
+///////////////////////////////Main Callback Part//////////////////////////////////////////////////
+        //update days drag result
         drake_days.on('drop', (el, target, source, sibling) => {
             //dayUpdate(el.id,sibling.id);
-            var index1 = el.id-1;
-            var index2 = sibling.id-1;
-            console.log(index1);
-            console.log(index2);
-          //  console.log(this.state.days);
+            var index1 = el.id - 1;
+            var index2 = sibling.id - 1;
+            // console.log(index1);
+            // console.log(index2);
+            // console.log(this.state.days);
+            if (index1 < index2) index2--;
             var temparray = new Array();
             temparray[index2] = this.state.days[index1];
-            let k=0;
-            for (var i=0;i<this.state.days.length;i++){
-                if (k===index1) k++;
-                if (i!=index2){
-                   temparray[i] = this.state.days[k];
-                   k++;
+            let k = 0;
+            for (var i = 0; i < this.state.days.length; i++) {
+                if (k === index1) k++;
+                if (i != index2) {
+                    temparray[i] = this.state.days[k];
+                    k++;
                 }
             }
-           
-           temparray = temparray.map((array,index)=>{
-                for (var i=0;i<array.length;i++){
-                    array[i].day = index+1;
+
+            temparray = temparray.map((array, index) => {
+                for (var i = 0; i < array.length; i++) {
+                    array[i].day = index + 1;
                 }
                 return array;
-           });
+            });
 
-        //  console.log(temparray);
+            //  console.log(temparray);
             this.setState({
                 days: temparray,
             });
-
-           
         });
->>>>>>> origin/master
+
+        //update spots drag result
+        drake_spots.on('drop', (el, target, source, sibling) => {
+            var sour = source.id - 1;
+            var tar = target.id - 1;
+            var index1 = el.id;
+            var index2;
+            if (sibling != null) index2 = sibling.id;
+            else index2 = this.state.days[tar].length;
+            console.log(index1);
+            console.log(index2);
+
+            // console.log(sour); 
+            // console.log(tar); 
+            if (sour === tar) {
+                var temp = this.state.days[sour][index1];
+                if (index1 < index2) index2--;
+
+                array_move(this.state.days[sour], index1, index2);
+                this.state.days[sour] = this.state.days[sour].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    return spot;
+                });
+            } else {
+
+                this.state.days[tar].splice(index2, 0, this.state.days[sour][index1]);
+                this.state.days[sour].splice(index1, 1);
+
+                this.state.days[sour] = this.state.days[sour].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    spot.day = sour + 1;
+                    return spot;
+                });
+                this.state.days[tar] = this.state.days[tar].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    spot.day = tar + 1;
+                    return spot;
+                });
+            }
+
+            //s console.log(this.state.days);
+            this.setState({
+                days: this.state.days,
+            });
+
+        });
+
     }
+
+
 
 
 
     render() {
         console.log(this.state.days);
         return (
-            
+
             <div className="DetailPage">
-                <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row}/>
+                <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
                 <SideTimeline />
             </div>
         );

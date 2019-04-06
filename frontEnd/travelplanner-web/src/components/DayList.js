@@ -17,8 +17,8 @@ export default class DayList extends React.Component {
                     let daynum = (i - 1) * colnum + j;
                     if (daynum > dayspots.length) break;
                     row.push(
-                        <div className="col-md-4" id={dayspots[daynum - 1][0].day} >
-                            <Swimlane name={'Day ' + dayspots[daynum - 1][0].day} spots={dayspots[daynum - 1]} dragulaRef={colrefs[daynum - 1]} />
+                        <div className="col-md-4" id={dayspots[daynum - 1][0].day} key={Math.random()}>
+                            <Swimlane name={'Day ' + dayspots[daynum - 1][0].day} spots={dayspots[daynum - 1]} dragulaRef={colrefs[daynum - 1]} id={dayspots[daynum - 1][0].day}/>
                         </div>
                     );
                 }
