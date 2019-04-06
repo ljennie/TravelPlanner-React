@@ -23,6 +23,7 @@ export class Home extends React.Component{
         this.points = pts;
         this.totalDays = tds;
         this.changeTab('travelplan');
+
     }
 
     renderOverview() {
