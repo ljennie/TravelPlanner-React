@@ -13,11 +13,11 @@ export default class DayList extends React.Component {
             let rownum = Math.ceil((dayspots.length) / colnum);
             for (var i = 1; i <= rownum; i++) {
                 let row = new Array();
-                for (var j = 1; j <= colnum; j++) {
+                for (var j = 1; j <= colnum; j++) {now
                     let daynum = (i - 1) * colnum + j;
                     if (daynum > dayspots.length) break;
                     row.push(
-                        <div className="col-md-4" id={dayspots[daynum - 1][0].day} key={Math.random()}>
+                        <div className="col-md-4" id={dayspots[daynum - 1][0].day} key={Date.now+(daynum/15)}>
                             <Swimlane name={'Day ' + dayspots[daynum - 1][0].day} spots={dayspots[daynum - 1]} dragulaRef={colrefs[daynum - 1]} id={dayspots[daynum - 1][0].day}/>
                         </div>
                     );

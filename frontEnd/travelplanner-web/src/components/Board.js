@@ -171,7 +171,7 @@ export default class Board extends React.Component {
         var drake_spots = Dragula([
             ...colcontainer
         ]);
-///////////////////////////////Main Callback Part//////////////////////////////////////////////////
+////////////////////////////////////////////////////Main Callback Part//////////////////////////////////////////////////
         //update days drag result
         drake_days.on('drop', (el, target, source, sibling) => {
             //dayUpdate(el.id,sibling.id);
@@ -244,7 +244,7 @@ export default class Board extends React.Component {
                 });
             }
 
-            //s console.log(this.state.days);
+            // console.log(this.state.days);
             this.setState({
                 days: this.state.days,
             });
