@@ -7,6 +7,7 @@ import '../styles/App.css';
 import {TravelOverview} from "./TravelOverview"
 import {TestPage} from './TestPage';
 
+
 export class Home extends React.Component{
 
     state = {
@@ -29,7 +30,9 @@ export class Home extends React.Component{
         return (<TravelOverview homeCallback={this.homeCallback} userID={this.props.userID}/>)
     }
     renderPlanDetails() {
-        return (<Board points={this.points} totalDays={this.totalDays} userID={this.props.userID}/>);
+        return (
+                 <Board points={this.points} totalDays={this.totalDays} userID={this.props.userID}/> 
+               );
         //return (<TestPage points={this.points} totalDays={this.totalDays}/>);
     }
     renderTravelPlan() {

@@ -14,7 +14,7 @@ class App extends Component {
 
     state = {
         //isLoggedIn: Boolean(localStorage.getItem('TOKEN_KEY'))
-        isLoggedIn:false, // for testing login without JWT
+        isLoggedIn:true, // for testing login without JWT
         // isLoggedIn:true // for testing bypass login
         userID: ""
     }

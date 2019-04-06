@@ -10,8 +10,8 @@ export default class Swimlane extends React.Component {
       const spot = this.props.spots.map(spot => {
         return (
           <Spot
-            key={spot.id}
-            id={spot.id}
+            key={spot.placeID}
+            id={spot.intradayIndex}
             name={spot.name}
             day={spot.day}
             url={spot.url}
@@ -24,7 +24,7 @@ export default class Swimlane extends React.Component {
       return (
         <div className="Swimlane-column">
           <div className="Swimlane-title">{this.props.name}</div>
-          <div className="Swimlane-dragColumn" ref={this.props.dragulaRef}>
+          <div className="Swimlane-dragColumn" id={this.props.id} ref={this.props.dragulaRef} key={Math.random()}>
             {spot}
           </div>
         </div>);
@@ -33,4 +33,5 @@ export default class Swimlane extends React.Component {
       <div ref={this.props.dragulaRef}></div>
     );
   }
+  
 }
