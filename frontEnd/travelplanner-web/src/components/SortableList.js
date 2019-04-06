@@ -4,13 +4,16 @@ import React from 'react';
 import arrayMove from 'array-move';
 import { API_ROOT } from "../constants";
 
+
 const SortableItem = SortableElement(({value, index}) =>
  <List.Item><Typography.Text>{<span><b> Stop {index+1}</b></span>}</Typography.Text> {value}</List.Item>
 );
 
-const SortableList = SortableContainer(({items}) => {
+const SortableList = SortableContainer(({items, start}) => {
+  var startname=start[0].type;
   return (
      items&&<List  header={<h1><b>Day{items[0].day+1}</b></h1>} bordered>
+      <List.Item><Typography.Text>{<span><b> Start Point:  </b></span>}</Typography.Text>{startname}</List.Item>
       {items.map((value, index) => (
         <SortableItem key={`item-${index}`} index={index} value={value.name} />
       ))}
@@ -20,20 +23,17 @@ const SortableList = SortableContainer(({items}) => {
 
   
   export class SortableComponent extends React.Component {
-     
     onSortEnd = ({oldIndex, newIndex}) => {
        var temp1= arrayMove(this.props.items, oldIndex, newIndex);
        //temp1=temp1.concat(this.props.start);
        this.props.change(temp1);
     };
-      
   render() {
-    
     return (
      
     <div>
       {
-        <SortableList items={this.props.items} onSortEnd={this.onSortEnd}/>
+        <SortableList items={this.props.items} onSortEnd={this.onSortEnd} start={this.props.start}/>
       }
     </div>
   )
