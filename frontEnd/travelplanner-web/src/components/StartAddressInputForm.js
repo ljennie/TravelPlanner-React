@@ -6,6 +6,12 @@ import {API_ROOT, GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
 
 class AdvancedSearchForm extends React.Component {
     startPoints=[];
+    testingStartPoints = [
+        {placeID: "ChIJgzD7uFVYwokavdeEdvGu-wA", type: "start", lat: 40.7829, lon: -73.9654, name: "aa", imageURL: "", day:0, intradayIndex: 0},
+        {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "bb", imageURL: "", day:1, intradayIndex: 0},
+        {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "cc", imageURL: "", day:2, intradayIndex: 0},
+    ];
+    generatedPoints=[];
     // To generate mock Form.Item
     getFields() {
         const { getFieldDecorator } = this.props.form;
@@ -60,14 +66,31 @@ class AdvancedSearchForm extends React.Component {
                     }).catch(err => message.error(`${entry[0]} address is not valid`))
                 )
             )
-            .then((data)=>{
-                    fetch(`${API_ROOT}/${endPoint}`, {
-                        method: 'POST',
-                        body: JSON.stringify({"userID": this.userID, "startPlaces": this.startPoints}),
-                        headers: {
-                            'Constent-Type':'application/json'
-                        }
-                    })
+            .then((data)=> {
+                fetch(`${API_ROOT}/${endPoint}`, {
+                    method: 'POST',
+                    body: JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}),
+                    headers: {
+                        'Constent-Type': 'application/json'
+                    }
+                }).then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then((data) => {
+                    this.generatedPoints = data.places;
+                    this.props.onGeneratePathsButtonPressed(this.generatedPoints);
+                }).catch((e) => {
+                    console.log(e.message);
+                })
+            }); */
+            // bypass Google Geocoding api for testing
+            fetch(`${API_ROOT}/${endPoint}`, {
+                method: 'POST',
+                body: JSON.stringify({"userID": this.props.userID, "startPlaces": this.testingStartPoints}),
+                headers: {
+                    'Constent-Type': 'application/json'
+                }
             }).then((response) => {
                 if (response.ok) {
                     return response.json();
@@ -77,8 +100,8 @@ class AdvancedSearchForm extends React.Component {
                 this.props.onGeneratePathsButtonPressed(this.generatedPoints);
             }).catch((e) => {
                 console.log(e.message);
-            })*/
-            this.props.onGeneratePathsButtonPressed(this.generatedPoints); // for testing
+            })
+            //this.props.onGeneratePathsButtonPressed(this.generatedPoints); // for testing
         });
     }
 

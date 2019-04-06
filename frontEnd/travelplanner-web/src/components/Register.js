@@ -19,7 +19,7 @@ class RegisterationForm extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', values);
                 $.ajax({
-                    url: `${API_ROOT}/register`,
+                    url: `${API_ROOT}/Register`,
                     method: 'POST',
                     data: JSON.stringify ({
                         user_id: values.username,
@@ -29,7 +29,7 @@ class RegisterationForm extends React.Component {
                     })//把这个json object变成string
                 }).then((response) => {
                     message.success(response);
-                    this.props.history.push('/login');//equal to link
+                    this.props.history.push('/Login');//equal to link
                 }, (response) => {
                     message.error(response.responseText);
                 }).catch((e) => {
