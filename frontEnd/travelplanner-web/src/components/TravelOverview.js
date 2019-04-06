@@ -40,7 +40,6 @@ export class TravelOverview extends React.Component {
         {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "hotel3", imageURL: "", day:2, intradayIndex: 0},
     ];
     totalDays = 0;
-    userID = this.props.userID;
 
     changedPoints = [];
 
@@ -63,7 +62,7 @@ export class TravelOverview extends React.Component {
         const endPoint = 'InitialRecommend';
         console.log(`days: ${this.totalDays}`);
 
-        fetch(`${API_ROOT}/${endPoint}?userID=${this.userID}&totalDays=${this.totalDays}`, {
+        fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
             if (response.ok) {
@@ -95,7 +94,7 @@ export class TravelOverview extends React.Component {
         // Request
         const endPoint = 'UpdateInterestedPlaces';
         let obj = {placeID, day, intradayIndex};
-        console.log(JSON.stringify({"userID": this.userID, "newSchedule": [obj]}));
+        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": [obj]}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"newSchedule": [obj]}),

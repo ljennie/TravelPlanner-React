@@ -11,7 +11,6 @@ import {arrayMove} from 'array-move'
 import Background from '../assets/images/background.jpg';
 
 
-
 const testingGeneratedPoints = [
 
   {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", imageURL: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: 1},
@@ -38,10 +37,9 @@ export class TravelPlan extends React.Component {
         points: []
         
     }
-    userID = this.props.userID;
 
     componentWillMount(){
-        const testingGeneratedPoints=this.props.points;
+        //const testingGeneratedPoints=this.props.points;
         //var temp=this.props.points.filter(place => (place.day+1).toString() === "1");
         //var temp=testingGeneratedPoints.filter(place => (place.day+1).toString() === "1");
         //console.log(temp)
@@ -89,7 +87,7 @@ export class TravelPlan extends React.Component {
        }); */
         this.setState(
             {
-                points: testingGeneratedPoints,
+                points: this.props.points,
 
              }
         )
@@ -273,7 +271,22 @@ export class TravelPlan extends React.Component {
         console.log("first load")
     }
    }
-    
+
+    saveButtonClicked = () => {
+        const endPoint = 'UpdatePaths';
+        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": this.state.points}));
+        fetch(`${API_ROOT}/${endPoint}`, {
+            method: 'POST',
+            body: JSON.stringify({"userID": this.props.userID, "newSchedule": this.state.points}),
+            headers: {
+                'Content-Type':'application/json'
+            }
+        }).catch((e) => {
+            console.log(e.message);
+        });
+    }
+
+
     render() {
         //const Background= "D:\travel\awesomeTravelPlanner\frontEnd\travelplanner-web\src\assets\images\background.jpg"
         return (
@@ -310,7 +323,7 @@ export class TravelPlan extends React.Component {
                         <SortableComponent items={this.state.legs} change={this.handeldrop} start={this.state.start} />
                       )  
                     } 
-                    <div><Button>Save</Button></div>
+                    <div><Button onClick={this.saveButtonClicked}>Save</Button></div>
                 </div>  
             </div>
         );

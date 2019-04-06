@@ -12,3 +12,14 @@ export const LOC_SHAKE = 0.02;
 
 export const PLACE_API_K="AIzaSyCvUbj7eqr0u0RFbaNFGU9JAWYAoi5JmwY";
 export const GOOGLE_GEOCODE_API = "https://maps.google.com/maps/api/geocode/json";
+
+export const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 },
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+    },
+};
