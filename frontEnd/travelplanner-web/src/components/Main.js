@@ -8,19 +8,17 @@ import {TravelOverview} from "./TravelOverview"
 
 
 export class Main extends React.Component {
-    userID="";
-
-    handleUserID = (userID) => {
-        this.userID = userID;
-    }
-
     getHome = () => {
-        return this.props.isLoggedIn ? <Home/> : <Redirect to="/login"/>;
+        return this.props.isLoggedIn ? <Home userID={this.props.userID}/> : <Redirect to="/login"/>;
     }
 
     getLogin = () => {
-        return this.props.isLoggedIn ? <Redirect to={{ pathname: '/home', state: {userID: this.userID}}} />
-            : <Login handleLogin={this.props.handleLogin} handleUserID={this.handleUserID}/>
+        console.log('get login')
+        console.log(this.props.userID)
+        console.log(this.props.isLoggedIn)
+        let userID = this.props.userID
+        return this.props.isLoggedIn ? <Redirect to= '/home' />
+            : <Login handleLogin={this.props.handleLogin}/>
     }
 
     getRoot = () => {

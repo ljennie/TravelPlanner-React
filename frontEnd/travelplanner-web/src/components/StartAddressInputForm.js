@@ -6,6 +6,7 @@ import {API_ROOT, GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
 
 class AdvancedSearchForm extends React.Component {
     startPoints=[];
+    generatedPoints=[];
     // To generate mock Form.Item
     getFields() {
         const { getFieldDecorator } = this.props.form;
@@ -60,24 +61,24 @@ class AdvancedSearchForm extends React.Component {
                     }).catch(err => message.error(`${entry[0]} address is not valid`))
                 )
             )
-            .then((data)=>{
-                    fetch(`${API_ROOT}/${endPoint}`, {
-                        method: 'POST',
-                        body: JSON.stringify({"userID": this.userID, "startPlaces": this.startPoints}),
-                        headers: {
-                            'Constent-Type':'application/json'
-                        }
-                    })
-            }).then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-            }).then((data) => {
-                this.generatedPoints = data.places;
-                this.props.onGeneratePathsButtonPressed(this.generatedPoints);
-            }).catch((e) => {
-                console.log(e.message);
-            })
+            .then((data)=> {
+                fetch(`${API_ROOT}/${endPoint}`, {
+                    method: 'POST',
+                    body: JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}),
+                    headers: {
+                        'Constent-Type': 'application/json'
+                    }
+                }).then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then((data) => {
+                    this.generatedPoints = data.places;
+                    this.props.onGeneratePathsButtonPressed(this.generatedPoints);
+                }).catch((e) => {
+                    console.log(e.message);
+                })
+            });
             //this.props.onGeneratePathsButtonPressed(this.generatedPoints); // for testing
         });
     }

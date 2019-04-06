@@ -25,6 +25,7 @@ export class Home extends React.Component{
     }
 
     renderOverview() {
+        console.log(this.props)
         return (<TravelOverview homeCallback={this.homeCallback} userID={this.props.userID}/>)
     }
     renderPlanDetails() {
