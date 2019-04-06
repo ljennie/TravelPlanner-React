@@ -138,11 +138,11 @@ export class TravelPlan extends React.Component {
        });
         //console.log(temp3);
         if(temp2!=null&& typeof temp2!= 'undefined'){
-            const ori = temp2[0];
-            const des = temp2.length >= 2 ? temp2[temp2.length-1]:ori;
+            const ori = startpoint[0];
+            const des = temp2.length >= 0 ? temp2[temp2.length-1]:ori;
             var midpoints= [];
             var temp3=[];
-            midpoints= temp2.length>2?temp2.slice(1,-1): []
+            midpoints= temp2.length>0?temp2.slice(0,-1): []
             midpoints.map((point=>{
                var mid={}
                mid["location"] ={"lat":point.lat, "lng":point.lng};
@@ -226,10 +226,10 @@ export class TravelPlan extends React.Component {
          }
        });
        //connect other leg points
-       const ori1 = temp2[0];
-       const des1 = temp2.length >= 2 ? temp2[temp2.length-1]:ori1;
+       const ori1 = startpoint[0];
+       const des1 = temp2[temp2.length-1];
        var midpoints= [];
-       midpoints= temp2.length>2?temp2.slice(1,-1): []
+       midpoints= temp2.length>0?temp2.slice(0,-1): []
        midpoints.map((point=>{
           var mid={}
           mid["location"] ={"lat":point.lat, "lng":point.lng};
@@ -273,11 +273,26 @@ export class TravelPlan extends React.Component {
    }
 
     saveButtonClicked = () => {
-        const endPoint = 'UpdatePaths';
+      const endPoint = 'UpdatePaths';
+        if(this.state.legs!=null){
+        var temp_legs= this.state.legs
+        
+        temp_legs=this.state.start!=null? temp_legs.concat(this.state.start):temp_legs;
+        var day_index=temp_legs[0].intradayIndex;
+        // filter the places of other days
+        var other_days_points= this.state.points.filter(point => point.intradayIndex !== day_index);
+        var cur_points= other_days_points.concat(temp_legs)
+        this.setState({
+           points: cur_points
+        })
+      }
+       else{
+         console.log("first load")
+       }
         console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": this.state.points}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"userID": this.props.userID, "newSchedule": this.state.points}),
+            body: JSON.stringify({"userID": this.props.userID, "newSchedule": cur_points}),
             headers: {
                 'Content-Type':'application/json'
             }
@@ -318,13 +333,16 @@ export class TravelPlan extends React.Component {
                 </div>
                 </div>
                 <div id ="board" style={{ float:`right`,width:`500px`, height:`600px`}} >
+                    <div style={{ width:`500px`, height:`400px`}}>
                     {
                       (this.state.legs||typeof(this.state.legs)!="undefined")&&(
                         <SortableComponent items={this.state.legs} change={this.handeldrop} start={this.state.start} />
                       )  
-                    } 
-                    <div><Button onClick={this.saveButtonClicked}>Save</Button></div>
-                </div>  
+                    }
+                    </div>
+                    <div><Button onClick={this.saveButtonClicked}>Save</Button><Button onClick={this.defaultButtonClick}>Recommend Routes</Button></div>
+                 </div>  
+                 
             </div>
         );
     }

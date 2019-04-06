@@ -34,30 +34,14 @@ class TravelMap extends React.Component {
                             onDayChange={this.props.handleOnDayChange} />
                     )
                 })}
-                {
-                (this.props.directions1)&&
-                <DirectionsRenderer directions={this.props.directions1} suppressMarkers={this.props.markers} options={{
-                    markerOptions: { icon: "blueMarker"},
-                    icon: { scale: 3 }
-                  }}/>
-                }
-                {
-                 (this.props.start||[]).map((point)=>{
-                    return(
-                        <Marker
-                        position={{ lat: point.lat, lng: point.lon }}
-                        icon={{url: require(`../assets/images/Flag_8.png`),
-                              scale:30}}
-                    ></Marker>
-                    )
-                 })}
-                  
+                 
                  {
                 (this.props.directions)&&
-                <DirectionsRenderer directions={this.props.directions} suppressMarkers={this.props.markers} options={{
-                    markerOptions: { icon: {url:require(`../assets/images/Flag_2.png`)}} ,
-                    icon: { scale: 30}
-                  }}/>
+                <DirectionsRenderer directions={this.props.directions} suppressMarkers={this.props.markers}
+                 //options={{
+                   // markerOptions: { icon: {url:require(`../assets/images/Flag_2.png`)}} ,
+                    //icon: { scale: 30}
+                  />
                 } 
     
              </GoogleMap>
