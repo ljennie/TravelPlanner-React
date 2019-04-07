@@ -275,24 +275,27 @@ export class TravelPlan extends React.Component {
     saveButtonClicked = () => {
       const endPoint = 'UpdatePaths';
         if(this.state.legs!=null){
-        var temp_legs= this.state.legs
-        
-        temp_legs=this.state.start!=null? temp_legs.concat(this.state.start):temp_legs;
-        var day_index=temp_legs[0].intradayIndex;
+        var temp_legs= this.state.legs;
+        var savedata=[];
+        temp_legs.map((leg, i) =>
+          savedata.push({ 'placeID': leg.placeID, 'day': leg.day,  'intradayIndex':leg.intradayIndex })
+        );
+        //temp_legs=this.state.start!=null? temp_legs.concat(this.state.start):temp_legs;
+        //var day_index=temp_legs[0].intradayIndex;
         // filter the places of other days
-        var other_days_points= this.state.points.filter(point => point.intradayIndex !== day_index);
-        var cur_points= other_days_points.concat(temp_legs)
-        this.setState({
-           points: cur_points
-        })
-      }
+        //var other_days_points= this.state.points.filter(point => point.intradayIndex !== day_index);
+        //var cur_points= other_days_points.concat(temp_legs)
+        //this.setState({
+          // points: cur_points
+        //})
+        }
        else{
          console.log("first load")
        }
-        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": this.state.points}));
+        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": this.savedata}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"userID": this.props.userID, "newSchedule": cur_points}),
+            body: JSON.stringify({"userID": this.props.userID, "newSchedule": savedata}),
             headers: {
                 'Content-Type':'application/json'
             }
