@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Satisfy');
 body{ 
-  background: url("../assets/images/QJ6606211854.jpg");
+  background: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c7.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment:fixed
@@ -28,16 +29,20 @@ body{
   /*font-size: calc(10px + 2vmin);*/
   /*color: white;*/
 }
+@font-face {
+  font-family: 'YourFontName'; /*a name to be used later*/
+  src: url('http://domain.com/fonts/font.ttf'); /*URL to font*/
+}
 
 .App-title {
   font-size: 4em;
-  font-family: " fantasy";
-  font-weight: 600;
+  font-family:  'Satisfy', cursive;
   margin: 10;
   float: left;
   padding-top: 10px;
-  color: #40a9ff;
+  color: #fff;
 }
+
 
 .App-link {
   color: #61dafb;
