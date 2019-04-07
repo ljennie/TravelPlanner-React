@@ -18,22 +18,25 @@ class RegisterationForm extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                $.ajax({
-                    url: `${API_ROOT}/Register`,
+                fetch(`${API_ROOT}/Register`, {
                     method: 'POST',
-                    data: JSON.stringify ({
-                        user_id: values.username,
+                    body: JSON.stringify({
+                        userID: values.username,
                         password: values.password,
-                        first_name: values.firstname,
-                        last_name: values.lastname
-                    })//把这个json object变成string
+                        firstName: values.firstname,
+                        lastName: values.lastname
+                    }),
+                    headers: {
+                        'Content-Type':'application/json'
+                    }
                 }).then((response) => {
-                    message.success(response);
-                    this.props.history.push('/Login');//equal to link
-                }, (response) => {
-                    message.error(response.responseText);
+                    if (response.ok) {
+                        this.props.history.push('/Login');
+                    } else {
+                        message.error(response.responseText);
+                    }
                 }).catch((e) => {
-                    console.log(e);
+                    console.log(e.message);
                 });
             }
         });
@@ -89,18 +92,15 @@ class RegisterationForm extends React.Component {
 
         return (
             <Form className="register-form" {...formItemLayout} onSubmit={this.handleSubmit}>
-                <Form.Item
-                    label="Username"
-                >
+                <Form.Item label="Username">
                     {getFieldDecorator('username', {
                         rules: [{required: true, message: 'Please input your nickname!', whitespace: true}],
                     })(
                         <Input/>
                     )}
                 </Form.Item>
-                <Form.Item
-                    label="Password"
-                >
+
+                <Form.Item label="Password">
                     {getFieldDecorator('password', {
                         rules: [{
                             required: true, message: 'Please input your password!',
@@ -111,9 +111,8 @@ class RegisterationForm extends React.Component {
                         <Input type="password"/>
                     )}
                 </Form.Item>
-                <Form.Item
-                    label="Confirm Password"
-                >
+
+                <Form.Item label="Confirm Password">
                     {getFieldDecorator('confirm', {
                         rules: [{
                             required: true, message: 'Please confirm your password!',
@@ -124,23 +123,32 @@ class RegisterationForm extends React.Component {
                         <Input type="password" onBlur={this.handleConfirmBlur}/>
                     )}
                 </Form.Item>
-                <Form.Item
-                    label="Firstname"
-                >
+
+                <Form.Item label="Firstname">
+                    {getFieldDecorator('firstname', {
+                        rules: [{required: true, message: 'Please input your firstname!', whitespace: true}],
+                    })(
                         <Input/>
+                    )}
 
                 </Form.Item>
-                <Form.Item
-                    label="Lastname"
-                >
+
+                <Form.Item label="Lastname">
+                    {getFieldDecorator('lastname', {
+                        rules: [{required: true, message: 'Please input your lastname!', whitespace: true}],
+                    })(
                         <Input/>
+                    )}
 
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>
+                    <div>
                     <Button type="primary" htmlType="submit">Register</Button>
                     <p>I already have an account, go back to <Link to="/login">login</Link></p>
+                    </div>
                 </Form.Item>
+
             </Form>
         );
     }

@@ -260,7 +260,10 @@ export default class Board extends React.Component {
         const endPoint = 'UpdatePaths';
         let points = []
         for (let i = 0; i < this.props.totalDays; i++) {
-            points.push(...this.state.days[i]);
+            for (let j = 0; j < this.state.days[i].length; j++) {
+                const {placeID, day, intradayIndex} = this.state.days[i][j];
+                points.push({placeID, day: day - 1, intradayIndex});
+            }
         }
         console.log(JSON.stringify({"userID": this.props.userID, "newSchedule":points}));
         fetch(`${API_ROOT}/${endPoint}`, {

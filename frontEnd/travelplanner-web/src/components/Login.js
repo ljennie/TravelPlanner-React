@@ -16,13 +16,13 @@ class NormalLoginForm extends React.Component {
                     url: `${API_ROOT}/Login`,
                     method: 'POST',
                     data: JSON.stringify({
-                        user_id: values.username,
+                        userID: values.username,
                         password: values.password,
                     })
                 }).then((response) => {
                     message.success('login success!');
-                    //this.props.handleLogin(response, values.username);
-                    this.props.handleLogin("xxx", values.username); // for testing
+                    //this.props.handleLogin(response, values.username); // with jwt
+                    this.props.handleLogin("xxx", values.username); // no jwt
 
                     // const token = response;
                     // localStorage.setItem('TOKEN_KEY', token);
@@ -53,6 +53,7 @@ class NormalLoginForm extends React.Component {
                         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
                     )}
                 </Form.Item>
+
                 <Form.Item>
                     {getFieldDecorator('password', {
                         rules: [{ required: true, message: 'Please input your Password!' }],
@@ -60,12 +61,14 @@ class NormalLoginForm extends React.Component {
                         <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
                     )}
                 </Form.Item>
+
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
                     Or <Link to="/register">register now!</Link>
                 </Form.Item>
+
             </Form>
         );
     }
