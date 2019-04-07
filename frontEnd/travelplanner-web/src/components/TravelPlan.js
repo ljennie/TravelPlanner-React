@@ -308,7 +308,7 @@ export class TravelPlan extends React.Component {
     render() {
         //const Background= "D:\travel\awesomeTravelPlanner\frontEnd\travelplanner-web\src\assets\images\background.jpg"
         return (
-            <div style={{display:`flex`, backgroundImage: `url(${Background})`
+            <div style={{display:`flex`
              }}>
                 <div id="map content" style={{ float:`left`, width :`800px`,height:`500px`}}>
                 <div>

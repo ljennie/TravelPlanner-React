@@ -32,8 +32,7 @@ class App extends Component {
 
     render() {
         return (
-
-            <div className="App">
+            <div className="App" id="App_div">
                 <Header isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout}/>
                 <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} userID={this.state.userID}/>
             </div>
