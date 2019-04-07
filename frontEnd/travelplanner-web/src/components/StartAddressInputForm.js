@@ -13,12 +13,18 @@ class AdvancedSearchForm extends React.Component {
     ];
     generatedPoints=[];
     // To generate mock Form.Item
+
+    state = {
+        expand: false,
+    };
+
     getFields() {
+        const count = this.state.expand ? this.props.totalDays : 1;
         const { getFieldDecorator } = this.props.form;
         const children = [];
         for (let i = 0; i < this.props.totalDays; i++) {
             children.push(
-                <Col span={16} key={i} style={{ display:'block'}}>
+                <Col span={24} key={i} style={{ display: i < count ? 'block' : 'none' }}>
                     <Form.Item label={`Day ${i + 1} Start Address`}>
                         {getFieldDecorator(`day_${i}`, {
                             initialValue:"370 Canal St, New York, NY 10013",
@@ -42,10 +48,10 @@ class AdvancedSearchForm extends React.Component {
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log("generate paths button pressed");
-            console.log('Received values of form: ', values);
+            //console.log("generate paths button pressed");
+            //console.log('Received values of form: ', values);
             const endPoint = 'GeneratePaths';
-            /*Promise.all(
+            Promise.all(
                 Object.entries(values).map((entry) =>
                     fetch(`${GOOGLE_GEOCODE_API}?address=${encodeURI(entry[1])}&key=${PLACE_API_K}`)
                     .then((response) => {
@@ -53,7 +59,7 @@ class AdvancedSearchForm extends React.Component {
                             return response.json();
                         }
                     }).then((data) => {
-                        console.log(data);
+                        //console.log(data);
                         this.startPoints.push({
                         placeID: data['results'][0]['place_id'],
                         type: "start",
@@ -83,9 +89,9 @@ class AdvancedSearchForm extends React.Component {
                 }).catch((e) => {
                     console.log(e.message);
                 })
-            }); */
+            });
             // bypass Google Geocoding api for testing
-            fetch(`${API_ROOT}/${endPoint}`, {
+            /*fetch(`${API_ROOT}/${endPoint}`, {
                 method: 'POST',
                 body: JSON.stringify({"userID": this.props.userID, "startPlaces": this.testingStartPoints}),
                 headers: {
@@ -100,7 +106,7 @@ class AdvancedSearchForm extends React.Component {
                 this.props.onGeneratePathsButtonPressed(this.generatedPoints);
             }).catch((e) => {
                 console.log(e.message);
-            })
+            })*/
             //this.props.onGeneratePathsButtonPressed(this.generatedPoints); // for testing
         });
     }
@@ -109,19 +115,27 @@ class AdvancedSearchForm extends React.Component {
         this.props.form.resetFields();
     }
 
+    toggle = () => {
+        const { expand } = this.state;
+        this.setState({ expand: !expand });
+    }
+
     render() {
         return (
             <Form
                 className="ant-advanced-search-form"
                 onSubmit={this.handleSearch}
             >
-                <Row gutter={24}>{this.getFields()}</Row>
+                <Row gutter={16}>{this.getFields()}</Row>
                 <Row>
-                    <Col span={24} style={{ textAlign: 'right' }}>
+                    <Col span={8} style={{ textAlign: 'right' }}>
                         <Button type="primary" htmlType="submit">GeneratePaths</Button>
                         <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
                             Clear
                         </Button>
+                        <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
+                            Collapse <Icon type={this.state.expand ? 'up' : 'down'} />
+                        </a>
                     </Col>
                 </Row>
             </Form>

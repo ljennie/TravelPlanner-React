@@ -13,9 +13,9 @@ export class Main extends React.Component {
     }
 
     getLogin = () => {
-        console.log('get login')
-        console.log(this.props.userID)
-        console.log(this.props.isLoggedIn)
+        //console.log('get login')
+        //console.log(this.props.userID)
+        //console.log(this.props.isLoggedIn)
         let userID = this.props.userID
         return this.props.isLoggedIn ? <Redirect to= '/home' />
             : <Login handleLogin={this.props.handleLogin}/>

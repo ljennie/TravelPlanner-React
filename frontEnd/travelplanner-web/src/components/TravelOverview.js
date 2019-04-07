@@ -48,59 +48,18 @@ export class TravelOverview extends React.Component {
     generatedPoints=[];
 
     state = {
-        points: this.props.points,
-        isOldUser: false,
-        isDayOptionsChosen : false,
-        isInputEntered : false,
+        points: this.props.points.filter(place => place['type'] === "poi"),
+        isDayOptionsChosen : this.props.isDayOptionsChosen
     }
 
     componentWillMount() {
-        if (this.props.points.length === 0) {
-            const endPoint = 'GeneratePaths';
-            fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}}`, {
-                method: 'GET',
-            }).then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-            }).then((data) => {
-                console.log(data);
-                console.log(data.places);
-                if (typeof(data.places) != "undefined") {
-
-                    const savedPoints = data.places.filter(place => place['type'] === "poi");
-                    const startPoints = data.places.filter(place => place['type'] === "start");
-                    if (startPoints.length > 0) {
-                        // TODO: add address to input form
-                        this.setState((prevState) => {
-                            return {
-                                isInputEntered: true
-                            }
-                        })
-                    }
-                    this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
-                        return o.day
-                    })) + 1;
-                    this.props.homeCallback(data.places, this.totalDays, false);
-                    this.setState((prevState) => {
-                        return {
-                            points: savedPoints,
-                            isOlderUser: true,
-                            isDayOptionsChosen: true
-                        }
-                    })
-                }
-
-            }).catch((e) => {
-                console.log(e.message);
-            });
-        }
+        this.totalDays = this.props.totalDays;
     }
 
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
         const endPoint = 'InitialRecommend';
-        console.log(`days: ${this.totalDays}`);
+        //console.log(`days: ${this.totalDays}`);
 
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
@@ -109,7 +68,7 @@ export class TravelOverview extends React.Component {
                 return response.json();
             }
         }).then((data) => {
-            console.log(data);
+            //console.log(data);
             this.setState((prevState) => {
                 return {
                     points: data.places,
@@ -137,7 +96,7 @@ export class TravelOverview extends React.Component {
         console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": [obj]}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"newSchedule": [obj]}),
+            body: JSON.stringify({"userID": this.props.userID, "newSchedule": [obj]}),
             headers: {
                 'Content-Type':'application/json'
             }
@@ -149,8 +108,8 @@ export class TravelOverview extends React.Component {
     }
 
     onGeneratePathsButtonPressed = (generatedPoints) => {
-        this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
-        //this.props.homeCallback(generatedPoints,this.totalDays);
+        //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
+        this.props.homeCallback(generatedPoints,this.totalDays);
     }
 
     handleOnDayChange = (pointId, day) => {
@@ -205,12 +164,10 @@ export class TravelOverview extends React.Component {
 
                 <div>
 
-                    {//this.state.isOldUser ?
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
                             <button style={{userSelect: 'none'}}>Day Options</button>
                         </Dropdown>
-                        //: null
-                    }
+
 
                     {this.state.isDayOptionsChosen ?
                         <StartAddressInputForm totalDays={this.totalDays}
