@@ -96,7 +96,7 @@ export class TravelOverview extends React.Component {
         console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": [obj]}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"newSchedule": [obj]}),
+            body: JSON.stringify({"userID": this.props.userID, "newSchedule": [obj]}),
             headers: {
                 'Content-Type':'application/json'
             }

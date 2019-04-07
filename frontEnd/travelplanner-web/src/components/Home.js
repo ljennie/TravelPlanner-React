@@ -22,7 +22,7 @@ export class Home extends React.Component{
 
     componentWillMount() {
         const endPoint = 'GeneratePaths';
-        fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}}`, {
+        fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}`, {
             method: 'GET',
         }).then((response) => {
             if (response.ok) {
@@ -31,7 +31,7 @@ export class Home extends React.Component{
         }).then((data) => {
             console.log(data);
             console.log(data.places);
-            if (typeof(data.places) === "undefined") {
+            if (data.places.length === 0) {
                 this.setState((prev) => {
                     return {
                         isDone: true
