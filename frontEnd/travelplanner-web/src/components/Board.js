@@ -94,7 +94,7 @@ export default class Board extends React.Component {
     constructor(props) {
         super(props);
         var spots = this.getSpots();
-        console.log('points:', this.props.points);
+        //console.log('points:', this.props.points);
 
         function compare(obj1, obj2) {
             var day1 = obj1['day'];
@@ -118,7 +118,7 @@ export default class Board extends React.Component {
 
         spots.sort(compare);
 
-        console.log('spots:', spots);
+        //console.log('spots:', spots);
 
         var days = new Array();
         var refs = new Array();

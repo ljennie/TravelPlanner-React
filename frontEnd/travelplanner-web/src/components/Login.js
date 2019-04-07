@@ -11,7 +11,7 @@ class NormalLoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                //console.log('Received values of form: ', values);
                 $.ajax({
                     url: `${API_ROOT}/Login`,
                     method: 'POST',
@@ -26,7 +26,7 @@ class NormalLoginForm extends React.Component {
 
                     // const token = response;
                     // localStorage.setItem('TOKEN_KEY', token);
-                    console.log(response);
+                    //console.log(response);
 
                 },(response) => {
                     message.error(response.responseText);

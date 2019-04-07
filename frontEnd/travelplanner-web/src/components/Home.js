@@ -13,7 +13,7 @@ export class Home extends React.Component{
 
     state = {
         selectedTab: 'traveloverview',
-        isDone: false
+        isDone: false // fetch finished
     };
 
     points = [];
@@ -29,8 +29,8 @@ export class Home extends React.Component{
                 return response.json();
             }
         }).then((data) => {
-            console.log(data);
-            console.log(data.places);
+            //console.log(data);
+            //console.log(data.places);
             if (data.places.length === 0) {
                 this.setState((prev) => {
                     return {
@@ -67,7 +67,7 @@ export class Home extends React.Component{
     }
 
     homeCallback = (pts, tds, routeToTravelPlan=true) => {
-        console.log("home callback");
+        //console.log("home callback");
         this.points = pts;
         this.totalDays = tds;
         if (routeToTravelPlan) {
@@ -86,6 +86,7 @@ export class Home extends React.Component{
                 }
             }
         }
+        this.isDayOptionsChosen = true;
     }
 
     homeBoardCallback = (backendObjArray) => {
@@ -98,10 +99,12 @@ export class Home extends React.Component{
                 }
             }
         }
+        this.isDayOptionsChosen = true;
+
     }
 
     renderOverview() {
-        console.log(this.props)
+        //console.log(this.props)
         return (<TravelOverview points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeCallback={this.homeCallback} isDayOptionsChosen={this.isDayOptionsChosen}/>)
     }
     renderPlanDetails() {

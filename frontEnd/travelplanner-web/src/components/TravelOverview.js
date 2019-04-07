@@ -59,7 +59,7 @@ export class TravelOverview extends React.Component {
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
         const endPoint = 'InitialRecommend';
-        console.log(`days: ${this.totalDays}`);
+        //console.log(`days: ${this.totalDays}`);
 
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
@@ -68,7 +68,7 @@ export class TravelOverview extends React.Component {
                 return response.json();
             }
         }).then((data) => {
-            console.log(data);
+            //console.log(data);
             this.setState((prevState) => {
                 return {
                     points: data.places,

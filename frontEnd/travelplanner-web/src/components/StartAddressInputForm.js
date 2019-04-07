@@ -42,8 +42,8 @@ class AdvancedSearchForm extends React.Component {
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log("generate paths button pressed");
-            console.log('Received values of form: ', values);
+            //console.log("generate paths button pressed");
+            //console.log('Received values of form: ', values);
             const endPoint = 'GeneratePaths';
             Promise.all(
                 Object.entries(values).map((entry) =>
@@ -53,7 +53,7 @@ class AdvancedSearchForm extends React.Component {
                             return response.json();
                         }
                     }).then((data) => {
-                        console.log(data);
+                        //console.log(data);
                         this.startPoints.push({
                         placeID: data['results'][0]['place_id'],
                         type: "start",

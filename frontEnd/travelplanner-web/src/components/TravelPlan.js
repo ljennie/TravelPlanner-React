@@ -131,7 +131,7 @@ export class TravelPlan extends React.Component {
              directions1: {...result1},
              markers: false
            })
-            console.log(result1)
+            //console.log(result1)
          } else {
            console.log(`error fetching directions ${result1}`);
          }
@@ -220,7 +220,7 @@ export class TravelPlan extends React.Component {
              directions1: {...result1},
              markers: false
            })
-            console.log(result1)
+            //console.log(result1)
          } else {
            console.log(`error fetching directions ${result1}`);
          }
@@ -253,7 +253,7 @@ export class TravelPlan extends React.Component {
             directions: {...result},
             markers: false
           })
-           console.log(result)
+           //console.log(result)
         } else {
           console.log(`error fetching directions ${result}`);
         }
