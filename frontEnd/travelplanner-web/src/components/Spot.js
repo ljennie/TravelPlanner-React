@@ -13,7 +13,7 @@ const customPanelStyle = {
 export default class Spot extends React.Component {
   render() {
     return (
-      <div id={this.props.id} key={Math.random()}>
+      <div id={this.props.id - 1} key={Math.random()}>
         <Collapse
           className="intre-spots"
           bordered={false}

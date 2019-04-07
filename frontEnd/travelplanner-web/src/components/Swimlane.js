@@ -11,7 +11,7 @@ export default class Swimlane extends React.Component {
         return (
           <Spot
             key={spot.placeID}
-            id={spot.intradayIndex}
+            id={spot.intradayIndex + 1}
             name={spot.name}
             day={spot.day}
             url={spot.url}
@@ -20,7 +20,7 @@ export default class Swimlane extends React.Component {
           />
         );
       })
-    if (spot.length > 0) {
+    if (spot.length >= 0) {
       return (
         <div className="Swimlane-column">
           <div className="Swimlane-title">{this.props.name}</div>
