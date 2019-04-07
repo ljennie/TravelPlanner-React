@@ -31,7 +31,14 @@ export class Home extends React.Component{
         }).then((data) => {
             console.log(data);
             console.log(data.places);
-            if (typeof(data.places) != "undefined") {
+            if (typeof(data.places) === "undefined") {
+                this.setState((prev) => {
+                    return {
+                        isDone: true
+                    };
+                });
+            }
+            else {
 
                 const savedPoints = data.places.filter(place => place['type'] === "poi");
                 const startPoints = data.places.filter(place => place['type'] === "start");
@@ -41,16 +48,16 @@ export class Home extends React.Component{
                 else {
                     // TODO: disable tab
                 }
-            this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
-                return o.day
-            })) + 1;
-            this.homeCallback(data.places, this.totalDays, false);
-            this.isDayOptionsChosen = true;
-            this.setState((prev) => {
-                return {
-                    isDone: true
-                };
-            });
+                this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
+                    return o.day
+                })) + 1;
+                this.homeCallback(data.places, this.totalDays, false);
+                this.isDayOptionsChosen = true;
+                this.setState((prev) => {
+                    return {
+                        isDone: true
+                    };
+                });
             }
 
         }).catch((e) => {
