@@ -75,6 +75,7 @@ export class TravelOverview extends React.Component {
                 })
             }
             this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {return o.day})) + 1;
+            this.props.homeCallback(data.places,this.totalDays, false);
             this.setState((prevState) => {
                 return {
                     points: savedPoints,

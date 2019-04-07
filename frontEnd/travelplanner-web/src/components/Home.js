@@ -18,11 +18,13 @@ export class Home extends React.Component{
     points = [];
     totalDays = 0;
 
-    homeCallback = (pts, tds) => {
+    homeCallback = (pts, tds, routeToTravelPlan=true) => {
         console.log("home callback");
         this.points = pts;
         this.totalDays = tds;
-        this.changeTab('travelplan');
+        if (routeToTravelPlan) {
+            this.changeTab('travelplan');
+        }
 
     }
 
