@@ -83,10 +83,10 @@ class NormalLoginForm extends React.Component {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button  style={{color:"white"}} type="primary" htmlType="submit" className="login-form-button">
+                    <Button  style={{color:"black"}} type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <Link to="/register" style={{color:"white"}}>register now!</Link>
+                    Or <Link to="/register" style={{color:"black"}}>register now!</Link>
                 </Form.Item>
             </Form> 
             </div>
