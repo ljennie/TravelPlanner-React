@@ -9,30 +9,50 @@ import { API_ROOT} from "../constants"
 class NormalLoginForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        this.props.form. validateFieldsAndScroll((err, values) => {
             if (!err) {
                 //console.log('Received values of form: ', values);
                 $.ajax({
-                    url: `${API_ROOT}/Login`,
+                    url: `${API_ROOT}/Register`,
                     method: 'POST',
                     data: JSON.stringify({
                         userID: values.username,
                         password: values.password,
+                        firstName: values.firstname,
+                        lastName: values.lastname
                     })
                 }).then((response) => {
-                    message.success('login success!');
-                    //this.props.handleLogin(response, values.username); // with jwt
-                    this.props.handleLogin("xxx", values.username); // no jwt
-
-                    // const token = response;
-                    // localStorage.setItem('TOKEN_KEY', token);
-                    //console.log(response);
-
+                    message.success('register success!');
                 },(response) => {
                     message.error(response.responseText);
                 }).catch((e) => {
                     console.log(e);
                 });
+
+                /*this.props.form.validateFields((err, values) => {
+                    if (!err) {
+                        //console.log('Received values of form: ', values);
+                        $.ajax({
+                            url: `${API_ROOT}/Login`,
+                            method: 'POST',
+                            data: JSON.stringify({
+                                userID: values.username,
+                                password: values.password,
+                            })
+                        }).then((response) => {
+                            message.success('login success!');
+                            //this.props.handleLogin(response, values.username); // with jwt
+                            this.props.handleLogin("xxx", values.username); // no jwt
+
+                            // const token = response;
+                            // localStorage.setItem('TOKEN_KEY', token);
+                            //console.log(response);
+
+                        },(response) => {
+                            message.error(response.responseText);
+                        }).catch((e) => {
+                            console.log(e);
+                        }); */
 
                 //this.props.handleLogin("xxx", values.username); //for testing
 
