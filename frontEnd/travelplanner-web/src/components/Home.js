@@ -82,7 +82,7 @@ export class Home extends React.Component{
             for (let j = 0; j < backendObjArray.length; j++) {
                 if (this.points[i].placeID === backendObjArray[j].placeID) {
                     this.points[i].day = backendObjArray[j].day;
-                    this.points[i].intradayIndex = backendObjArray[i].intradayIndex;
+                    this.points[i].intradayIndex = backendObjArray[j].intradayIndex;
                 }
             }
         }
@@ -94,7 +94,7 @@ export class Home extends React.Component{
             for (let j = 0; j < backendObjArray.length; j++) {
                 if (this.points[i].placeID === backendObjArray[j].placeID) {
                     this.points[i].day = backendObjArray[j].day;
-                    this.points[i].intradayIndex = backendObjArray[i].intradayIndex;
+                    this.points[i].intradayIndex = backendObjArray[j].intradayIndex;
                 }
             }
         }
