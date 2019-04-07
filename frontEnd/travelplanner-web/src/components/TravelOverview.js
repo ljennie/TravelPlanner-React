@@ -64,25 +64,31 @@ export class TravelOverview extends React.Component {
             }
         }).then((data) => {
             console.log(data);
-            const savedPoints = data.places.filter(place => place['type'] === "poi");
-            const startPoints = data.places.filter(place => place['type'] === "start");
-            if (startPoints.length > 0) {
-                // TODO: add address to input form
+            console.log(data.places);
+            if (typeof(data.places)!="undefined") {
+
+                const savedPoints = data.places.filter(place => place['type'] === "poi");
+                const startPoints = data.places.filter(place => place['type'] === "start");
+                if (startPoints.length > 0) {
+                    // TODO: add address to input form
+                    this.setState((prevState) => {
+                        return {
+                            isInputEntered: true
+                        }
+                    })
+                }
+                this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
+                    return o.day
+                })) + 1;
+                this.props.homeCallback(data.places, this.totalDays, false);
                 this.setState((prevState) => {
                     return {
-                        isInputEntered: true
+                        points: savedPoints,
+                        isOlderUser: true,
+                        isDayOptionsChosen: true
                     }
                 })
             }
-            this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {return o.day})) + 1;
-            this.props.homeCallback(data.places,this.totalDays, false);
-            this.setState((prevState) => {
-                return {
-                    points: savedPoints,
-                    isOlderUser: true,
-                    isDayOptionsChosen: true
-                }
-            })
 
         }).catch((e) => {
             console.log(e.message);
@@ -197,11 +203,11 @@ export class TravelOverview extends React.Component {
 
                 <div>
 
-                    {this.state.isOldUser ?
+                    {//this.state.isOldUser ?
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
                             <button style={{userSelect: 'none'}}>Day Options</button>
                         </Dropdown>
-                        : null
+                        //: null
                     }
 
                     {this.state.isDayOptionsChosen ?
