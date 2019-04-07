@@ -141,8 +141,8 @@ export class TravelOverview extends React.Component {
     }
 
     onGeneratePathsButtonPressed = (generatedPoints) => {
-        //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
-        this.props.homeCallback(generatedPoints,this.totalDays);
+        this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
+        //this.props.homeCallback(generatedPoints,this.totalDays);
     }
 
     handleOnDayChange = (pointId, day) => {
