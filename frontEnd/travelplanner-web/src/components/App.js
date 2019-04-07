@@ -20,13 +20,13 @@ class App extends Component {
     }
 
     handleLogin = (token, userid) => {
-        localStorage.setItem('TOKEN_KEY', token);
+        //localStorage.setItem('TOKEN_KEY', token);
 
         this.setState({isLoggedIn: true, userID: userid});
     }
 
     handleLogout = () => {
-        localStorage.removeItem(TOKEN_KEY);
+        //localStorage.removeItem(TOKEN_KEY);
         this.setState({isLoggedIn: false});
     }
 
@@ -34,7 +34,7 @@ class App extends Component {
         return (
 
             <div className="App">
-                <Header />
+                <Header isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout}/>
                 <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} userID={this.state.userID}/>
             </div>
 
