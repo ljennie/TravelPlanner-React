@@ -7,9 +7,9 @@ import SideTimeline from './SideTimeline';
 import DayList from './DayList';
 import { arrayMove } from 'react-sortable-hoc';
 import { API_ROOT } from "../constants"
-import {Button} from 'antd'
+import { Button } from 'antd'
 
-const jsonArray = [
+/*const jsonArray = [
     {
         "imageURL": "",
         "name": "start hotel",
@@ -87,13 +87,39 @@ const jsonArray = [
 ]
 
 const totalDays = 2;
-
+*/
 ////////////////////////////Replace consts above using props.varname/////////////////////////////////////////////////
 
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
-        const spots = this.getSpots();
+        var spots = this.getSpots();
+        console.log('points:', this.props.points);
+
+        function compare(obj1, obj2) {
+            var day1 = obj1['day'];
+            var day2 = obj2['day'];
+            var inday1 = obj1['intradayIndex'];
+            var inday2 = obj2['intradayIndex'];
+            if (day1 < day2) {
+                return -1;
+            } else if (day1 > day2) {
+                return 1;
+            } else {
+                if (inday1 < inday2) {
+                    return -1;
+                } else if (inday1 > inday2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        spots.sort(compare);
+
+        console.log('spots:', spots);
+
         var days = new Array();
         var refs = new Array();
         var rowrefs = new Array();
@@ -173,7 +199,7 @@ export default class Board extends React.Component {
         var drake_spots = Dragula([
             ...colcontainer
         ]);
-////////////////////////////////////////////////////Main Callback Part//////////////////////////////////////////////////
+        ////////////////////////////////////////////////////Main Callback Part//////////////////////////////////////////////////
         //update days drag result
         drake_days.on('drop', (el, target, source, sibling) => {
             //dayUpdate(el.id,sibling.id);
@@ -261,17 +287,17 @@ export default class Board extends React.Component {
         let points = []
         for (let i = 0; i < this.props.totalDays; i++) {
             for (let j = 0; j < this.state.days[i].length; j++) {
-                const {placeID, day, intradayIndex} = this.state.days[i][j];
-                points.push({placeID, day: day - 1, intradayIndex});
+                const { placeID, day, intradayIndex } = this.state.days[i][j];
+                points.push({ placeID, day: day - 1, intradayIndex });
             }
         }
         this.props.homeBoardCallback(points);
         //console.log(JSON.stringify({"userID": this.props.userID, "newSchedule":points}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
-            body: JSON.stringify({"userID": this.props.userID, "newSchedule": points}),
+            body: JSON.stringify({ "userID": this.props.userID, "newSchedule": points }),
             headers: {
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         }).catch((e) => {
             console.log(e.message);
