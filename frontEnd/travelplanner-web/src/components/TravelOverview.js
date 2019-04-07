@@ -48,51 +48,53 @@ export class TravelOverview extends React.Component {
     generatedPoints=[];
 
     state = {
-        points: [],
+        points: this.props.points,
         isOldUser: false,
         isDayOptionsChosen : false,
         isInputEntered : false,
     }
 
     componentWillMount() {
-        const endPoint = 'GeneratePaths';
-        fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}}`, {
-            method: 'GET',
-        }).then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        }).then((data) => {
-            console.log(data);
-            console.log(data.places);
-            if (typeof(data.places)!="undefined") {
+        if (this.props.points.length === 0) {
+            const endPoint = 'GeneratePaths';
+            fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}}`, {
+                method: 'GET',
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then((data) => {
+                console.log(data);
+                console.log(data.places);
+                if (typeof(data.places) != "undefined") {
 
-                const savedPoints = data.places.filter(place => place['type'] === "poi");
-                const startPoints = data.places.filter(place => place['type'] === "start");
-                if (startPoints.length > 0) {
-                    // TODO: add address to input form
+                    const savedPoints = data.places.filter(place => place['type'] === "poi");
+                    const startPoints = data.places.filter(place => place['type'] === "start");
+                    if (startPoints.length > 0) {
+                        // TODO: add address to input form
+                        this.setState((prevState) => {
+                            return {
+                                isInputEntered: true
+                            }
+                        })
+                    }
+                    this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
+                        return o.day
+                    })) + 1;
+                    this.props.homeCallback(data.places, this.totalDays, false);
                     this.setState((prevState) => {
                         return {
-                            isInputEntered: true
+                            points: savedPoints,
+                            isOlderUser: true,
+                            isDayOptionsChosen: true
                         }
                     })
                 }
-                this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
-                    return o.day
-                })) + 1;
-                this.props.homeCallback(data.places, this.totalDays, false);
-                this.setState((prevState) => {
-                    return {
-                        points: savedPoints,
-                        isOlderUser: true,
-                        isDayOptionsChosen: true
-                    }
-                })
-            }
 
-        }).catch((e) => {
-            console.log(e.message);
-        });
+            }).catch((e) => {
+                console.log(e.message);
+            });
+        }
     }
 
     onDayOptionsChosen = (e) => {
