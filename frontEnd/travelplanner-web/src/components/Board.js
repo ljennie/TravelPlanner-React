@@ -118,8 +118,8 @@ export default class Board extends React.Component {
 
         spots.sort(compare);
 
-        console.log('spots:', spots);
-        console.log('props:', props);
+        //console.log('spots:', spots);
+        //console.log('props:', props);
         var days = new Array();
         var refs = new Array();
         var rowrefs = new Array();
@@ -143,7 +143,7 @@ export default class Board extends React.Component {
             days: days
         }
 
-        console.log('initial state:',this.state);
+        //console.log('initial state:',this.state);
         this.swimlanes = {
             day: refs
         }
@@ -194,7 +194,7 @@ export default class Board extends React.Component {
             return row.current;
         });
         var drake_days = Dragula([
-            ...rowcontainer
+         //   ...rowcontainer
         ],
             {
                 invalid: function (el, handle) {
@@ -317,7 +317,7 @@ export default class Board extends React.Component {
 
             <div className="DetailPage">
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
-                <SideTimeline />
+                <SideTimeline days = {this.state.days}/>
                 <button onClick={this.saveButtonPressed}>Save</button>
             </div>
         );
