@@ -9,22 +9,22 @@ import { API_ROOT} from "../constants"
 class NormalLoginForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form. validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFields((err, values) => {
             if (!err) {
                 //console.log('Received values of form: ', values);
                 $.ajax({
-                    url: `${API_ROOT}/Register`,
+                    url: `${API_ROOT}/Login`,
                     method: 'POST',
                     data: JSON.stringify({
                         userID: values.username,
                         password: values.password,
-                        firstName: values.firstname,
-                        lastName: values.lastname
                     })
                 }).then((response) => {
-                    message.success('register success!');
+                    message.success('login success!');
+                    //this.props.handleLogin(response, values.username); // with jwt
+                    this.props.handleLogin("xxx", values.username); // no jwt
                 },(response) => {
-                    message.error(response.responseText.status);
+                    message.error(JSON.parse(response.responseText)["status"]);
                 }).catch((e) => {
                     console.log(e);
                 });
