@@ -44,7 +44,7 @@ class NormalLoginForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-
+            <div className="login_container">
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
                     {getFieldDecorator('username', {
@@ -63,14 +63,15 @@ class NormalLoginForm extends React.Component {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
+                    <Button  style={{color:"white"}} type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <Link to="/register">register now!</Link>
+                    Or <Link to="/register" style={{color:"white"}}>register now!</Link>
                 </Form.Item>
-
-            </Form>
+            </Form> 
+            </div>
         );
+       
     }
 }
 
