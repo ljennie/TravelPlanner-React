@@ -345,7 +345,10 @@ export class TravelPlan extends React.Component {
                       )  
                     }
                     </div>
-                    <div><Button onClick={this.saveButtonClicked}>Save</Button><Button onClick={this.defaultButtonClick}>Recommend Routes</Button></div>
+                    <div>
+                        <Button onClick={this.saveButtonClicked}>Save</Button>
+
+                    </div>
                  </div>  
                  
             </div>
