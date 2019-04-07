@@ -15,30 +15,29 @@ class RegisterationForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form. validateFieldsAndScroll((err, values) => {
+
             if (!err) {
-                console.log('Received values of form: ', values);
-                fetch(`${API_ROOT}/Register`, {
+                //console.log('Received values of form: ', values);
+                $.ajax({
+                    url: `${API_ROOT}/Register`,
                     method: 'POST',
-                    body: JSON.stringify({
+                    data: JSON.stringify({
                         userID: values.username,
                         password: values.password,
                         firstName: values.firstname,
                         lastName: values.lastname
-                    }),
-                    headers: {
-                        'Content-Type':'application/json'
-                    }
+                    })
+
                 }).then((response) => {
-                    if (response.ok) {
-                        this.props.history.push('/Login');
-                    } else {
-                        message.error(response.responseText);
-                    }
+                    message.success('register success!');
+                }, (response) => {
+                    message.error(response.responseText.status);
                 }).catch((e) => {
-                    console.log(e.message);
+                    console.log(e);
                 });
             }
+
         });
     }
 

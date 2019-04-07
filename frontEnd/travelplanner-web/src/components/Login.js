@@ -24,7 +24,7 @@ class NormalLoginForm extends React.Component {
                 }).then((response) => {
                     message.success('register success!');
                 },(response) => {
-                    message.error(response.responseText);
+                    message.error(response.responseText.status);
                 }).catch((e) => {
                     console.log(e);
                 });
