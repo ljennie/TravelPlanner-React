@@ -131,7 +131,7 @@ export class TravelPlan extends React.Component {
              directions1: {...result1},
              markers: false
            })
-            console.log(result1)
+            //console.log(result1)
          } else {
            console.log(`error fetching directions ${result1}`);
          }
@@ -220,7 +220,7 @@ export class TravelPlan extends React.Component {
              directions1: {...result1},
              markers: false
            })
-            console.log(result1)
+            //console.log(result1)
          } else {
            console.log(`error fetching directions ${result1}`);
          }
@@ -253,7 +253,7 @@ export class TravelPlan extends React.Component {
             directions: {...result},
             markers: false
           })
-           console.log(result)
+           //console.log(result)
         } else {
           console.log(`error fetching directions ${result}`);
         }
@@ -278,7 +278,7 @@ export class TravelPlan extends React.Component {
         var temp_legs= this.state.legs;
         var savedata=[];
         temp_legs.map((leg, i) =>
-          savedata.push({ 'placeID': leg.placeID, 'day': leg.day,  'intradayIndex':leg.intradayIndex })
+          savedata.push({ 'placeID': leg.placeID, 'day': leg.day,  'intradayIndex':leg.intradayIndex + 1})
         );
         //temp_legs=this.state.start!=null? temp_legs.concat(this.state.start):temp_legs;
         //var day_index=temp_legs[0].intradayIndex;
@@ -292,7 +292,9 @@ export class TravelPlan extends React.Component {
        else{
          console.log("first load")
        }
-        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": this.savedata}));
+        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule": savedata}));
+
+        this.props.homeTravelPlanCallback(savedata);
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"userID": this.props.userID, "newSchedule": savedata}),
@@ -343,7 +345,10 @@ export class TravelPlan extends React.Component {
                       )  
                     }
                     </div>
-                    <div><Button onClick={this.saveButtonClicked}>Save</Button><Button onClick={this.defaultButtonClick}>Recommend Routes</Button></div>
+                    <div>
+                        <Button onClick={this.saveButtonClicked}>Save</Button>
+
+                    </div>
                  </div>  
                  
             </div>

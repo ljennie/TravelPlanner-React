@@ -33,7 +33,7 @@ export class TravelMarker extends React.Component {
 
     render() {
         const {type, lat, lon, name, imageURL, day} = this.props.point;
-        console.log(name);
+        //console.log(name);
         const totalDays = this.props.totalDays;
 
         const menu = (
