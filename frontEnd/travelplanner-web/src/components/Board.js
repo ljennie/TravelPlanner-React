@@ -265,7 +265,8 @@ export default class Board extends React.Component {
                 points.push({placeID, day: day - 1, intradayIndex});
             }
         }
-        console.log(JSON.stringify({"userID": this.props.userID, "newSchedule":points}));
+        this.props.homeBoardCallback(points);
+        //console.log(JSON.stringify({"userID": this.props.userID, "newSchedule":points}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"userID": this.props.userID, "newSchedule": points}),
