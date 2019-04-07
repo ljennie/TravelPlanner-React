@@ -104,7 +104,7 @@ export class TravelPlan extends React.Component {
         })
         var temp2=[]
         //sort by index_in the day 
-        temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
+        temp.sort((a, b) => a.intradayIndex - b.intradayIndex);
         start=this.state.points.filter(place => (place.type) === "start");
         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
         start.map((dayplaces, i) =>
@@ -193,6 +193,8 @@ export class TravelPlan extends React.Component {
         temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
         start=temp.filter(place => (place.type) === "start");
         legs=temp.filter(place => (place.type) === "poi")
+        legs.sort((a, b) => a.intradayIndex - b.intradayIndex);
+        console.log(legs)
         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
         start.map((dayplaces, i) =>
             startpoint.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
@@ -337,7 +339,7 @@ export class TravelPlan extends React.Component {
                 />
                 </div>
                 </div>
-                <div id ="board" style={{ float:`right`,width:`500px`, height:`600px`}} >
+                <div id ="board" style={{ float:`right`,width:`500px`, height:`600px`,backgroundColor:`white`}} >
                     <div style={{ width:`500px`, height:`400px`}}>
                     {
                       (this.state.legs||typeof(this.state.legs)!="undefined")&&(
