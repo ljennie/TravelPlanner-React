@@ -6,17 +6,58 @@ import { TravelPlan } from './TravelPlan';
 import '../styles/App.css';
 import {TravelOverview} from "./TravelOverview"
 import {TestPage} from './TestPage';
+import {API_ROOT} from "../constants"
 
 
 export class Home extends React.Component{
 
     state = {
         selectedTab: 'traveloverview',
-
+        isDone: false
     };
 
     points = [];
     totalDays = 0;
+    isDayOptionsChosen = false;
+
+    componentWillMount() {
+        const endPoint = 'GeneratePaths';
+        fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}}`, {
+            method: 'GET',
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then((data) => {
+            console.log(data);
+            console.log(data.places);
+            if (typeof(data.places) != "undefined") {
+
+                const savedPoints = data.places.filter(place => place['type'] === "poi");
+                const startPoints = data.places.filter(place => place['type'] === "start");
+                if (startPoints.length > 0) {
+                    // TODO: add address to input form
+                    }
+                else {
+                    // TODO: disable tab
+                }
+            this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
+                return o.day
+            })) + 1;
+            this.homeCallback(data.places, this.totalDays, false);
+            this.isDayOptionsChosen = true;
+            this.setState((prev) => {
+                return {
+                    isDone: true
+                };
+            });
+            }
+
+        }).catch((e) => {
+            console.log(e.message);
+        });
+
+    }
 
     homeCallback = (pts, tds, routeToTravelPlan=true) => {
         console.log("home callback");
@@ -54,7 +95,7 @@ export class Home extends React.Component{
 
     renderOverview() {
         console.log(this.props)
-        return (<TravelOverview points={this.points} userID={this.props.userID} homeCallback={this.homeCallback} />)
+        return (<TravelOverview points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeCallback={this.homeCallback} isDayOptionsChosen={this.isDayOptionsChosen}/>)
     }
     renderPlanDetails() {
         return (
@@ -96,9 +137,12 @@ export class Home extends React.Component{
       return (
         <div className="App">
           {this.renderNavigation()}
-          <div className="App-body">
-            {this.renderTabContent()}
-          </div>
+            {this.state.isDone ?
+                <div className="App-body">
+                    {this.renderTabContent()}
+                </div>
+                : null
+            }
         </div>
       );
     }
