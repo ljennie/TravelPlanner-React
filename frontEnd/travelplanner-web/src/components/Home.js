@@ -13,7 +13,8 @@ export class Home extends React.Component{
 
     state = {
         selectedTab: 'traveloverview',
-        isDone: false // fetch finished
+        isDone: false, // fetch finished
+        disableTabs: false
     };
 
     points = [];
@@ -34,7 +35,8 @@ export class Home extends React.Component{
             if (data.places.length === 0) {
                 this.setState((prev) => {
                     return {
-                        isDone: true
+                        isDone: true,
+                        disableTabs: true
                     };
                 });
             }
@@ -45,8 +47,9 @@ export class Home extends React.Component{
                 if (startPoints.length > 0) {
                     // TODO: add address to input form
                     }
-                else {
+                else { // no start points
                     // TODO: disable tab
+                    this.setState((prevState) => { return {disableTabs: true}});
                 }
                 this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
                     return o.day
@@ -73,6 +76,11 @@ export class Home extends React.Component{
         if (routeToTravelPlan) {
             this.changeTab('travelplan');
         }
+        this.setState((prevState) => {
+            return {
+                disableTabs: false,
+            };
+        });
 
     }
 
@@ -87,6 +95,11 @@ export class Home extends React.Component{
             }
         }
         this.isDayOptionsChosen = true;
+        this.setState((prevState) => {
+            return {
+                disableTabs: false,
+            };
+        });
     }
 
     homeBoardCallback = (backendObjArray) => {
@@ -100,6 +113,11 @@ export class Home extends React.Component{
             }
         }
         this.isDayOptionsChosen = true;
+        this.setState((prevState) => {
+            return {
+                disableTabs: false,
+            };
+        });
 
     }
 
@@ -109,18 +127,21 @@ export class Home extends React.Component{
     }
     renderPlanDetails() {
         return (
-                 <Board points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeBoardCallback={this.homeBoardCallback}/>
-               );
+            <Board points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeBoardCallback={this.homeBoardCallback}/>
+        );
         //return (<TestPage points={this.points} totalDays={this.totalDays}/>);
     }
     renderTravelPlan() {
        return (<TravelPlan points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeTravelPlanCallback={this.homeTravelPlanCallback}/>);
     }
     renderNavigation() {
-      return (<Navigation
-        onClick={(tabName) => this.changeTab(tabName)}
-        selectedTab={this.state.selectedTab}
-      />);
+      return (
+          <Navigation
+            onClick={(tabName) => this.changeTab(tabName)}
+            selectedTab={this.state.selectedTab}
+            disable={this.state.disableTabs}
+          />
+      );
     }
 
     renderTabContent() {
@@ -145,8 +166,8 @@ export class Home extends React.Component{
 
     render() {
       return (
-        <div className="App">
-          {this.renderNavigation()}
+          <div className="App">
+            {this.renderNavigation()}
             {this.state.isDone ?
                 <div className="App-body">
                     {this.renderTabContent()}

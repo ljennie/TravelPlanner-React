@@ -29,10 +29,10 @@ class RegisterationForm extends React.Component {
                         lastName: values.lastname
                     })
                 }).then((response) => {
-                    console.log(response);
+                    //console.log(response);
                     message.success('register success!');
                 }, (response) => {
-                    console.log(response);
+                    //console.log(response);
                     message.error(JSON.parse(response.responseText)["status"]);
                 }).catch((e) => {
                     console.log(e);
