@@ -9,6 +9,7 @@ import { StartAddressInputForm } from "./StartAddressInputForm";
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
 import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
+import {TravelStartDayInput} from "./TravelStartDayInput"
 
 export class TravelOverview extends React.Component {
 
@@ -177,6 +178,7 @@ export class TravelOverview extends React.Component {
                     }
 
                 </div>
+                <TravelStartDayInput/>
 
             </div>
 
