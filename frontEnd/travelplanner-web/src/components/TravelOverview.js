@@ -169,13 +169,11 @@ export class TravelOverview extends React.Component {
                             <button style={{userSelect: 'none'}}>Day Options</button>
                         </Dropdown>
 
-
-                    {this.state.isDayOptionsChosen ?
-                        <TravelStartDayInput totalDays={this.totalDays}
-                                             userID={this.props.userID}
-                                             handleGenerateButtonPressed={this.onGeneratePathsButtonPressed}/>
-                        : null
-                    }
+                        <div style={{visibility: this.state.isDayOptionsChosen ? 'visible' : 'hidden'}}>
+                            <TravelStartDayInput totalDays={this.totalDays}
+                                                 userID={this.props.userID}
+                                                 handleGenerateButtonPressed={this.onGeneratePathsButtonPressed}/>
+                        </div>
 
                 </div>
 
