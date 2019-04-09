@@ -171,14 +171,14 @@ export class TravelOverview extends React.Component {
 
 
                     {this.state.isDayOptionsChosen ?
-                        <StartAddressInputForm totalDays={this.totalDays}
-                                               onGeneratePathsButtonPressed={this.onGeneratePathsButtonPressed}
-                                               userID={this.props.userID}/>
+                        <TravelStartDayInput totalDays={this.totalDays}
+                                             userID={this.props.userID}
+                                             handleGenerateButtonPressed={this.onGeneratePathsButtonPressed}/>
                         : null
                     }
 
                 </div>
-                <TravelStartDayInput/>
+
 
             </div>
 

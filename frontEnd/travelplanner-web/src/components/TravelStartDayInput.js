@@ -5,31 +5,57 @@ import Autocomplete from "./Autocomplete";
 
 //import 'antd/dist/antd.css';
 //import './index.css';
-const AddressDetails = props => {
+const AddressDetails = (props) => {
   return (
     <div></div>
   )
 };
+
 export class TravelStartDayInput extends React.Component {
-  state = {
-    place: {}
-  };
+    state = {
+        place: {}
+    };
 
+    startPoints = [];
+    generatedPoints =[];
+    prevDay = 0;
 
-  showPlaceDetails(place) {
-    this.setState({ place });
-  }
-  render () {
+    showPlaceDetails = (place) => {
+        this.setState({ place });
+    }
+
+    handleDropdownClick = (day) => {
+        const obj = {
+            day: this.prevDay,
+            name: this.auto.autocompleteInput.current.value
+        }
+        console.log(obj)
+        // TODO: push prev to startPoints
+
+        // TODO: clear Autocomplete
+        // TODO: mark start point on map
+        this.prevDay = day;
+    }
+
+    handleGenerateButtonPressed = () => {
+        this.props.handleGenerateButtonPressed(this.generatedPoints);
+    }
+
+    render () {
     return (
-      <div className="div">
-        <div className="Dropdown">
-          <Dropdown/>
+        <div className="div">
+            <div className="Dropdown">
+                <Dropdown handleDropdownClick={this.handleDropdownClick}
+                          totalDays={this.props.totalDays}/>
+            </div>
+
+            <div className="Address">
+                <Autocomplete onPlaceChanged={this.showPlaceDetails}
+                              handleGenerateButtonPressed={this.handleGenerateButtonPressed}
+                              ref={(input) => { this.auto = input; }}/>
+                <AddressDetails place={this.state.place} />
+            </div>
         </div>
-        <div className="Address">
-          <Autocomplete onPlaceChanged={this.showPlaceDetails.bind(this)} />
-          <AddressDetails place={this.state.place} />
-        </div>
-      </div>
     );
   };
 }
