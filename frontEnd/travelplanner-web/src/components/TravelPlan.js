@@ -93,6 +93,9 @@ export class TravelPlan extends React.Component {
         )
     
   }
+  componentDidMount() {
+        
+  }
     
     handeldrop= (e) => {
         //console.log(e);
@@ -316,7 +319,7 @@ export class TravelPlan extends React.Component {
              }}>
                 <div id="map content" style={{ float:`left`, width :`800px`,height:`500px`}}>
                 <div>
-                    <Radio.Group onChange={this.filtermarkers}>
+                    <Radio.Group defaultValue="1" onChange={this.filtermarkers}>
                     {
                      [...Array(this.props.totalDays).keys()].map(i =>
                       <Radio.Button key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>

@@ -36,6 +36,7 @@ class TravelMap extends React.Component {
                 })}
                  
                  {
+                     
                 (this.props.directions)&&
                 <DirectionsRenderer directions={this.props.directions} suppressMarkers={this.props.markers}
                  //options={{
