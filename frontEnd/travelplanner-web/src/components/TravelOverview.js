@@ -9,6 +9,7 @@ import { StartAddressInputForm } from "./StartAddressInputForm";
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
 import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
+import {TravelStartDayInput} from "./TravelStartDayInput"
 
 export class TravelOverview extends React.Component {
 
@@ -170,13 +171,14 @@ export class TravelOverview extends React.Component {
 
 
                     {this.state.isDayOptionsChosen ?
-                        <StartAddressInputForm totalDays={this.totalDays}
-                                               onGeneratePathsButtonPressed={this.onGeneratePathsButtonPressed}
-                                               userID={this.props.userID}/>
+                        <TravelStartDayInput totalDays={this.totalDays}
+                                             userID={this.props.userID}
+                                             handleGenerateButtonPressed={this.onGeneratePathsButtonPressed}/>
                         : null
                     }
 
                 </div>
+
 
             </div>
 

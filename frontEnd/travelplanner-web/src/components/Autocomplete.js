@@ -8,7 +8,6 @@ class Autocomplete extends React.Component {
     super(props);
     this.autocompleteInput = React.createRef();
     this.autocomplete = null;
-    this.handlePlaceChanged = this.handlePlaceChanged.bind(this);
   }
 
   componentDidMount() {
@@ -19,8 +18,11 @@ class Autocomplete extends React.Component {
     this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
   }
 
-  handlePlaceChanged() {
+  handlePlaceChanged = () => {
     const place = this.autocomplete.getPlace();
+    console.log("place", place);
+    //console.log(this.autocomplete.getFields());
+    //console.log(this.autocomplete.get)
     this.props.onPlaceChanged(place);
   }
 

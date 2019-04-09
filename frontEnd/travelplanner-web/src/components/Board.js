@@ -119,11 +119,11 @@ export default class Board extends React.Component {
         spots.sort(compare);
 
         //console.log('spots:', spots);
-
+        //console.log('props:', props);
         var days = new Array();
         var refs = new Array();
         var rowrefs = new Array();
-        //  console.log(props);
+       
         for (var i = 0; i <= this.props.totalDays - 1; i++) {
             days[i] = spots.filter(spot => spot.day && spot.day === (i + 1));
             refs[i] = React.createRef();
@@ -132,12 +132,18 @@ export default class Board extends React.Component {
         for (var i = 1; i <= 5; i++) {
             rowrefs[i] = React.createRef();
         }
+        
+        days = days.map(day => day.map((spot, index) => {
+            spot.intradayIndex = index;
+            return spot;
+        }));
+
 
         this.state = {
             days: days
         }
 
-        //  console.log(this.state);
+        //console.log('initial state:',this.state);
         this.swimlanes = {
             day: refs
         }
@@ -148,14 +154,14 @@ export default class Board extends React.Component {
     }
 
     getSpots() {
-        return this.props.points.map(spotDetails => ({
+        return this.props.points.filter(spot => spot.type && spot.type != 'start').map(spotDetails => ({
             placeID: spotDetails.placeID,
             lat: spotDetails.lat,
             lon: spotDetails.lon,
             name: spotDetails.name,
             url: spotDetails.imageURL,
             day: spotDetails.day + 1,
-            intradayIndex: spotDetails.intradayIndex,
+            intradayIndex: spotDetails.intradayIndex-1,
             type: spotDetails.type,
         }));
     }
@@ -188,7 +194,7 @@ export default class Board extends React.Component {
             return row.current;
         });
         var drake_days = Dragula([
-            ...rowcontainer
+         //   ...rowcontainer
         ],
             {
                 invalid: function (el, handle) {
@@ -272,7 +278,7 @@ export default class Board extends React.Component {
                 });
             }
 
-            // console.log(this.state.days);
+            console.log('updated state:',this.state);
             this.setState({
                 days: this.state.days,
             });
@@ -288,7 +294,7 @@ export default class Board extends React.Component {
         for (let i = 0; i < this.props.totalDays; i++) {
             for (let j = 0; j < this.state.days[i].length; j++) {
                 const { placeID, day, intradayIndex } = this.state.days[i][j];
-                points.push({ placeID, day: day - 1, intradayIndex });
+                points.push({ placeID, day: day - 1, intradayIndex : intradayIndex + 1});
             }
         }
         this.props.homeBoardCallback(points);
@@ -311,7 +317,7 @@ export default class Board extends React.Component {
 
             <div className="DetailPage">
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
-                <SideTimeline />
+                <SideTimeline days = {this.state.days}/>
                 <button onClick={this.saveButtonPressed}>Save</button>
             </div>
         );
