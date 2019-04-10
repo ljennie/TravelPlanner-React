@@ -15,14 +15,14 @@ class Autocomplete extends React.Component {
       this.autocompleteInput.current,
       //{ types: ["geocode"] }
     );
-    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    //this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
   }
 
-  handlePlaceChanged = () => {
+  /*handlePlaceChanged = () => {
     const place = this.autocomplete.getPlace();
     console.log(place);
     this.props.onPlaceChanged(place);
-  }
+  }*/
 
   render() {
     return (
