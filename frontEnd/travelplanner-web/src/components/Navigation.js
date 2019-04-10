@@ -3,7 +3,8 @@ import React from 'react';
 export default class Navigation extends React.Component {
   render() {
     return (
-      <ul className="nav nav-tabs" id="myTab" role="tablist">
+      <div className="nav" >
+      <ul className=" nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item">
           <a className={"nav-link " + (this.props.selectedTab === 'traveloverview' ? 'active': '')} onClick={() => this.props.onClick("traveloverview")}
             id="traveloverview-tab" data-toggle="tab" href="#traveloverview" role="tab" aria-controls="traveloverview" aria-selected={this.props.selectedTab === 'traveloverview'}>TravelOverview</a>
@@ -17,6 +18,7 @@ export default class Navigation extends React.Component {
              id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected={this.props.selectedTab === 'details'}>PlanDetail</a>
         </li>
       </ul>
+      </div>
     );
   }
 }

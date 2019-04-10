@@ -117,7 +117,7 @@ export class Home extends React.Component{
        return (<TravelPlan points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeTravelPlanCallback={this.homeTravelPlanCallback}/>);
     }
     renderNavigation() {
-      return (<Navigation
+      return (<Navigation className="nav_bars"
         onClick={(tabName) => this.changeTab(tabName)}
         selectedTab={this.state.selectedTab}
       />);
@@ -145,10 +145,12 @@ export class Home extends React.Component{
 
     render() {
       return (
-        <div className="App">
-          {this.renderNavigation()}
+        <div className="App Re-App Page" style={{position:"relative", height:"600px"}}>
+            <div id="nav_contain" style={{position:"absolute"}}>
+            {this.renderNavigation()}
+            </div>
             {this.state.isDone ?
-                <div className="App-body">
+                <div className="App-body" style={{width:"100%"}} >
                     {this.renderTabContent()}
                 </div>
                 : null

@@ -150,19 +150,20 @@ export class TravelOverview extends React.Component {
         )
 
         return (
-            <div>
-
+            <div className="top_container">
+                <div className="map_container">
                 <WrappedTravelMap
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `600px` }} />}
+                    containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     points={this.state.points}
                     totalDays={this.totalDays}
                     handleOnDayChange={this.handleOnDayChange}
                 />
-
-                <div>
+           
+                </div>
+                <div className="info">
 
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
                             <button style={{userSelect: 'none'}}>Day Options</button>
@@ -178,7 +179,7 @@ export class TravelOverview extends React.Component {
 
                 </div>
 
-            </div>
+                </div>
 
         );
     }

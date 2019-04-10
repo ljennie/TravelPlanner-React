@@ -7,8 +7,20 @@ import SideTimeline from './SideTimeline';
 import DayList from './DayList';
 import { arrayMove } from 'react-sortable-hoc';
 import { API_ROOT } from "../constants"
-import { Button } from 'antd'
+import { Button,notification } from 'antd'
 
+const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: 'Successful!',
+      description: "You've saved the routes successfully!"
+    });
+  };
+  const openNotificationWithIcon1 = (type) => {
+    notification[type]({
+      message: 'Error!',
+      description: "There is something wrong!!"
+    });
+  }; 
 /*const jsonArray = [
     {
         "imageURL": "",
@@ -299,7 +311,17 @@ export default class Board extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).catch((e) => {
+        }).
+        then((response)=>{
+            console.log(response.status)
+            if(response.status===200){
+              openNotificationWithIcon('success')
+            }
+            
+          }  
+          )
+          .catch((e) => {
+            openNotificationWithIcon1('error')
             console.log(e.message);
         });
     }
@@ -309,10 +331,10 @@ export default class Board extends React.Component {
         //console.log(this.state.days);
         return (
 
-            <div className="DetailPage">
+            <div style={{ position:"absolute",height:"500px"}}>
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
                 <SideTimeline />
-                <button onClick={this.saveButtonPressed}>Save</button>
+                <Button onClick={this.saveButtonPressed}>Save</Button>
             </div>
         );
     }

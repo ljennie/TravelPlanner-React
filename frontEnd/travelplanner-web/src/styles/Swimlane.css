@@ -2,25 +2,19 @@
   text-align: mid;
   font-weight: bold;
   font-size: 30px;
-  background-color:rgb(75, 189, 241);
+  background-color:gray;
   color : #E0FFFF;
 }
   
 
 .Swimlane-column {
   border-radius:25px;
-  background-color:rgb(75, 189, 241);
+  
 }
 
 .Swimlane-dragColumn {
   height: auto;
   overflow-y: auto;
-  background-color:rgb(75, 189, 241);
   padding: 16px 8px;
 
 }
-
-.Board{
-  background-color:#A2D5F7;
-}
-  

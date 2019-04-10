@@ -6,9 +6,14 @@ body{
   background-attachment:fixed
 }
 
+
+
 .App {
   text-align: center;
+  position: relative; 
+  
 }
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -34,6 +39,16 @@ body{
   font-family: 'YourFontName'; /*a name to be used later*/
   src: url('http://domain.com/fonts/font.ttf'); /*URL to font*/
 }
+/*
+.Page{
+  background-image: url("../assets/images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment:fixed;
+  height:100%;
+}
+*/
+
 
 .App-title {
   font-size: 4em;
@@ -60,9 +75,30 @@ body{
 
 
 .nav {
+  display: flex;
   padding: 0 px 10px 0 10px;
+}
+#nav_contain{
+  top: 5px;
+  border-radius: 4px;
+  border-width: 3px;
+  position: absolute;
+ 
+  left: 0px;
+  background-color: white;
 }
 
 .register-item{
   color: #61dafb;
+}
+.top_container{
+  border-top-style: dashed;
+  top:48px;
+  border-top-color: #0d1c3a;
+  border-width: 2px;
+  position: relative;
+  height:"500px";
+  width:"100%";
+  display:"flex";
+  background-color: #4e596e;
 }

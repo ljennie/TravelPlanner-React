@@ -1,7 +1,7 @@
 /*global google*/
 import React from 'react';
 import { API_ROOT } from "../constants"
-import { Button, Radio, Icon } from 'antd';
+import { Button, Radio, Icon, notification } from 'antd';
 import { Rectangle, withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline } from "react-google-maps"
 import { WrappedTravelMap } from "./TravelMap";
 import Board from "./Board";
@@ -9,8 +9,20 @@ import RatioButtons from "./RatioButtons";
 import  {SortableComponent} from "./SortableList"
 import {arrayMove} from 'array-move'
 import Background from '../assets/images/background.jpg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
+const openNotificationWithIcon = (type) => {
+  notification[type]({
+    message: 'Successful!',
+    description: "You've saved the routes successfully!"
+  });
+};
+const openNotificationWithIcon1 = (type) => {
+  notification[type]({
+    message: 'Click and see travel plan!',
+  });
+};
 const testingGeneratedPoints = [
 
   {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", imageURL: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: 1},
@@ -32,6 +44,7 @@ export class TravelPlan extends React.Component {
     directions={};
     directions1={};
     
+    
     state = {
         // for testing
         points: []
@@ -40,10 +53,11 @@ export class TravelPlan extends React.Component {
 
     componentWillMount(){
         //const testingGeneratedPoints=this.props.points;
-        //var temp=this.props.points.filter(place => (place.day+1).toString() === "1");
+        var temp=this.props.points.filter(place => (place.day+1).toString() === "1");
         //var temp=testingGeneratedPoints.filter(place => (place.day+1).toString() === "1");
         //console.log(temp)
-        //start=temp.filter(place => (place.type) === "start");
+        var start=temp.filter(place => (place.type) === "start");
+        var legs=temp.filter(place => (place.type) === "poi")
         //sort by index_in the day 
         //var temp2=[]
         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
@@ -88,14 +102,69 @@ export class TravelPlan extends React.Component {
         this.setState(
             {
                 points: this.props.points,
-
+                start: start,
+                SelectedPoints: temp,
+                legs:legs,
              }
         )
     
   }
   componentDidMount() {
-        
+         //console.log(this.state.SelectedPoints)
+         var start=[];
+         var legs=[];
+         var temp = [];
+         var temp2 = [];
+         var temp3=[];
+         var startpoint=[];
+         temp=this.state.legs;
+         temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
+         start=this.state.start
+         console.log(legs)
+         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
+         start.map((dayplaces, i) =>
+             startpoint.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
+         );
+         temp.map((dayplaces, i) =>
+             temp2.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
+         );
+         if(temp2!=null&& typeof temp2!= 'undefined'){
+          const ori = startpoint[0];
+          const des = temp2.length >= 0 ? temp2[temp2.length-1]:ori;
+          var midpoints= [];
+          var temp3=[];
+          midpoints= temp2.length>0?temp2.slice(0,-1): []
+          midpoints.map((point=>{
+             var mid={}
+             mid["location"] ={"lat":point.lat, "lng":point.lng};
+             mid["stopover"]=true;
+             temp3.push(mid);
+          }
+          ));
+           const DirectionsService = new google.maps.DirectionsService();
+             DirectionsService.route({
+                //origin: new google.maps.LatLng( 40.7829,-73.9654),
+                 //origin:new google.maps.LatLng(41.8507300, -87.6512600),
+                 origin: ori,
+                 waypoints: temp3,
+                //destination: new google.maps.LatLng(41.8525800, -87.6514100),
+                destination: des,
+                travelMode: google.maps.TravelMode.DRIVING,
+                }, (result, status) => {
+               if (status === google.maps.DirectionsStatus.OK) {
+         this.setState({
+           directions: {...result},
+           markers: false
+         })
+         //console.log(result)
+       } else {
+         console.log(`error fetching directions ${result}`);
+         openNotificationWithIcon1('info')
+         
+       }
+     });
   }
+}
     
     handeldrop= (e) => {
         //console.log(e);
@@ -115,30 +184,6 @@ export class TravelPlan extends React.Component {
         );
          temp.map((dayplaces, i) => temp2.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
         );
-        //update connection between start point to first leg
-        //connect start point with the first place
-        const ori = startpoint[0];
-        const des = temp2[0];
-       //console.log(des);
-       const DirectionsService = new google.maps.DirectionsService();
-       DirectionsService.route({
-          //origin: new google.maps.LatLng( 40.7829,-73.9654),
-         //origin:new google.maps.LatLng(41.8507300, -87.6512600),
-         origin: ori,
-         //destination: new google.maps.LatLng(41.8525800, -87.6514100),
-         destination: des,
-         travelMode: google.maps.TravelMode.DRIVING,
-       }, (result1, status) => {
-         if (status === google.maps.DirectionsStatus.OK) {
-           this.setState({
-             directions1: {...result1},
-             markers: false
-           })
-            //console.log(result1)
-         } else {
-           console.log(`error fetching directions ${result1}`);
-         }
-       });
         //console.log(temp3);
         if(temp2!=null&& typeof temp2!= 'undefined'){
             const ori = startpoint[0];
@@ -276,7 +321,7 @@ export class TravelPlan extends React.Component {
         console.log("first load")
     }
    }
-
+  
     saveButtonClicked = () => {
       const endPoint = 'UpdatePaths';
         if(this.state.legs!=null){
@@ -306,8 +351,17 @@ export class TravelPlan extends React.Component {
             headers: {
                 'Content-Type':'application/json'
             }
-        }).catch((e) => {
+        }).then((response)=>{
+          console.log(response.status)
+          if(response.status===200){
+            openNotificationWithIcon('success')
+          }
+          
+        }  
+        )
+        .catch((e) => {
             console.log(e.message);
+
         });
     }
 
@@ -315,23 +369,25 @@ export class TravelPlan extends React.Component {
     render() {
         //const Background= "D:\travel\awesomeTravelPlanner\frontEnd\travelplanner-web\src\assets\images\background.jpg"
         return (
-            <div style={{display:`flex`
-             }}>
-                <div id="map content" style={{ float:`left`, width :`800px`,height:`500px`}}>
-                <div>
-                    <Radio.Group defaultValue="1" onChange={this.filtermarkers}>
+            <div className="top_container">
+                
+                <div className="contain-color" style={{ position:"absolute",top:"5px",height:"300px",left:"10px",width:"10%",border:"2px solid gray","border-radius": "5px",display:"flex", overflow:"auto"}} >
+                    <Radio.Group  onChange={this.filtermarkers} size={"large"} >
                     {
                      [...Array(this.props.totalDays).keys()].map(i =>
-                      <Radio.Button key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                      <div>
+                      <Radio.Button className="contain-color font-white" style={{  border: "none", padding:"7px", "border-radius": "0px",
+                      borderBottomStyle:"dotted",borderBottomColor:"gray"}} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                      </div> 
                      )
                    }
                     </Radio.Group>
                 </div>
-                <div>
+                <div className="map_container" id="plan_map">
                 <WrappedTravelMap
                     googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbj7eqr0u0RFbaNFGU9JAWYAoi5JmwY&v=3.exp&libraries=geometry,drawing,places"}
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `500px` }} />}
+                    containerElement={<div style={{ height: `470px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     handleOnDayChange={this.filtermarkers}
                     suppressMarkers={true}
@@ -341,21 +397,19 @@ export class TravelPlan extends React.Component {
                     //markers={this.start_points.markers}
                 />
                 </div>
-                </div>
-                <div id ="board" style={{ float:`right`,width:`500px`, height:`600px`,backgroundColor:`white`}} >
-                    <div style={{ width:`500px`, height:`400px`}}>
+                <div className="info contain-color font-white"  >
+                    
                     {
                       (this.state.legs||typeof(this.state.legs)!="undefined")&&(
-                        <SortableComponent items={this.state.legs} change={this.handeldrop} start={this.state.start} />
+                        <SortableComponent className="font-white" items={this.state.legs} change={this.handeldrop} start={this.state.start} />
                       )  
                     }
-                    </div>
                     <div>
                         <Button onClick={this.saveButtonClicked}>Save</Button>
-
-                    </div>
+                    
+                 </div>
                  </div>  
-                 
+                  
             </div>
         );
     }

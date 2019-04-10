@@ -6,14 +6,14 @@ import { API_ROOT } from "../constants";
 
 
 const SortableItem = SortableElement(({value, index}) =>
- <List.Item><Typography.Text>{<span><b> Stop {index+1}</b></span>}</Typography.Text> {value}</List.Item>
+ <List.Item style={{color:"636363"}}><Typography.Text>{<span style={{color:"636363"}}><b> Stop {index+1}</b></span>}</Typography.Text> {value}</List.Item>
 );
 
 const SortableList = SortableContainer(({items, start}) => {
   var startname=start[0].type;
   return (
-     items&&<List  header={<h1><b>Day{items[0].day+1}</b></h1>} bordered>
-      <List.Item><Typography.Text>{<span><b> Start Point:  </b></span>}</Typography.Text>{startname}</List.Item>
+     items&&<List  header={<h1 style={{color:"636363"}}><b>Day{items[0].day+1}</b></h1>} bordered>
+      <List.Item><Typography.Text>{<span style={{color:"636363"}}><b> Start Point:  </b></span>}</Typography.Text>{startname}</List.Item>
       {items.map((value, index) => (
         <SortableItem key={`item-${index}`} index={index} value={value.name} />
       ))}
@@ -31,7 +31,7 @@ const SortableList = SortableContainer(({items, start}) => {
   render() {
     return (
      
-    <div>
+    <div className="font-white">
       {
         <SortableList items={this.props.items} onSortEnd={this.onSortEnd} start={this.props.start}/>
       }
