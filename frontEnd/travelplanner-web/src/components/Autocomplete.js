@@ -35,10 +35,6 @@ class Autocomplete extends React.Component {
             type="text"
           />
         </span>
-        <span className="Autocomplete">
-          <input className= "Generate" type="submit" value="Generate" role="button">
-          </input>
-        </span>
       </div>
     );
   }
