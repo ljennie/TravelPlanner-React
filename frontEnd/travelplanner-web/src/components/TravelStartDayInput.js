@@ -22,17 +22,26 @@ export class TravelStartDayInput extends React.Component {
 
     showPlaceDetails = (place) => {
         this.setState({ place });
+        console.log(place);
     }
 
     handleDropdownClick = (day) => {
         const obj = {
+            placeID:"",
+            type: "start",
+            lat:"",
+            lon:"",
+            name: this.auto.autocompleteInput.current.value,
+            imageURL: "",
             day: this.prevDay,
-            name: this.auto.autocompleteInput.current.value
+            intradayIndex: 0
+
         }
         console.log(obj)
         // TODO: push prev to startPoints
 
         // TODO: clear Autocomplete
+        this.auto.autocompleteInput.current.value = "";
         // TODO: mark start point on map
         this.prevDay = day;
     }
