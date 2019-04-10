@@ -91,7 +91,7 @@ const openNotificationWithIcon = (type) => {
         "name": "Lincoln Center for the Performing Arts",
         "placeID": "ChIJN6W-X_VYwokRTqwcBnTw1Uk",
         "lon": -73.9834889,
-        "day": 1,
+        "day": 2,
         "lat": 40.7724641,
         "intradayIndex": 3,
         "type": "poi"
@@ -131,11 +131,11 @@ export default class Board extends React.Component {
         spots.sort(compare);
 
         //console.log('spots:', spots);
-
+        //console.log('props:', props);
         var days = new Array();
         var refs = new Array();
         var rowrefs = new Array();
-        //  console.log(props);
+       
         for (var i = 0; i <= this.props.totalDays - 1; i++) {
             days[i] = spots.filter(spot => spot.day && spot.day === (i + 1));
             refs[i] = React.createRef();
@@ -144,12 +144,20 @@ export default class Board extends React.Component {
         for (var i = 1; i <= 5; i++) {
             rowrefs[i] = React.createRef();
         }
-
+        
+        days = days.map(day => day.map((spot, index) => {
+            spot.intradayIndex = index;
+            return spot;
+        }));
+        
+        
         this.state = {
-            days: days
+            days: days,
+            col: refs,
+            row: rowrefs,
         }
 
-        //  console.log(this.state);
+        //console.log('initial state:',this.state);
         this.swimlanes = {
             day: refs
         }
@@ -160,16 +168,96 @@ export default class Board extends React.Component {
     }
 
     getSpots() {
-        return this.props.points.map(spotDetails => ({
+        return this.props.points.filter(spot => spot.type && spot.type != 'start').map(spotDetails => ({
             placeID: spotDetails.placeID,
             lat: spotDetails.lat,
             lon: spotDetails.lon,
             name: spotDetails.name,
             url: spotDetails.imageURL,
             day: spotDetails.day + 1,
-            intradayIndex: spotDetails.intradayIndex,
+            intradayIndex: spotDetails.intradayIndex-1,
             type: spotDetails.type,
         }));
+    }
+    componentDidMount() {
+
+        function array_move(arr, old_index, new_index) {
+            while (old_index < 0) {
+                old_index += arr.length;
+            }
+            while (new_index < 0) {
+                new_index += arr.length;
+            }
+            if (new_index >= arr.length) {
+                var k = new_index - arr.length + 1;
+                while (k--) {
+                    arr.push(undefined);
+                }
+            }
+            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+            return arr; // for testing purposes
+        };
+
+
+        var colcontainer = this.state.col.map((col) => {
+            return col.current;
+        });
+        console.log(colcontainer);
+        var rowcontainer = this.state.row.map((row) => {
+            return row.current;
+        });
+      
+        var drake_spots = Dragula([
+            ...colcontainer
+        ]);
+        ////////////////////////////////////////////////////Main Callback Part/////////////////////////////////////////////////
+
+        //update spots drag result
+        drake_spots.on('drop', (el, target, source, sibling) => {
+            var sour = source.id - 1;
+            var tar = target.id - 1;
+            var index1 = el.id;
+            var index2;
+            if (sibling != null) index2 = sibling.id;
+            else index2 = this.state.days[tar].length;
+            console.log(index1);
+            console.log(index2);
+
+            // console.log(sour); 
+            // console.log(tar); 
+            if (sour === tar) {
+                var temp = this.state.days[sour][index1];
+                if (index1 < index2) index2--;
+
+                array_move(this.state.days[sour], index1, index2);
+                this.state.days[sour] = this.state.days[sour].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    return spot;
+                });
+            } else {
+
+                this.state.days[tar].splice(index2, 0, this.state.days[sour][index1]);
+                this.state.days[sour].splice(index1, 1);
+
+                this.state.days[sour] = this.state.days[sour].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    spot.day = sour + 1;
+                    return spot;
+                });
+                this.state.days[tar] = this.state.days[tar].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    spot.day = tar + 1;
+                    return spot;
+                });
+            }
+
+            console.log('updated state:',this.state);
+            this.setState({
+                days: this.state.days,
+            });
+
+        });
+
     }
 
 
@@ -193,14 +281,15 @@ export default class Board extends React.Component {
         };
 
 
-        var colcontainer = this.swimlanes.day.map((col) => {
+        var colcontainer = this.state.col.map((col) => {
             return col.current;
         });
-        var rowcontainer = this.rows.row.map((row) => {
+        console.log(colcontainer);
+        var rowcontainer = this.state.row.map((row) => {
             return row.current;
         });
         var drake_days = Dragula([
-            ...rowcontainer
+         //   ...rowcontainer
         ],
             {
                 invalid: function (el, handle) {
@@ -284,7 +373,7 @@ export default class Board extends React.Component {
                 });
             }
 
-            // console.log(this.state.days);
+            console.log('updated state:',this.state);
             this.setState({
                 days: this.state.days,
             });
@@ -300,7 +389,7 @@ export default class Board extends React.Component {
         for (let i = 0; i < this.props.totalDays; i++) {
             for (let j = 0; j < this.state.days[i].length; j++) {
                 const { placeID, day, intradayIndex } = this.state.days[i][j];
-                points.push({ placeID, day: day - 1, intradayIndex });
+                points.push({ placeID, day: day - 1, intradayIndex : intradayIndex + 1});
             }
         }
         this.props.homeBoardCallback(points);
@@ -333,9 +422,15 @@ export default class Board extends React.Component {
 
             <div style={{ position:"absolute",height:"500px"}}>
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
+<<<<<<< HEAD
                 <SideTimeline />
                 <Button onClick={this.saveButtonPressed}>Save</Button>
+=======
+                <SideTimeline days = {this.state.days}/>
+                <button onClick={this.saveButtonPressed}>Save</button>
+>>>>>>> bade3f0ce3169670ea417bc54112ae20abb9dc7c
             </div>
+            
         );
     }
 

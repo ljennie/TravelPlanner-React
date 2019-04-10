@@ -198,7 +198,7 @@ export class TravelPlan extends React.Component {
                temp3.push(mid);
             }
             ));
-       const DirectionsService = new google.maps.DirectionsService();
+       //const DirectionsService = new google.maps.DirectionsService();
        DirectionsService.route({
          //origin: new google.maps.LatLng( 40.7829,-73.9654),
          //origin:new google.maps.LatLng(41.8507300, -87.6512600),

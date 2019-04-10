@@ -23,13 +23,8 @@ class NormalLoginForm extends React.Component {
                     message.success('login success!');
                     //this.props.handleLogin(response, values.username); // with jwt
                     this.props.handleLogin("xxx", values.username); // no jwt
-
-                    // const token = response;
-                    // localStorage.setItem('TOKEN_KEY', token);
-                    //console.log(response);
-
                 },(response) => {
-                    message.error(response.responseText);
+                    message.error(JSON.parse(response.responseText)["status"]);
                 }).catch((e) => {
                     console.log(e);
                 });
@@ -63,10 +58,10 @@ class NormalLoginForm extends React.Component {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button  style={{color:"white"}} type="primary" htmlType="submit" className="login-form-button">
+                    <Button  style={{color:"black"}} type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <Link to="/register" style={{color:"white"}}>register now!</Link>
+                    Or <Link to="/register" style={{color:"black"}}>register now!</Link>
                 </Form.Item>
             </Form> 
             </div>

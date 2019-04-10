@@ -9,6 +9,7 @@ import { StartAddressInputForm } from "./StartAddressInputForm";
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
 import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
+import {TravelStartDayInput} from "./TravelStartDayInput"
 
 export class TravelOverview extends React.Component {
 
@@ -52,7 +53,7 @@ export class TravelOverview extends React.Component {
         isDayOptionsChosen : this.props.isDayOptionsChosen
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.totalDays = this.props.totalDays;
     }
 
@@ -107,7 +108,7 @@ export class TravelOverview extends React.Component {
 
     }
 
-    onGeneratePathsButtonPressed = (generatedPoints) => {
+    handleGeneratePathsButtonPressed = (generatedPoints) => {
         //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
         this.props.homeCallback(generatedPoints,this.totalDays);
     }
@@ -169,17 +170,20 @@ export class TravelOverview extends React.Component {
                             <button style={{userSelect: 'none'}}>Day Options</button>
                         </Dropdown>
 
-
-                    {this.state.isDayOptionsChosen ?
-                        <StartAddressInputForm totalDays={this.totalDays}
-                                               onGeneratePathsButtonPressed={this.onGeneratePathsButtonPressed}
-                                               userID={this.props.userID}/>
-                        : null
-                    }
+                        <div style={{visibility: this.state.isDayOptionsChosen ? 'visible' : 'hidden'}}>
+                            <TravelStartDayInput totalDays={this.totalDays}
+                                                 userID={this.props.userID}
+                                                 handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}/>
+                        </div>
 
                 </div>
 
+<<<<<<< HEAD
                 </div>
+=======
+
+            </div>
+>>>>>>> bade3f0ce3169670ea417bc54112ae20abb9dc7c
 
         );
     }
