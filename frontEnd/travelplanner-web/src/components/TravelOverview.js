@@ -53,7 +53,7 @@ export class TravelOverview extends React.Component {
         isDayOptionsChosen : this.props.isDayOptionsChosen
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.totalDays = this.props.totalDays;
     }
 
@@ -108,7 +108,7 @@ export class TravelOverview extends React.Component {
 
     }
 
-    onGeneratePathsButtonPressed = (generatedPoints) => {
+    handleGeneratePathsButtonPressed = (generatedPoints) => {
         //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
         this.props.homeCallback(generatedPoints,this.totalDays);
     }
@@ -169,13 +169,11 @@ export class TravelOverview extends React.Component {
                             <button style={{userSelect: 'none'}}>Day Options</button>
                         </Dropdown>
 
-
-                    {this.state.isDayOptionsChosen ?
-                        <TravelStartDayInput totalDays={this.totalDays}
-                                             userID={this.props.userID}
-                                             handleGenerateButtonPressed={this.onGeneratePathsButtonPressed}/>
-                        : null
-                    }
+                        <div style={{visibility: this.state.isDayOptionsChosen ? 'visible' : 'hidden'}}>
+                            <TravelStartDayInput totalDays={this.totalDays}
+                                                 userID={this.props.userID}
+                                                 handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}/>
+                        </div>
 
                 </div>
 

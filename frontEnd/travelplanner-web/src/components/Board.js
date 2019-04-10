@@ -79,7 +79,7 @@ import { Button } from 'antd'
         "name": "Lincoln Center for the Performing Arts",
         "placeID": "ChIJN6W-X_VYwokRTqwcBnTw1Uk",
         "lon": -73.9834889,
-        "day": 1,
+        "day": 2,
         "lat": 40.7724641,
         "intradayIndex": 3,
         "type": "poi"
@@ -137,10 +137,12 @@ export default class Board extends React.Component {
             spot.intradayIndex = index;
             return spot;
         }));
-
-
+        
+        
         this.state = {
-            days: days
+            days: days,
+            col: refs,
+            row: rowrefs,
         }
 
         //console.log('initial state:',this.state);
@@ -165,6 +167,86 @@ export default class Board extends React.Component {
             type: spotDetails.type,
         }));
     }
+    componentDidMount() {
+
+        function array_move(arr, old_index, new_index) {
+            while (old_index < 0) {
+                old_index += arr.length;
+            }
+            while (new_index < 0) {
+                new_index += arr.length;
+            }
+            if (new_index >= arr.length) {
+                var k = new_index - arr.length + 1;
+                while (k--) {
+                    arr.push(undefined);
+                }
+            }
+            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+            return arr; // for testing purposes
+        };
+
+
+        var colcontainer = this.state.col.map((col) => {
+            return col.current;
+        });
+        console.log(colcontainer);
+        var rowcontainer = this.state.row.map((row) => {
+            return row.current;
+        });
+      
+        var drake_spots = Dragula([
+            ...colcontainer
+        ]);
+        ////////////////////////////////////////////////////Main Callback Part/////////////////////////////////////////////////
+
+        //update spots drag result
+        drake_spots.on('drop', (el, target, source, sibling) => {
+            var sour = source.id - 1;
+            var tar = target.id - 1;
+            var index1 = el.id;
+            var index2;
+            if (sibling != null) index2 = sibling.id;
+            else index2 = this.state.days[tar].length;
+            console.log(index1);
+            console.log(index2);
+
+            // console.log(sour); 
+            // console.log(tar); 
+            if (sour === tar) {
+                var temp = this.state.days[sour][index1];
+                if (index1 < index2) index2--;
+
+                array_move(this.state.days[sour], index1, index2);
+                this.state.days[sour] = this.state.days[sour].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    return spot;
+                });
+            } else {
+
+                this.state.days[tar].splice(index2, 0, this.state.days[sour][index1]);
+                this.state.days[sour].splice(index1, 1);
+
+                this.state.days[sour] = this.state.days[sour].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    spot.day = sour + 1;
+                    return spot;
+                });
+                this.state.days[tar] = this.state.days[tar].map((spot, index) => {
+                    spot.intradayIndex = index;
+                    spot.day = tar + 1;
+                    return spot;
+                });
+            }
+
+            console.log('updated state:',this.state);
+            this.setState({
+                days: this.state.days,
+            });
+
+        });
+
+    }
 
 
     componentDidUpdate() {
@@ -187,10 +269,11 @@ export default class Board extends React.Component {
         };
 
 
-        var colcontainer = this.swimlanes.day.map((col) => {
+        var colcontainer = this.state.col.map((col) => {
             return col.current;
         });
-        var rowcontainer = this.rows.row.map((row) => {
+        console.log(colcontainer);
+        var rowcontainer = this.state.row.map((row) => {
             return row.current;
         });
         var drake_days = Dragula([
@@ -320,6 +403,7 @@ export default class Board extends React.Component {
                 <SideTimeline days = {this.state.days}/>
                 <button onClick={this.saveButtonPressed}>Save</button>
             </div>
+            
         );
     }
 
