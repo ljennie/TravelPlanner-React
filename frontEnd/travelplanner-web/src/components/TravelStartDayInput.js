@@ -60,7 +60,7 @@ export class TravelStartDayInput extends React.Component {
     }
 
     handleGenerateButtonPressed = () => {
-        //TODO: add notification to enter the first day address
+        //TODO: validation firstday
 
         this.updateStartPoints();
 
@@ -82,6 +82,8 @@ export class TravelStartDayInput extends React.Component {
         }).catch((e) => {
             console.log(e.message);
         })
+
+        //TODO: validation all days
 
 
     }
