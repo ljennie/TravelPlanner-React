@@ -48,7 +48,6 @@ export class Home extends React.Component{
                     // TODO: add address to input form
                     }
                 else { // no start points
-                    // TODO: disable tab
                     this.setState((prevState) => { return {disableTabs: true}});
                 }
                 this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {

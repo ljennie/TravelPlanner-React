@@ -1,5 +1,4 @@
 .Autocomplete {
-
     display: inline-block;
     margin: 0 8px;
     border-radius: 5px;
@@ -11,7 +10,6 @@
     width: 100px;
     border-radius: 5px;
     font-size: 20px;
-
     display: inline-block;
 }
 .input {

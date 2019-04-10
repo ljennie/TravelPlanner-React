@@ -13,18 +13,16 @@ class Autocomplete extends React.Component {
   componentDidMount() {
     this.autocomplete = new google.maps.places.Autocomplete(
       this.autocompleteInput.current,
-      { types: ["geocode"] }
+      //{ types: ["geocode"] }
     );
-    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    //this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
   }
 
-  handlePlaceChanged = () => {
+  /*handlePlaceChanged = () => {
     const place = this.autocomplete.getPlace();
-    console.log("place", place);
-    //console.log(this.autocomplete.getFields());
-    //console.log(this.autocomplete.get)
+    console.log(place);
     this.props.onPlaceChanged(place);
-  }
+  }*/
 
   render() {
     return (
@@ -33,13 +31,9 @@ class Autocomplete extends React.Component {
           <input className="input"
             ref={this.autocompleteInput}
             id="autocomplete"
-            placeholder="Enter your start point"
+            placeholder="Enter your start place"
             type="text"
           />
-        </span>
-        <span className="Autocomplete">
-          <input className= "Generate" type="submit"  value="Generate" role="button">
-          </input>
         </span>
       </div>
     );
