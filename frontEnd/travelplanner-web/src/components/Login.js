@@ -39,6 +39,7 @@ class NormalLoginForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
+            <div className="main_page"> 
             <div className="login_container">
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
@@ -64,6 +65,7 @@ class NormalLoginForm extends React.Component {
                     Or <Link to="/register" style={{color:"black"}}>register now!</Link>
                 </Form.Item>
             </Form> 
+            </div>
             </div>
         );
        

@@ -198,7 +198,7 @@ export class TravelPlan extends React.Component {
                temp3.push(mid);
             }
             ));
-       //const DirectionsService = new google.maps.DirectionsService();
+       const DirectionsService = new google.maps.DirectionsService();
        DirectionsService.route({
          //origin: new google.maps.LatLng( 40.7829,-73.9654),
          //origin:new google.maps.LatLng(41.8507300, -87.6512600),
@@ -371,13 +371,13 @@ export class TravelPlan extends React.Component {
         return (
             <div className="top_container">
                 
-                <div className="contain-color" style={{ position:"absolute",top:"5px",height:"300px",left:"10px",width:"10%",border:"2px solid gray","border-radius": "5px",display:"flex", overflow:"auto"}} >
+                <div className="contain-color" style={{ position:"absolute",top:"5px",height:"300px", left:"2px","border-radius": "5px",display:"flex", overflow:"auto"}} >
                     <Radio.Group  onChange={this.filtermarkers} size={"large"} >
                     {
                      [...Array(this.props.totalDays).keys()].map(i =>
                       <div>
                       <Radio.Button className="contain-color font-white" style={{  border: "none", padding:"7px", "border-radius": "0px",
-                      borderBottomStyle:"dotted",borderBottomColor:"gray"}} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                      borderBottomStyle:"solid",borderBottomColor:"gray"}} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
                       </div> 
                      )
                    }
@@ -387,7 +387,7 @@ export class TravelPlan extends React.Component {
                 <WrappedTravelMap
                     googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbj7eqr0u0RFbaNFGU9JAWYAoi5JmwY&v=3.exp&libraries=geometry,drawing,places"}
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `470px` }} />}
+                    containerElement={<div style={{ height: `500px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     handleOnDayChange={this.filtermarkers}
                     suppressMarkers={true}

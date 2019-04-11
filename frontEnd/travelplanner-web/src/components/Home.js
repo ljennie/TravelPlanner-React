@@ -134,12 +134,6 @@ export class Home extends React.Component{
        return (<TravelPlan points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeTravelPlanCallback={this.homeTravelPlanCallback}/>);
     }
     renderNavigation() {
-<<<<<<< HEAD
-      return (<Navigation className="nav_bars"
-        onClick={(tabName) => this.changeTab(tabName)}
-        selectedTab={this.state.selectedTab}
-      />);
-=======
       return (
           <Navigation
             onClick={(tabName) => this.changeTab(tabName)}
@@ -147,7 +141,6 @@ export class Home extends React.Component{
             disable={this.state.disableTabs}
           />
       );
->>>>>>> bade3f0ce3169670ea417bc54112ae20abb9dc7c
     }
 
     renderTabContent() {
@@ -172,15 +165,10 @@ export class Home extends React.Component{
 
     render() {
       return (
-<<<<<<< HEAD
-        <div className="App Re-App Page" style={{position:"relative", height:"600px"}}>
+        <div className="App Re-App Page" style={{position:"relative", height:"500px"}}>
             <div id="nav_contain" style={{position:"absolute"}}>
             {this.renderNavigation()}
             </div>
-=======
-          <div className="App">
-            {this.renderNavigation()}
->>>>>>> bade3f0ce3169670ea417bc54112ae20abb9dc7c
             {this.state.isDone ?
                 <div className="App-body" style={{width:"100%"}} >
                     {this.renderTabContent()}

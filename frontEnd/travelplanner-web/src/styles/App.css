@@ -1,26 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower|Satisfy');
-<<<<<<< HEAD
-body{ 
-  background: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c8.jpg");
+body{
+  background: url("../assets/images/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment:fixed
+  background-attachment:fixed;
 }
-
-
-=======
-/*body{
-  background: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c7.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment:fixed
-}*/
->>>>>>> bade3f0ce3169670ea417bc54112ae20abb9dc7c
 
 .App {
   text-align: center;
   position: relative; 
   
+  
+}
+.Page{
+  background-image: url("../assets/images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment:fixed;
 }
 
 
@@ -101,13 +97,13 @@ body{
   color: #61dafb;
 }
 .top_container{
-  border-top-style: dashed;
+  border-top-style: line;
   top:48px;
-  border-top-color: #0d1c3a;
-  border-width: 2px;
+  border-top-color: #9a9ea7;
+  border-width: 4px;
   position: relative;
-  height:"500px";
+  height:500px;
   width:"100%";
   display:"flex";
-  background-color: #4e596e;
+ 
 }

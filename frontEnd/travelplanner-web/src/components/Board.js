@@ -422,13 +422,8 @@ export default class Board extends React.Component {
 
             <div style={{ position:"absolute",height:"500px"}}>
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
-<<<<<<< HEAD
-                <SideTimeline />
+                <SideTimeline days={this.state.days}/>
                 <Button onClick={this.saveButtonPressed}>Save</Button>
-=======
-                <SideTimeline days = {this.state.days}/>
-                <button onClick={this.saveButtonPressed}>Save</button>
->>>>>>> bade3f0ce3169670ea417bc54112ae20abb9dc7c
             </div>
             
         );

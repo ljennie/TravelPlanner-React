@@ -178,12 +178,7 @@ export class TravelOverview extends React.Component {
 
                 </div>
 
-<<<<<<< HEAD
                 </div>
-=======
-
-            </div>
->>>>>>> bade3f0ce3169670ea417bc54112ae20abb9dc7c
 
         );
     }
