@@ -37,10 +37,32 @@ export class TravelMarker extends React.Component {
         console.log('click', e);
         this.setState((prevState) => {
             return {
-                isOptionOpen: false,
+                isOptionOpen: true
             }
         });
         this.props.onDayChange(this.props.point.placeID, e.key);
+    }
+
+    setWrapperRef = (node) => {
+        this.wrapperRef = node;
+    }
+
+    handleClickOutside = (event)=> {
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            this.setState((prevState) => {
+                return {
+                    isOptionOpen: false
+                }
+            });
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
     render() {
@@ -65,6 +87,7 @@ export class TravelMarker extends React.Component {
             x: +5,
             y: -10,
         })
+
 
         return (
             <div>
@@ -94,16 +117,9 @@ export class TravelMarker extends React.Component {
                             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             getPixelPositionOffset={getPixelPositionOffset}
                         >
-                            <Menu
-                                onClick={this.onOptionClick}
-                            >
-                                <Menu.Item key={-1}>Delete</Menu.Item>
-                                {
-                                    [...Array(totalDays).keys()].filter((i) => i !== parseInt(day)).map((i)=>
-                                        <Menu.Item key={i}>{`Change to Day ${i + 1}`}</Menu.Item>)
-
-                                }
-                            </Menu>
+                            <div ref={this.setWrapperRef} style={{margin: 10, overflow: 'scroll', height: 200}}>
+                                {menu}
+                            </div>
 
                         </OverlayView> : null
                     }

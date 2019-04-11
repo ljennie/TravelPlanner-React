@@ -22,7 +22,7 @@ class TravelMap extends React.Component {
         return (
             <GoogleMap
                 defaultZoom={12}
-                defaultCenter={{ lat: 40.7795, lng: -73.9680 }}
+                center={{ lat: 40.7795, lng: -73.9680 }}
                 ref={this.saveMapRef}
             >
                 {(this.props.points || []).map((point) => {
