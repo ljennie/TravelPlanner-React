@@ -7,20 +7,8 @@ import SideTimeline from './SideTimeline';
 import DayList from './DayList';
 import { arrayMove } from 'react-sortable-hoc';
 import { API_ROOT } from "../constants"
-import { Button,notification } from 'antd'
+import { Button } from 'antd'
 
-const openNotificationWithIcon = (type) => {
-    notification[type]({
-      message: 'Successful!',
-      description: "You've saved the routes successfully!"
-    });
-  };
-  const openNotificationWithIcon1 = (type) => {
-    notification[type]({
-      message: 'Error!',
-      description: "There is something wrong!!"
-    });
-  }; 
 /*const jsonArray = [
     {
         "imageURL": "",
@@ -97,7 +85,6 @@ const openNotificationWithIcon = (type) => {
         "type": "poi"
     }
 ]
-
 const totalDays = 2;
 */
 ////////////////////////////Replace consts above using props.varname/////////////////////////////////////////////////
@@ -400,17 +387,7 @@ export default class Board extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).
-        then((response)=>{
-            console.log(response.status)
-            if(response.status===200){
-              openNotificationWithIcon('success')
-            }
-            
-          }  
-          )
-          .catch((e) => {
-            openNotificationWithIcon1('error')
+        }).catch((e) => {
             console.log(e.message);
         });
     }
@@ -420,10 +397,10 @@ export default class Board extends React.Component {
         //console.log(this.state.days);
         return (
 
-            <div style={{ position:"absolute",height:"500px"}}>
+            <div className="DetailPage">
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
-                <SideTimeline days={this.state.days}/>
-                <Button onClick={this.saveButtonPressed}>Save</Button>
+                <SideTimeline days = {this.state.days}/>
+                <button onClick={this.saveButtonPressed}>Save</button>
             </div>
             
         );
