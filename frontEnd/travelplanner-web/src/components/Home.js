@@ -14,7 +14,7 @@ export class Home extends React.Component{
     state = {
         selectedTab: 'traveloverview',
         isDone: false, // fetch finished
-        disableTabs: false
+        disableTabs: true
     };
 
     points = [];

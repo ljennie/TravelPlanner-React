@@ -3,7 +3,7 @@
 import React from "react";
 import {Form, Select} from 'antd'
 import {formItemLayout} from '../constants';
-class Autocomplete extends React.Component {
+export class Autocomplete extends React.Component {
   constructor(props) {
     super(props);
     this.autocompleteInput = React.createRef();
