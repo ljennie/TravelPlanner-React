@@ -1,8 +1,7 @@
 import React from 'react';
 import {Dropdown} from './Dropdown';
-import {AutoComplete} from 'antd'
-import Autocomplete from "./Autocomplete";
-import {API_ROOT} from "../constants"
+import {Autocomplete} from "./Autocomplete";
+import { API_ROOT } from "../constants"
 
 //import 'antd/dist/antd.css';
 //import './index.css';
@@ -60,16 +59,17 @@ export class TravelStartDayInput extends React.Component {
     }
 
     handleGenerateButtonPressed = () => {
-        //TODO: add notification to enter the first day address
+        //TODO: validation firstday
 
         this.updateStartPoints();
 
         const endPoint = 'GeneratePaths';
+        console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}),
             headers: {
-                'Constent-Type': 'application/json'
+                'Constent-Type': 'text/plain'
             }
         }).then((response) => {
             if (response.ok) {
@@ -82,6 +82,8 @@ export class TravelStartDayInput extends React.Component {
         }).catch((e) => {
             console.log(e.message);
         })
+
+        //TODO: validation all days
 
 
     }
