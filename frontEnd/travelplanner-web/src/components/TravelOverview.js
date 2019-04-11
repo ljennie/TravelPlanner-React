@@ -49,19 +49,23 @@ export class TravelOverview extends React.Component {
     generatedPoints=[];
 
     state = {
-        points: this.props.points.filter(place => place['type'] === "poi"),
-        isDayOptionsChosen : this.props.isDayOptionsChosen
+        points:[]
     }
 
     componentDidMount() {
         this.totalDays = this.props.totalDays;
+        this.setState((prevState) => {
+            return {
+                points: this.props.points
+            }
+        })
+        //this.props.points.filter(place => place['type'] === "poi")
     }
 
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
         const endPoint = 'InitialRecommend';
         //console.log(`days: ${this.totalDays}`);
-
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
@@ -72,8 +76,7 @@ export class TravelOverview extends React.Component {
             //console.log(data);
             this.setState((prevState) => {
                 return {
-                    points: data.places,
-                    isDayOptionsChosen: true
+                    points: data.places
                 }
             })
 
@@ -84,8 +87,7 @@ export class TravelOverview extends React.Component {
         // for testing
         /*this.setState((prevState) => {
             return {
-                points: this.testingPoints,
-                isDayOptionsChosen: true
+                points: this.testingPoints
             };
         })*/
     }
@@ -170,7 +172,7 @@ export class TravelOverview extends React.Component {
                             <button style={{userSelect: 'none'}}>Day Options</button>
                         </Dropdown>
 
-                        <div style={{visibility: this.state.isDayOptionsChosen ? 'visible' : 'hidden'}}>
+                        <div style={{visibility: this.totalDays == 0 ? 'visible' : 'hidden'}}>
                             <TravelStartDayInput totalDays={this.totalDays}
                                                  userID={this.props.userID}
                                                  handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}/>

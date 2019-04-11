@@ -66,7 +66,7 @@ export class TravelMarker extends React.Component {
     }
 
     render() {
-        const {type, lat, lon, name, imageURL, day} = this.props.point;
+        const {type, lat, lon, name, imageURL, day, intradayIndex} = this.props.point;
         //console.log(name);
         const totalDays = this.props.totalDays;
 
@@ -98,10 +98,10 @@ export class TravelMarker extends React.Component {
                     onMouseOut={this.onToggleOpen}
                     onClick={this.onToggleOpen}
                     onRightClick={this.onOptionOpen}
-                    icon={{url: require(`../assets/images/c${day+1}-marker.svg`),
+                    icon={{url: intradayIndex === 0 ? require(`../assets/images/start-c${day+1}-marker.svg`) : require(`../assets/images/c${day+1}-marker.svg`),
                           scaledSize: new window.google.maps.Size(26, 41)}}
                 >
-                    {this.state.isOpen ?
+                    {this.state.isOpen && intradayIndex !== 0 ?
                         <InfoWindow onCloseClick={this.onToggleOpen}>
                             <div>
                                 <img src={imageURL} alt={name} className="travel-marker-image"/>
@@ -111,7 +111,7 @@ export class TravelMarker extends React.Component {
                         </InfoWindow> : null
                     }
 
-                    {this.state.isOptionOpen ?
+                    {this.state.isOptionOpen && intradayIndex !== 0 ?
                         <OverlayView
                             position={{lat: lat, lng: lon}}
                             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}

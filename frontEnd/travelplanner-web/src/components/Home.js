@@ -4,24 +4,23 @@ import Navigation from './Navigation';
 import Board from './Board';
 import { TravelPlan } from './TravelPlan';
 import '../styles/App.css';
-import {TravelOverview} from "./TravelOverview"
+import {TravelOverview} from './TravelOverview'
 import {TestPage} from './TestPage';
-import {API_ROOT} from "../constants"
-
+import {API_ROOT} from "../constants";
+import {Spin} from 'antd';
 
 export class Home extends React.Component{
 
     state = {
         selectedTab: 'traveloverview',
-        isDone: false, // fetch finished
+        fetchFinished: false,
         disableTabs: true
     };
 
     points = [];
     totalDays = 0;
-    isDayOptionsChosen = false;
 
-    componentWillMount() {
+    componentDidMount() {
         const endPoint = 'GeneratePaths';
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}`, {
             method: 'GET',
@@ -32,15 +31,7 @@ export class Home extends React.Component{
         }).then((data) => {
             //console.log(data);
             //console.log(data.places);
-            if (data.places.length === 0) {
-                this.setState((prev) => {
-                    return {
-                        isDone: true,
-                        disableTabs: true
-                    };
-                });
-            }
-            else {
+            if (data.places.length !== 0) { // old user has data
 
                 const savedPoints = data.places.filter(place => place['type'] === "poi");
                 const startPoints = data.places.filter(place => place['type'] === "start");
@@ -53,14 +44,19 @@ export class Home extends React.Component{
                 this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
                     return o.day
                 })) + 1;
-                this.homeCallback(data.places, this.totalDays, false);
-                this.isDayOptionsChosen = true;
-                this.setState((prev) => {
+                this.points = data.places;
+                this.setState((prevState) => {
                     return {
-                        isDone: true
+                        disableTabs: false,
                     };
                 });
             }
+
+            this.setState((prev) => {
+                return {
+                    fetchFinished: true
+                };
+            });
 
         }).catch((e) => {
             console.log(e.message);
@@ -93,7 +89,6 @@ export class Home extends React.Component{
                 }
             }
         }
-        this.isDayOptionsChosen = true;
         this.setState((prevState) => {
             return {
                 disableTabs: false,
@@ -111,7 +106,6 @@ export class Home extends React.Component{
                 }
             }
         }
-        this.isDayOptionsChosen = true;
         this.setState((prevState) => {
             return {
                 disableTabs: false,
@@ -122,7 +116,7 @@ export class Home extends React.Component{
 
     renderOverview() {
         //console.log(this.props)
-        return (<TravelOverview points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeCallback={this.homeCallback} isDayOptionsChosen={this.isDayOptionsChosen}/>)
+        return (<TravelOverview points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeCallback={this.homeCallback}/>)
     }
     renderPlanDetails() {
         return (
@@ -167,11 +161,11 @@ export class Home extends React.Component{
       return (
           <div className="App">
             {this.renderNavigation()}
-            {this.state.isDone ?
+            {this.state.fetchFinished ?
                 <div className="App-body">
                     {this.renderTabContent()}
                 </div>
-                : null
+                : <Spin tip="Getting user data..."/>
             }
         </div>
       );
