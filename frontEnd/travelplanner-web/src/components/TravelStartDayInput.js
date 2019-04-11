@@ -2,12 +2,18 @@ import React from 'react';
 import {Dropdown} from './Dropdown';
 import {Autocomplete} from "./Autocomplete";
 import { API_ROOT } from "../constants"
+import {notification,Button} from  'antd'
 
 //import 'antd/dist/antd.css';
 //import './index.css';
-
+const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: 'Warning!',
+      description: 'Please enter the start address!',
+    });
+  };
 export class TravelStartDayInput extends React.Component {
-
+    message= ""
     startPoints = null;
     generatedPoints =[];
     prevDay = 0;
@@ -24,31 +30,35 @@ export class TravelStartDayInput extends React.Component {
     }
     updateStartPoints = () => {
         const place = this.auto.autocomplete.getPlace();
-        const obj = {
-            placeID: place.place_id,
-            type: "start",
-            lat: place.geometry.location.lat(),
-            lon: place.geometry.location.lng(),
-            name: place.name,
-            imageURL: "",
-            day: this.prevDay,
-            intradayIndex: 0
-        }
-        console.log(obj);
-        // update prev to startPoints
-        this.startPoints[this.prevDay] = obj;
-        for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
-            if (Object.keys(this.startPoints[i]).length === 0) {
-                this.startPoints[i] = this.startPoints[i - 1];
-            } else {
-                break;
+       if(typeof(place) != "undefined"){
+            const obj = {
+                placeID: place.place_id,
+                type: "start",
+                lat: place.geometry.location.lat(),
+                lon: place.geometry.location.lng(),
+                name: place.name,
+                imageURL: "",
+                day: this.prevDay,
+                intradayIndex: 0
             }
+            console.log("obj" );
+            // update prev to startPoints
+            this.startPoints[this.prevDay] = obj;
+            for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
+                if (Object.keys(this.startPoints[i]).length === 0) {
+                    this.startPoints[i] = this.startPoints[i - 1];
+                } else {
+                    break;
+                }
+            }
+    
         }
+    } 
+    
 
-    }
 
     handleDropdownClick = (day) => {
-        this.updateStartPoints();
+        //this.updateStartPoints();
 
         // clear Autocomplete
         this.auto.autocompleteInput.current.value = "";
@@ -62,8 +72,15 @@ export class TravelStartDayInput extends React.Component {
         //TODO: validation firstday
 
         this.updateStartPoints();
-
+        if(this.startPoints[this.startPoints.length-1].name==null){
+            console.log(this.startPoints);
+            console.log(this.day);
+            openNotificationWithIcon('warning')
+        }
+        else{
+        
         const endPoint = 'GeneratePaths';
+
         console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
@@ -84,7 +101,7 @@ export class TravelStartDayInput extends React.Component {
         })
 
         //TODO: validation all days
-
+    }
 
     }
 
@@ -100,9 +117,9 @@ export class TravelStartDayInput extends React.Component {
                 <Autocomplete onPlaceChanged={this.showPlaceDetails}
                               handleGenerateButtonPressed={this.handleGenerateButtonPressed}
                               ref={(input) => { this.auto = input; }}/>
-                <button onClick={this.handleGenerateButtonPressed}>GeneratePath</button>
+                <Button  style={{margin:"10px"}} className="button-font" onClick={this.handleGenerateButtonPressed}>GeneratePath</Button>
+               
             </div>
-
 
         </div>
     );

@@ -12,6 +12,7 @@ import Background from '../assets/images/background.jpg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const openNotificationWithIcon = (type) => {
   notification[type]({
     message: 'Successful!',
@@ -21,6 +22,11 @@ const openNotificationWithIcon = (type) => {
 const openNotificationWithIcon1 = (type) => {
   notification[type]({
     message: 'Click and see travel plan!',
+  });
+};
+const openNotificationWithIcon2 = (type,day) => {
+  notification[type]({
+    message: `There is no plan for day ${day}!`,
   });
 };
 const testingGeneratedPoints = [
@@ -58,6 +64,9 @@ export class TravelPlan extends React.Component {
         //console.log(temp)
         var start=temp.filter(place => (place.type) === "start");
         var legs=temp.filter(place => (place.type) === "poi")
+        if(legs.length===0){
+          openNotificationWithIcon2('info',1);
+        }
         //sort by index_in the day 
         //var temp2=[]
         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
@@ -117,6 +126,10 @@ export class TravelPlan extends React.Component {
          var temp2 = [];
          var temp3=[];
          var startpoint=[];
+         if(legs==null){
+           openNotificationWithIcon2('info',1);
+         }
+         else{
          temp=this.state.legs;
          temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
          start=this.state.start
@@ -152,10 +165,10 @@ export class TravelPlan extends React.Component {
                 travelMode: google.maps.TravelMode.DRIVING,
                 }, (result, status) => {
                if (status === google.maps.DirectionsStatus.OK) {
-         this.setState({
-           directions: {...result},
-           markers: false
-         })
+                this.setState({
+                  directions: {...result},
+                  markers: false
+                })
          //console.log(result)
        } else {
          console.log(`error fetching directions ${result}`);
@@ -165,6 +178,9 @@ export class TravelPlan extends React.Component {
      });
   }
 }
+  }
+  
+    
     
     handeldrop= (e) => {
         //console.log(e);
@@ -238,9 +254,19 @@ export class TravelPlan extends React.Component {
         //var temp4=[];
         temp=this.state.points.filter(place => (place.day+1).toString() === e.target.value);
         //sort by index_in the day 
+        console.log(`temp is ${temp.length}`);
         temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
         start=temp.filter(place => (place.type) === "start");
         legs=temp.filter(place => (place.type) === "poi")
+        if(legs.length===0){
+          console.log("there is no place");
+          openNotificationWithIcon2('info',e.target.value);
+          this.setState({
+            directions: null,
+            markers: false
+          })
+         }
+        else{
         legs.sort((a, b) => a.intradayIndex - b.intradayIndex);
         console.log(legs)
         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
@@ -321,6 +347,7 @@ export class TravelPlan extends React.Component {
         console.log("first load")
     }
    }
+  }
   
     saveButtonClicked = () => {
       const endPoint = 'UpdatePaths';
@@ -364,20 +391,20 @@ export class TravelPlan extends React.Component {
 
         });
     }
-
+    
 
     render() {
         //const Background= "D:\travel\awesomeTravelPlanner\frontEnd\travelplanner-web\src\assets\images\background.jpg"
         return (
             <div className="top_container">
                 
-                <div className="contain-color" style={{ position:"absolute",top:"5px",height:"300px", left:"2px","border-radius": "5px",display:"flex", overflow:"auto"}} >
+                <div className="contain-color " style={{ position:"absolute",top:"30px",height:"250px", left:"2px","border-radius": "5px",display:"flex", overflow:"auto"}} >
                     <Radio.Group  onChange={this.filtermarkers} size={"large"} >
                     {
                      [...Array(this.props.totalDays).keys()].map(i =>
-                      <div>
-                      <Radio.Button className="contain-color font-white" style={{  border: "none", padding:"7px", "border-radius": "0px",
-                      borderBottomStyle:"solid",borderBottomColor:"gray"}} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                      <div style={{margin:"4px", border:"solid", borderColor:"#555B6E" }}>
+                      <Radio.Button className="contain-color font-white " style={{  border: "none", padding:"7px", "border-radius": "0px",
+                      }} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
                       </div> 
                      )
                    }
@@ -405,7 +432,7 @@ export class TravelPlan extends React.Component {
                       )  
                     }
                     <div>
-                        <Button onClick={this.saveButtonClicked}>Save</Button>
+                        <Button className="button-font" onClick={this.saveButtonClicked}>Save</Button>
                     
                  </div>
                  </div>  

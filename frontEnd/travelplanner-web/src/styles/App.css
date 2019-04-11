@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower|Satisfy');
 body{
-  background: url("../assets/images/background.jpg");
+  background: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c8_副本.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment:fixed;
@@ -12,12 +12,6 @@ body{
   
   
 }
-.Page{
-  background-image: url("../assets/images/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment:fixed;
-}
 
 
 .App-logo {
@@ -28,7 +22,7 @@ body{
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color:#121b30;
   height: 80px;
 
   color: white;
@@ -57,11 +51,13 @@ body{
 
 .App-title {
   font-size: 4em;
-  font-family:  'Satisfy', cursive;
   margin: 10;
   float: left;
   padding-top: 10px;
   color: #fff;
+}
+.satisfy{
+  font-family:  'Satisfy', cursive;
 }
 
 
@@ -89,7 +85,7 @@ body{
   border-width: 3px;
   position: absolute;
  
-  left: 0px;
+  left: 100px;
   background-color: white;
 }
 

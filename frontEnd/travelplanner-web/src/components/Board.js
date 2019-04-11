@@ -400,7 +400,7 @@ export default class Board extends React.Component {
             <div className="DetailPage">
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
                 <SideTimeline days = {this.state.days}/>
-                <button onClick={this.saveButtonPressed}>Save</button>
+                <Button className="button-font" onClick={this.saveButtonPressed}>Save</Button>
             </div>
             
         );

@@ -165,12 +165,18 @@ export class TravelOverview extends React.Component {
            
                 </div>
                 <div className="info">
-
+                        {this.totalDays>0&&<div 
+                        className="banger">You chose a <h1><b>{this.totalDays}</b></h1> days Trip!
+                        
+                        </div>}
+                        <div style={{margin:"3px"}}> 
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
-                            <button style={{userSelect: 'none'}}>Day Options</button>
+                            <Button className="button-font" style={{userSelect: 'none'}}>Day Options</Button>
                         </Dropdown>
+                        </div>
 
                         <div style={{visibility: this.state.isDayOptionsChosen ? 'visible' : 'hidden'}}>
+                             {this.totalDays>0&&<p  style={{color:"gray"}}>Please selecct day and enter address! </p>}
                             <TravelStartDayInput totalDays={this.totalDays}
                                                  userID={this.props.userID}
                                                  handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}/>
