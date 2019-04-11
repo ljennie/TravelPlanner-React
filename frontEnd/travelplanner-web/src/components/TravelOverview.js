@@ -163,6 +163,7 @@ export class TravelOverview extends React.Component {
                     handleOnDayChange={this.handleOnDayChange}
                 />
 
+
                 <div>
 
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
