@@ -5,7 +5,6 @@ import Board from './Board';
 import { TravelPlan } from './TravelPlan';
 import '../styles/App.css';
 import {TravelOverview} from './TravelOverview'
-import {TestPage} from './TestPage';
 import {API_ROOT} from "../constants";
 import {Spin} from 'antd';
 

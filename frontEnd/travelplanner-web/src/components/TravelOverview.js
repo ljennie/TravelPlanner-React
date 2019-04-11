@@ -49,23 +49,31 @@ export class TravelOverview extends React.Component {
     generatedPoints=[];
 
     state = {
-        points:[]
+        points:[],
+        isLoadingInit: false,
+        isGeneratingPath: false
     }
 
     componentDidMount() {
         this.totalDays = this.props.totalDays;
+        this.startPoints = this.props.points.filter(place => place['type'] === "start")
         this.setState((prevState) => {
             return {
                 points: this.props.points
             }
         })
-        //this.props.points.filter(place => place['type'] === "poi")
+
     }
 
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
         const endPoint = 'InitialRecommend';
         //console.log(`days: ${this.totalDays}`);
+        this.setState((prevState) => {
+            return {
+                isLoadingInit: true
+            }
+        })
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
@@ -76,7 +84,8 @@ export class TravelOverview extends React.Component {
             //console.log(data);
             this.setState((prevState) => {
                 return {
-                    points: data.places
+                    points: data.places,
+                    isLoadingInit: false
                 }
             })
 
@@ -112,6 +121,11 @@ export class TravelOverview extends React.Component {
 
     handleGeneratePathsButtonPressed = (generatedPoints) => {
         //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
+        this.setState((prevState) => {
+            return {
+                isGeneratingPath:false
+            };
+        });
         this.props.homeCallback(generatedPoints,this.totalDays);
     }
 
@@ -135,8 +149,38 @@ export class TravelOverview extends React.Component {
         this.onSavePlacesButtonClick(pointId, day, -1);
     }
 
-    handleReset = () => {
-        this.props.form.resetFields();
+
+    addStartPoint = (obj) => {
+        let points = this.state.points;
+        const {day} = obj;
+        let replaced = false;
+        for (let i = 0; i < points.length; i++) {
+            const point = this.points[i];
+            const { intradayIndex, day } = point;
+            if (intradayIndex === 0 && day === obj[day]) { // if exist, replace
+                this.points[i] = obj;
+                replaced = true;
+                break;
+            }
+        }
+        if (!replaced) {
+            points.push(obj);
+        }
+
+        this.setState((prevState) => {
+            return {
+                points:points
+            };
+        });
+
+    }
+
+    isGeneratingPath = () => {
+        this.setState((prevState) => {
+            return {
+                isGeneratingPath:true
+            };
+        });
     }
 
     render() {
@@ -163,6 +207,8 @@ export class TravelOverview extends React.Component {
                     points={this.state.points}
                     totalDays={this.totalDays}
                     handleOnDayChange={this.handleOnDayChange}
+                    isLoadingInit={this.state.isLoadingInit}
+                    isGeneratingPath={this.state.isGeneratingPath}
                 />
 
 
@@ -172,10 +218,13 @@ export class TravelOverview extends React.Component {
                             <button style={{userSelect: 'none'}}>Day Options</button>
                         </Dropdown>
 
-                        <div style={{visibility: this.totalDays == 0 ? 'visible' : 'hidden'}}>
+                        <div style={{visibility: this.totalDays > 0 ? 'visible' : 'hidden'}}>
                             <TravelStartDayInput totalDays={this.totalDays}
                                                  userID={this.props.userID}
-                                                 handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}/>
+                                                 handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}
+                                                 startPoints={this.startPoints}
+                                                 addStartPoint={this.addStartPoint}
+                                                 isGeneratingPath={this.isGeneratingPath}/>
                         </div>
 
                 </div>

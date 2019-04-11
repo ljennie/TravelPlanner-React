@@ -4,6 +4,8 @@ import { Polyline } from "react-google-maps"
 import { POS_KEY } from "../constants";
 import { TravelMarker } from "./TravelMarker";
 import { relative } from 'path';
+import { Spin } from 'antd';
+
 class TravelMap extends React.Component {
 
     constructor(props) {
@@ -25,6 +27,13 @@ class TravelMap extends React.Component {
                 center={{ lat: 40.7795, lng: -73.9680 }}
                 ref={this.saveMapRef}
             >
+                {this.props.isLoadingInit ?
+                    <Spin tip="Getting recommended places..."/> : null
+                }
+
+                {this.props.isGeneratingPath ?
+                    <Spin tip="Generating Paths..."/> : null
+                }
                 {(this.props.points || []).map((point) => {
                     return (
                         <TravelMarker
@@ -34,7 +43,7 @@ class TravelMap extends React.Component {
                             onDayChange={this.props.handleOnDayChange} />
                     )
                 })}
-                 
+
                  {
                 (this.props.directions)&&
                 <DirectionsRenderer directions={this.props.directions} suppressMarkers={this.props.markers}

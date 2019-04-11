@@ -8,7 +8,7 @@ import { API_ROOT } from "../constants"
 
 export class TravelStartDayInput extends React.Component {
 
-    startPoints = null;
+    startPoints = []; // with order
     generatedPoints =[];
     prevDay = 0;
 
@@ -16,12 +16,33 @@ export class TravelStartDayInput extends React.Component {
         //this.setState({ place });
         //console.log(place);
     }*/
-    componentDidUpdate() {
-        if (this.startPoints === null && this.props.totalDays > 0) {
+
+    componentWillMount() {
+        if (this.props.totalDays > 0) {
             this.startPoints = Array(this.props.totalDays).fill({});
+
+            for (let i = 0; i < this.props.startPoints.length; i++) {
+                const startPoint = this.props.startPoints[i];
+                const {day} = startPoint;
+                this.startPoints[day] = startPoint;
+            }
         }
-        console.log("totalDays", this.props.totalDays);
+
+
     }
+
+    componentWillUpdate() {
+        if (this.props.totalDays > 0) {
+            this.startPoints = Array(this.props.totalDays).fill({});
+
+            for (let i = 0; i < this.props.startPoints.length; i++) {
+                const startPoint = this.props.startPoints[i];
+                const {day} = startPoint;
+                this.startPoints[day] = startPoint;
+            }
+        }
+    }
+
     updateStartPoints = () => {
         const place = this.auto.autocomplete.getPlace();
         const obj = {
@@ -34,9 +55,14 @@ export class TravelStartDayInput extends React.Component {
             day: this.prevDay,
             intradayIndex: 0
         }
-        console.log(obj);
+        // console.log(obj);
         // update prev to startPoints
         this.startPoints[this.prevDay] = obj;
+
+        // mark start point on map
+        this.props.addStartPoint(obj);
+
+        // do interpolation here to reduce the burden on generate paths
         for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
             if (Object.keys(this.startPoints[i]).length === 0) {
                 this.startPoints[i] = this.startPoints[i - 1];
@@ -45,17 +71,18 @@ export class TravelStartDayInput extends React.Component {
             }
         }
 
+
+
     }
 
     handleDropdownClick = (day) => {
         this.updateStartPoints();
 
-        // clear Autocomplete
+        // clear autocomplete input
         this.auto.autocompleteInput.current.value = "";
 
         this.prevDay = day;
 
-        // TODO: mark start point on map
     }
 
     handleGenerateButtonPressed = () => {
@@ -64,7 +91,10 @@ export class TravelStartDayInput extends React.Component {
         this.updateStartPoints();
 
         const endPoint = 'GeneratePaths';
-        console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
+        //console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
+
+        this.props.isGeneratingPath();
+
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}),
@@ -83,6 +113,7 @@ export class TravelStartDayInput extends React.Component {
             console.log(e.message);
         })
 
+
         //TODO: validation all days
 
 
@@ -99,7 +130,11 @@ export class TravelStartDayInput extends React.Component {
             <div className="Address">
                 <Autocomplete onPlaceChanged={this.showPlaceDetails}
                               handleGenerateButtonPressed={this.handleGenerateButtonPressed}
-                              ref={(input) => { this.auto = input; }}/>
+                              ref={(input) => { this.auto = input; }}
+                              placeholder={
+                                  (this.startPoints.length !== 0 && Object.keys(this.startPoints[this.prevDay]).length === 0) ?
+                                      this.startPoints[this.prevDay].name :
+                                      `Please enter start place for Day ${this.prevDay + 1}`}/>
                 <button onClick={this.handleGenerateButtonPressed}>GeneratePath</button>
             </div>
 

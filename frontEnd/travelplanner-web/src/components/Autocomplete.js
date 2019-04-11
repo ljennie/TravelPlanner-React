@@ -31,7 +31,7 @@ export class Autocomplete extends React.Component {
           <input className="input"
             ref={this.autocompleteInput}
             id="autocomplete"
-            placeholder="Enter your start place"
+            placeholder={this.props.placeholder}
             type="text"
           />
         </span>
