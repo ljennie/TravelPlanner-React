@@ -1,10 +1,12 @@
 import React from 'react';
 import { Marker, InfoWindow, OverlayView } from "react-google-maps";
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Select} from 'antd';
 
 import blueMarkerUrl from '../assets/images/blue-marker.svg';
 import blackMarkerUrl from '../assets/images/black-marker.png';
 import rightClickIconUrl from '../assets/images/rightClickIcon.png';
+
+const {Option} = Select;
 
 export class TravelMarker extends React.Component {
     state = {
@@ -22,12 +24,22 @@ export class TravelMarker extends React.Component {
     }
 
     onOptionOpen = () => {
-        this.setState({isOptionOpen: true});
-        console.log("open option");
+        console.log('onOptionOpen');
+        this.setState((prevState) => {
+            return {
+                isOptionOpen: true,
+            }
+        });
+
     }
 
     onOptionClick = (e) => {
         console.log('click', e);
+        this.setState((prevState) => {
+            return {
+                isOptionOpen: false,
+            }
+        });
         this.props.onDayChange(this.props.point.placeID, e.key);
     }
 
@@ -49,8 +61,14 @@ export class TravelMarker extends React.Component {
             </Menu>
         )
 
+        const getPixelPositionOffset = (width, height) => ({
+            x: +5,
+            y: -10,
+        })
+
         return (
             <div>
+
                 <Marker
                     position={{ lat: lat, lng: lon }}
                     onMouseOver={ this.onToggleOpen}
@@ -64,21 +82,31 @@ export class TravelMarker extends React.Component {
                         <InfoWindow onCloseClick={this.onToggleOpen}>
                             <div>
                                 <img src={imageURL} alt={name} className="travel-marker-image"/>
-                                <p>{`Day ${day}: ${name}`}</p>
+                                <p>{`Day ${day + 1}: ${name}`}</p>
                                 <a className="btn btn-success" href={`https://en.wikipedia.org/wiki/${name}`} target ="_blank">Learn More</a>
                             </div>
                         </InfoWindow> : null
                     }
 
-                    <OverlayView
-                        position = { {lat: lat, lng: lon} }
-                        mapPaneName={ OverlayView.OVERLAY_MOUSE_TARGET }
-                        //getPixelPositionOffset={getPixelPositionOffset}
-                    >
-                        <Dropdown overlay={menu} trigger={['contextMenu']}>
-                            <img src={rightClickIconUrl} style={{ userSelect: 'none'}} className="right-click-icon"/>
-                        </Dropdown>
-                    </OverlayView>
+                    {this.state.isOptionOpen ?
+                        <OverlayView
+                            position={{lat: lat, lng: lon}}
+                            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                            getPixelPositionOffset={getPixelPositionOffset}
+                        >
+                            <Menu
+                                onClick={this.onOptionClick}
+                            >
+                                <Menu.Item key={-1}>Delete</Menu.Item>
+                                {
+                                    [...Array(totalDays).keys()].filter((i) => i !== parseInt(day)).map((i)=>
+                                        <Menu.Item key={i}>{`Change to Day ${i + 1}`}</Menu.Item>)
+
+                                }
+                            </Menu>
+
+                        </OverlayView> : null
+                    }
 
                 </Marker>
 

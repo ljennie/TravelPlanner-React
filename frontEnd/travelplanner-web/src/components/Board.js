@@ -391,7 +391,10 @@ export default class Board extends React.Component {
             console.log(e.message);
         });
     }
-
+  
+    printButtonPressed = () => {
+        window.print();
+    }
 
     render() {
         //console.log(this.state.days);
@@ -400,7 +403,11 @@ export default class Board extends React.Component {
             <div className="DetailPage">
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
                 <SideTimeline days = {this.state.days}/>
-                <Button className="button-font" onClick={this.saveButtonPressed}>Save</Button>
+
+
+                <button onClick={this.saveButtonPressed}>Save</button>
+                <button onClick={this.printButtonPressed} id='printbutton'>Print</button>      
+
             </div>
             
         );

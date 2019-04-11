@@ -162,6 +162,7 @@ export class TravelOverview extends React.Component {
                     totalDays={this.totalDays}
                     handleOnDayChange={this.handleOnDayChange}
                 />
+
            
                 </div>
                 <div className="info">
@@ -170,6 +171,12 @@ export class TravelOverview extends React.Component {
                         
                         </div>}
                         <div style={{margin:"3px"}}> 
+
+
+
+                <div>
+
+
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
                             <Button className="button-font" style={{userSelect: 'none'}}>Day Options</Button>
                         </Dropdown>
