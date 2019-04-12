@@ -127,7 +127,7 @@ export class TravelMarker extends React.Component {
                             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             getPixelPositionOffset={getPixelPositionOffset}
                         >
-                            <div ref={this.setWrapperRef} style={{margin: 10, overflow: 'scroll', height: 200}}>
+                            <div ref={this.setWrapperRef}>
                                 {menu}
                             </div>
 
