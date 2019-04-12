@@ -3,12 +3,12 @@ import React from 'react';
 //import $ from 'jquery'
 import { Menu, Dropdown, Form, Row, Col, Input, Button } from 'antd';
 import { API_ROOT } from "../constants"
-import { StartAddressInputForm } from "./StartAddressInputForm";
+//import { StartAddressInputForm } from "./StartAddressInputForm";
 //import { GeneratePathsButton } from "./GeneratePathsButton";
 
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
-import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
+//import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
 import {TravelStartDayInput} from "./TravelStartDayInput"
 
 export class TravelOverview extends React.Component {
@@ -45,6 +45,7 @@ export class TravelOverview extends React.Component {
     changedPoints = [];
 
     startPoints = [];
+    poiPoints = [];
 
     generatedPoints=[];
 
@@ -57,6 +58,7 @@ export class TravelOverview extends React.Component {
     componentDidMount() {
         console.log("TravelOverview did mount");
         this.totalDays = this.props.totalDays;
+        this.poiPoints = this.props.points.filter(place => place['type'] === "poi")
         this.startPoints = this.props.points.filter(place => place['type'] === "start")
         this.setState((prevState) => {
             return {
@@ -164,25 +166,22 @@ export class TravelOverview extends React.Component {
 
 
     addStartPoint = (obj) => {
-        let points = this.state.points;
-        const {day} = obj;
         let replaced = false;
-        for (let i = 0; i < points.length; i++) {
-            const point = points[i];
-            const { intradayIndex, day } = point;
-            if (intradayIndex === 0 && day === obj[day]) { // if exist, replace
-                this.points[i] = obj;
+        for (let i = 0; i < this.startPoints.length; i++) {
+            const day = this.startPoints[i].day;
+            if (day === obj.day) { // if exist, replace
+                this.startPoints[i] = obj;
                 replaced = true;
                 break;
             }
         }
         if (!replaced) {
-            points.push(obj);
+            this.startPoints.push(obj);
         }
 
         this.setState((prevState) => {
             return {
-                points:points,
+                points:[...this.poiPoints, ...this.startPoints],
             };
         });
 

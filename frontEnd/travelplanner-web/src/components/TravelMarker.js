@@ -1,6 +1,7 @@
 import React from 'react';
 import { Marker, InfoWindow, OverlayView } from "react-google-maps";
 import { Menu, Dropdown, Select} from 'antd';
+import {LOC_SHAKE} from "../constants"
 
 import blueMarkerUrl from '../assets/images/blue-marker.svg';
 import blackMarkerUrl from '../assets/images/black-marker.png';
@@ -93,12 +94,12 @@ export class TravelMarker extends React.Component {
             <div>
 
                 <Marker
-                    position={{ lat: lat, lng: lon }}
+                    position={{ lat: type === 'start' ? lat + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lat, lng: type === 'start' ? lon + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lon}}
                     onMouseOver={ this.onToggleOpen}
                     onMouseOut={this.onToggleOpen}
                     onClick={this.onToggleOpen}
                     onRightClick={this.onOptionOpen}
-                    icon={{url: intradayIndex === 0 ? require(`../assets/images/start-c${day+1}-marker.svg`) : require(`../assets/images/c${day+1}-marker.svg`),
+                    icon={{url: type === 'start' ? require(`../assets/images/start-c${day+1}-marker.svg`) : require(`../assets/images/c${day+1}-marker.svg`),
                           scaledSize: new window.google.maps.Size(26, 41)}}
                 >
                     {this.state.isOpen && intradayIndex !== 0 ?
