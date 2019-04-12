@@ -51,7 +51,7 @@ export class TravelOverview extends React.Component {
     state = {
         points:[],
         isLoadingInit: false,
-        isGeneratingPath: false
+        isGeneratingPath: false,
     }
 
     componentDidMount() {
@@ -182,12 +182,11 @@ export class TravelOverview extends React.Component {
 
         this.setState((prevState) => {
             return {
-                points:points
+                points:points,
             };
         });
 
     }
-
 
     render() {
         const dayOptionsMenu = (
@@ -204,7 +203,6 @@ export class TravelOverview extends React.Component {
 
         return (
             <div>
-
                 <WrappedTravelMap
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}

@@ -33,6 +33,7 @@ export class TravelStartDayInput extends React.Component {
 
     componentDidMount() {
         console.log("TravelStartDayInput did mount");
+
     }
 
     componentWillUpdate() {
@@ -87,7 +88,7 @@ export class TravelStartDayInput extends React.Component {
         }
 
         // clear autocomplete input
-        this.auto.autocompleteInput.current.value = (Object.keys(this.curObj).length === 0) ? "" : this.curObj.name;
+        this.auto.autocompleteInput.current.value = "";
 
         this.prevDay = day;
 
@@ -130,6 +131,7 @@ export class TravelStartDayInput extends React.Component {
 
 
     }
+
 
     render () {
     return (

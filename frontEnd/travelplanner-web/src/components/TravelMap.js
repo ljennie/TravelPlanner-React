@@ -28,12 +28,13 @@ class TravelMap extends React.Component {
                 ref={this.saveMapRef}
             >
                 {this.props.isLoadingInit ?
-                    <Spin tip="Getting recommended places..."/> : null
+                    <Spin tip="Getting Recommended Places..."/> : null
                 }
 
                 {this.props.isGeneratingPath ?
                     <Spin tip="Generating Paths..."/> : null
                 }
+
                 {(this.props.points || []).map((point) => {
                     return (
                         <TravelMarker
