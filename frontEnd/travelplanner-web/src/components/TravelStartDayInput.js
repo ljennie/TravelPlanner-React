@@ -13,7 +13,7 @@ export class TravelStartDayInput extends React.Component {
     curObj = {};
 
     componentDidMount() {
-        console.log("TravelStartDayInput will mount");
+        console.log("TravelStartDayInput did mount");
         if (this.props.totalDays > 0) {
             this.startPoints = Array(this.props.totalDays).fill({});
 
@@ -37,8 +37,8 @@ export class TravelStartDayInput extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log("TravelStartDayInput will update");
-        if (this.props.totalDays > 0) {
+        console.log("TravelStartDayInput did update");
+        if (this.props.totalDays > 0 && this.startPoints.length == 0) {
             this.startPoints = Array(this.props.totalDays).fill({});
 
             for (let i = 0; i < this.props.startPoints.length; i++) {

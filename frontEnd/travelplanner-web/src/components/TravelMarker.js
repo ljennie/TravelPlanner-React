@@ -109,10 +109,10 @@ export class TravelMarker extends React.Component {
                     icon={{url: type === 'start' ? require(`../assets/images/start-c${day+1}-marker.svg`) : require(`../assets/images/c${day+1}-marker.svg`),
                           scaledSize: new window.google.maps.Size(26, 41)}}
                 >
-                    {this.state.isOpen && intradayIndex !== 0 ?
+                    {this.state.isOpen ?
                         <InfoWindow onCloseClick={this.onToggleClose}>
                             <div>
-                                { imageURL !== "" ?
+                                { imageURL !== undefined && imageURL !== null && imageURL !== "" ?
                                     <img src={imageURL} alt={name} className="travel-marker-image"/> : null
                                 }
                                 <p>{`Day ${day + 1}: ${name}`}</p>
@@ -121,7 +121,7 @@ export class TravelMarker extends React.Component {
                         </InfoWindow> : null
                     }
 
-                    {this.state.isOptionOpen && intradayIndex !== 0 ?
+                    {this.state.isOptionOpen && type !== 'start' ?
                         <OverlayView
                             position={{lat: lat, lng: lon}}
                             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}

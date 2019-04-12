@@ -35,21 +35,20 @@ export class Home extends React.Component{
 
                 const savedPoints = data.places.filter(place => place['type'] === "poi");
                 const startPoints = data.places.filter(place => place['type'] === "start");
-                if (startPoints.length > 0) {
-                    // TODO: add address to input form
-                    }
-                else { // no start points
+                if (startPoints === undefined || startPoints === null || startPoints.length === 0) {
                     this.setState((prevState) => { return {disableTabs: true}});
+                } else {
+                    this.setState((prevState) => {
+                        return {
+                            disableTabs: false,
+                        };
+                    });
                 }
                 this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
                     return o.day
                 })) + 1;
                 this.points = data.places;
-                this.setState((prevState) => {
-                    return {
-                        disableTabs: false,
-                    };
-                });
+
             }
 
             this.setState((prev) => {
