@@ -107,17 +107,17 @@ export class TravelStartDayInput extends React.Component {
 
     render () {
     return (
-        <div className="div">
-            <div className="Dropdown">
+        <div className="div" style={{ margintop:"30px",textAlign:"left",display:"block"}}>
+            <div className="Dropdown" style={{position:"absolute"}}>
                 <Dropdown handleDropdownClick={this.handleDropdownClick}
                           totalDays={this.props.totalDays}/>
             </div>
 
-            <div className="Address">
+            <div className="Address" style={{position:"absolute", marginTop:"50px"}} >
                 <Autocomplete onPlaceChanged={this.showPlaceDetails}
                               handleGenerateButtonPressed={this.handleGenerateButtonPressed}
                               ref={(input) => { this.auto = input; }}/>
-                <Button  style={{margin:"10px"}} className="button-font" onClick={this.handleGenerateButtonPressed}>GeneratePath</Button>
+                <Button   className="button-font generate" style={{position:"absolute", marginTop:"50px"}} onClick={this.handleGenerateButtonPressed}>GeneratePath</Button>
                
             </div>
 

@@ -95,7 +95,7 @@ class RegisterationForm extends React.Component {
             <Form className="register-form" {...formItemLayout} onSubmit={this.handleSubmit}>
                  
                 <Form.Item style={{marginLeft:"auto"}}>
-                   <div style={{color:"white", float:"left", fontWeight:10}}>*Username</div>
+                   <div style={{color:"black", float:"left", fontWeight:10}}>*Username</div>
                     {getFieldDecorator('username', {
                         rules: [{required: true, message: 'Please input your nickname!', whitespace: true}],
                     })(

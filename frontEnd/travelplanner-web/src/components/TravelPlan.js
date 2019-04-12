@@ -11,6 +11,8 @@ import {arrayMove} from 'array-move'
 import Background from '../assets/images/background.jpg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {UserTour} from '../components/UserTour';
+import Joyride ,{ ACTIONS, EVENTS, STATUS}  from 'react-joyride';
 
 
 const openNotificationWithIcon = (type) => {
@@ -41,6 +43,26 @@ const testingGeneratedPoints = [
   {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "bb", imageURL: "", day:1, intradayIndex: 0},
   {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "yy", imageURL: "", day:2, intradayIndex: 0},
 ];
+const steps= [
+  {
+    target: '.help',
+    content: 'You are at travel plan page now! You can get recommended routes and costomize them here.',
+  },
+  {
+    target: '#button-group',
+    content: 'You can scroll and find the day, than your routes will show on the map!',
+  },
+  {
+    target: '.info',
+    content: 'The travel plan for the day are shown on here, you can drag the place and change the vist order that you want',
+  },
+  {
+    target: '.save',
+    content: 'You can save your current plan by clicking save',
+  },
+  
+  
+];
 
 export class TravelPlan extends React.Component {
     SelectedPoints = [];
@@ -49,6 +71,11 @@ export class TravelPlan extends React.Component {
     paths=[];
     directions={};
     directions1={};
+    toursteps=[];
+    run=true;
+
+    stepIndex=0;
+   
     
     
     state = {
@@ -88,26 +115,6 @@ export class TravelPlan extends React.Component {
         //}
         //));
        //console.log(temp3);
-       /*const DirectionsService = new google.maps.DirectionsService();
-       DirectionsService.route({
-         //origin: new google.maps.LatLng( 40.7829,-73.9654),
-         //origin:new google.maps.LatLng(41.8507300, -87.6512600),
-         origin: ori,
-          waypoints: temp3,
-         //destination: new google.maps.LatLng(41.8525800, -87.6514100),
-         destination: des,
-         travelMode: google.maps.TravelMode.DRIVING,
-       }, (result, status) => {
-         if (status === google.maps.DirectionsStatus.OK) {
-           this.setState({
-             directions: {...result},
-             markers: false
-           })
-           //console.log(result)
-         } else {
-           console.log(`error fetching directions ${result}`);
-         }
-       }); */
         this.setState(
             {
                 points: this.props.points,
@@ -126,6 +133,7 @@ export class TravelPlan extends React.Component {
          var temp2 = [];
          var temp3=[];
          var startpoint=[];
+         this.toursteps=[];
          if(legs==null){
            openNotificationWithIcon2('info',1);
          }
@@ -348,7 +356,32 @@ export class TravelPlan extends React.Component {
     }
    }
   }
-  
+  handleJoyrideCallback = data => {
+    this.setState( {
+        toursteps: steps,
+        run:true
+      }
+       ); 
+    const { action, index, status, type } = data;
+
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      // Update state to advance the tour
+      this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
+    }
+
+    console.groupCollapsed(type);
+    console.log(data); //eslint-disable-line no-console
+    console.groupEnd();
+  };
+
+  closeHelp =()=>{
+    this.setState( {
+      toursteps:[]
+    })
+    console.log(this.state.run);
+    console.log(this.state.toursteps);
+  };
+       
     saveButtonClicked = () => {
       const endPoint = 'UpdatePaths';
         if(this.state.legs!=null){
@@ -394,12 +427,28 @@ export class TravelPlan extends React.Component {
     
 
     render() {
+       
         //const Background= "D:\travel\awesomeTravelPlanner\frontEnd\travelplanner-web\src\assets\images\background.jpg"
         return (
-            <div className="top_container">
-                
-                <div className="contain-color " style={{ position:"absolute",top:"30px",height:"250px", left:"2px","border-radius": "5px",display:"flex", overflow:"auto"}} >
-                    <Radio.Group  onChange={this.filtermarkers} size={"large"} >
+           <div className="top_container">
+                 {typeof(this.state.toursteps)!=="undefined"&&this.state.toursteps!==[]&&<Joyride
+                  styles={{
+                    options: {
+                      arrowColor: '#4F6E96',
+                      backgroundColor: 'white',
+                      primaryColor: '#4F6E96',
+                      textColor: 'black',
+                      width: 300,
+                      zIndex: 1000,
+                    }
+                  }}
+                  callback={this.handleJoyrideCallback}
+                  run={this.state.run}
+                  stepIndex={this.state.stepIndex}
+                  steps={this.state.toursteps}
+                  continuous={true} />}
+                <div className="  contain-color "  style={{ position:"absolute",top:"30px",height:"250px", left:"2px","border-radius": "5px",display:"flex", overflow:"auto"}} >
+                    <Radio.Group id="button-group" onChange={this.filtermarkers} size={"large"} >
                     {
                      [...Array(this.props.totalDays).keys()].map(i =>
                       <div style={{margin:"4px", border:"solid", borderColor:"#555B6E" }}>
@@ -432,12 +481,16 @@ export class TravelPlan extends React.Component {
                       )  
                     }
                     <div>
-                        <Button className="button-font" onClick={this.saveButtonClicked}>Save</Button>
+                        <Button className="button-font save" onClick={this.saveButtonClicked}>Save</Button>
                     
                  </div>
-                 </div>  
-                  
+                 <div className="help" style={{ position:"absolute", bottom:"40px", marginLeft:"10px", textAlign:"left"}}><Button onClick={this.handleJoyrideCallback}><Icon type="question-circle"/>Get help from here!</Button> </div> 
+                      
+                 </div> 
             </div>
         );
     }
   }
+
+ 
+  

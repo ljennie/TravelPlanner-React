@@ -17,7 +17,15 @@
     font-family: 'Righteous', cursive;
     font-size: 15px;
     font-weight: thin;
-    color:white;
-    background-color:  #4F6E96;
+    color: white;
+    background-color:#00033a
 
+}
+#myTab{
+    font-family: 'Righteous', cursive;
+    font-size: 15px;
+    font-weight: thin;
+    color:#00033a;
+    background-color:white;
+    border: 3px;
 }

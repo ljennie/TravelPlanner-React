@@ -13,7 +13,7 @@ export class Dropdown extends React.Component {
     render () {
         return (
 
-            <div className="Day" style={{marginLeft:"88px"}}>
+            <div className="Day" >
                 <Form {...formItemLayout} >
                     <Form.Item>
                         <Select className="Day" defaultValue="1" onChange={this.handleChange}>
