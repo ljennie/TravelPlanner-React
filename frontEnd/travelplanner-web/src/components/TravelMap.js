@@ -37,7 +37,7 @@ class TravelMap extends React.Component {
                 {(this.props.points || []).map((point) => {
                     return (
                         <TravelMarker
-                            key={point.placeID}
+                            key={`${point.placeID}${point.day}`}
                             point={point}
                             totalDays={this.props.totalDays}
                             onDayChange={this.props.handleOnDayChange} />

@@ -20,6 +20,7 @@ export class Home extends React.Component{
     totalDays = 0;
 
     componentDidMount() {
+        console.log("Home did mount");
         const endPoint = 'GeneratePaths';
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}`, {
             method: 'GET',
@@ -61,6 +62,10 @@ export class Home extends React.Component{
             console.log(e.message);
         });
 
+    }
+
+    componentWillUnmount() {
+        console.log("Home will unmount");
     }
 
     homeCallback = (pts, tds, routeToTravelPlan=true) => {

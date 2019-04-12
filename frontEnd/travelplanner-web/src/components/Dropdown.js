@@ -8,7 +8,7 @@ const { Option } = Select;
 export class Dropdown extends React.Component {
 
     handleChange = (value) => {
-        this.props.handleDropdownClick(value);
+        this.props.onDropdownClick(value);
     }
     render () {
         return (

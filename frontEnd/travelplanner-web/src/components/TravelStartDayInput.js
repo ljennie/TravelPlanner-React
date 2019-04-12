@@ -9,15 +9,11 @@ import { API_ROOT } from "../constants"
 export class TravelStartDayInput extends React.Component {
 
     startPoints = []; // with order
-    generatedPoints =[];
     prevDay = 0;
-
-    /*showPlaceDetails = (place) => {
-        //this.setState({ place });
-        //console.log(place);
-    }*/
+    curObj = {};
 
     componentWillMount() {
+        console.log("TravelStartDayInput will mount");
         if (this.props.totalDays > 0) {
             this.startPoints = Array(this.props.totalDays).fill({});
 
@@ -25,13 +21,22 @@ export class TravelStartDayInput extends React.Component {
                 const startPoint = this.props.startPoints[i];
                 const {day} = startPoint;
                 this.startPoints[day] = startPoint;
+                if (day === 0) {
+                    this.curObj = startPoint;
+                }
+
             }
         }
 
 
+    }
+
+    componentDidMount() {
+        console.log("TravelStartDayInput did mount");
     }
 
     componentWillUpdate() {
+        console.log("TravelStartDayInput will update");
         if (this.props.totalDays > 0) {
             this.startPoints = Array(this.props.totalDays).fill({});
 
@@ -39,12 +44,18 @@ export class TravelStartDayInput extends React.Component {
                 const startPoint = this.props.startPoints[i];
                 const {day} = startPoint;
                 this.startPoints[day] = startPoint;
+                if (day === 0) {
+                    this.curObj = startPoint;
+                }
             }
         }
     }
 
-    updateStartPoints = () => {
-        const place = this.auto.autocomplete.getPlace();
+    componentWillUnmount() {
+        console.log("TravelStartDayInput will unmount");
+    }
+
+    handlePlaceChanged = (place) => {
         const obj = {
             placeID: place.place_id,
             type: "start",
@@ -58,11 +69,15 @@ export class TravelStartDayInput extends React.Component {
         // console.log(obj);
         // update prev to startPoints
         this.startPoints[this.prevDay] = obj;
+        this.curObj = obj;
 
         // mark start point on map
-        this.props.addStartPoint(obj);
+        this.props.onPlaceChanged(obj);
+    }
 
-        // do interpolation here to reduce the burden on generate paths
+    handleDropdownClick = (day) => {
+        this.curObj = this.startPoints[day];
+
         for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
             if (Object.keys(this.startPoints[i]).length === 0) {
                 this.startPoints[i] = this.startPoints[i - 1];
@@ -71,15 +86,8 @@ export class TravelStartDayInput extends React.Component {
             }
         }
 
-
-
-    }
-
-    handleDropdownClick = (day) => {
-        this.updateStartPoints();
-
         // clear autocomplete input
-        this.auto.autocompleteInput.current.value = "";
+        this.auto.autocompleteInput.current.value = (Object.keys(this.curObj).length === 0) ? "" : this.curObj.name;
 
         this.prevDay = day;
 
@@ -88,12 +96,18 @@ export class TravelStartDayInput extends React.Component {
     handleGenerateButtonPressed = () => {
         //TODO: validation firstday
 
-        this.updateStartPoints();
+        this.props.onGenerateButtonPressed();
+
+        for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
+            if (Object.keys(this.startPoints[i]).length === 0) {
+                this.startPoints[i] = this.startPoints[i - 1];
+            } else {
+                break;
+            }
+        }
 
         const endPoint = 'GeneratePaths';
         //console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
-
-        this.props.isGeneratingPath();
 
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
@@ -106,9 +120,7 @@ export class TravelStartDayInput extends React.Component {
                 return response.json();
             }
         }).then((data) => {
-            this.generatedPoints = data.places;
-            // TODO: 跳转动画
-            this.props.handleGenerateButtonPressed(this.generatedPoints);
+            this.props.onGeneratePathsObtained(data.places);
         }).catch((e) => {
             console.log(e.message);
         })
@@ -123,18 +135,15 @@ export class TravelStartDayInput extends React.Component {
     return (
         <div className="div">
             <div className="Dropdown">
-                <Dropdown handleDropdownClick={this.handleDropdownClick}
+                <Dropdown onDropdownClick={this.handleDropdownClick}
                           totalDays={this.props.totalDays}/>
             </div>
 
+
             <div className="Address">
-                <Autocomplete onPlaceChanged={this.showPlaceDetails}
-                              handleGenerateButtonPressed={this.handleGenerateButtonPressed}
+                <Autocomplete onPlaceChanged={this.handlePlaceChanged}
                               ref={(input) => { this.auto = input; }}
-                              placeholder={
-                                  (this.startPoints.length !== 0 && Object.keys(this.startPoints[this.prevDay]).length === 0) ?
-                                      this.startPoints[this.prevDay].name :
-                                      `Please enter start place for Day ${this.prevDay + 1}`}/>
+                />
                 <button onClick={this.handleGenerateButtonPressed}>GeneratePath</button>
             </div>
 
