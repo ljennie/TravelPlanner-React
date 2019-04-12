@@ -18,7 +18,16 @@ export class TravelMarker extends React.Component {
     onToggleOpen = () => {
         this.setState((prevState) => {
             return {
-                isOpen: !prevState.isOpen,
+                isOpen: true,
+            }
+        });
+
+    }
+
+    onToggleClose = () => {
+        this.setState((prevState) => {
+            return {
+                isOpen: false,
             }
         });
 
@@ -95,17 +104,17 @@ export class TravelMarker extends React.Component {
 
                 <Marker
                     position={{ lat: type === 'start' ? lat + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lat, lng: type === 'start' ? lon + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lon}}
-                    onMouseOver={ this.onToggleOpen}
-                    onMouseOut={this.onToggleOpen}
                     onClick={this.onToggleOpen}
                     onRightClick={this.onOptionOpen}
                     icon={{url: type === 'start' ? require(`../assets/images/start-c${day+1}-marker.svg`) : require(`../assets/images/c${day+1}-marker.svg`),
                           scaledSize: new window.google.maps.Size(26, 41)}}
                 >
                     {this.state.isOpen && intradayIndex !== 0 ?
-                        <InfoWindow onCloseClick={this.onToggleOpen}>
+                        <InfoWindow onCloseClick={this.onToggleClose}>
                             <div>
-                                <img src={imageURL} alt={name} className="travel-marker-image"/>
+                                { imageURL !== "" ?
+                                    <img src={imageURL} alt={name} className="travel-marker-image"/> : null
+                                }
                                 <p>{`Day ${day + 1}: ${name}`}</p>
                                 <a className="btn btn-success" href={`https://en.wikipedia.org/wiki/${name}`} target ="_blank">Learn More</a>
                             </div>
