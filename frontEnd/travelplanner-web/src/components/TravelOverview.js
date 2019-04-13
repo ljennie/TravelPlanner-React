@@ -3,12 +3,12 @@ import React from 'react';
 //import $ from 'jquery'
 import { Menu, Dropdown, Form, Row, Col, Input, Button, Icon } from 'antd';
 import { API_ROOT } from "../constants"
-import { StartAddressInputForm } from "./StartAddressInputForm";
+//import { StartAddressInputForm } from "./StartAddressInputForm";
 //import { GeneratePathsButton } from "./GeneratePathsButton";
 
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
-import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
+//import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
 import {TravelStartDayInput} from "./TravelStartDayInput"
 import Joyride,{ ACTIONS, EVENTS, STATUS}  from 'react-joyride';
 const steps= [
@@ -72,6 +72,7 @@ export class TravelOverview extends React.Component {
     changedPoints = [];
 
     startPoints = [];
+    poiPoints = [];
 
     generatedPoints=[];
     
@@ -83,20 +84,37 @@ export class TravelOverview extends React.Component {
    
 
     state = {
-        points: this.props.points.filter(place => place['type'] === "poi"),
-        isDayOptionsChosen : this.props.isDayOptionsChosen,
-
+        points:[],
+        isLoadingInit: false,
+        isGeneratingPath: false,
     }
 
     componentDidMount() {
+        console.log("TravelOverview did mount");
         this.totalDays = this.props.totalDays;
+        this.poiPoints = this.props.points.filter(place => place['type'] === "poi")
+        this.startPoints = this.props.points.filter(place => place['type'] === "start")
+        this.setState((prevState) => {
+            return {
+                points: this.props.points
+            }
+        })
+
+    }
+
+    componentWillUnmount() {
+        console.log("TravelOverview will unmount");
     }
 
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
         const endPoint = 'InitialRecommend';
         //console.log(`days: ${this.totalDays}`);
-
+        this.setState((prevState) => {
+            return {
+                isLoadingInit: true
+            }
+        })
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
@@ -108,7 +126,7 @@ export class TravelOverview extends React.Component {
             this.setState((prevState) => {
                 return {
                     points: data.places,
-                    isDayOptionsChosen: true
+                    isLoadingInit: false
                 }
             })
 
@@ -119,8 +137,7 @@ export class TravelOverview extends React.Component {
         // for testing
         /*this.setState((prevState) => {
             return {
-                points: this.testingPoints,
-                isDayOptionsChosen: true
+                points: this.testingPoints
             };
         })*/
     }
@@ -165,8 +182,21 @@ export class TravelOverview extends React.Component {
       };
            
 
-    handleGeneratePathsButtonPressed = (generatedPoints) => {
+    handleGenerateButtonPressed = () => {
+        this.setState((prevState) => {
+            return {
+                isGeneratingPath:true
+            };
+        });
+    }
+
+    handleGeneratePathsObtained = (generatedPoints) => {
         //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
+        this.setState((prevState) => {
+            return {
+                isGeneratingPath:false
+            };
+        });
         this.props.homeCallback(generatedPoints,this.totalDays);
     }
 
@@ -190,8 +220,27 @@ export class TravelOverview extends React.Component {
         this.onSavePlacesButtonClick(pointId, day, -1);
     }
 
-    handleReset = () => {
-        this.props.form.resetFields();
+
+    addStartPoint = (obj) => {
+        let replaced = false;
+        for (let i = 0; i < this.startPoints.length; i++) {
+            const day = this.startPoints[i].day;
+            if (day === obj.day) { // if exist, replace
+                this.startPoints[i] = obj;
+                replaced = true;
+                break;
+            }
+        }
+        if (!replaced) {
+            this.startPoints.push(obj);
+        }
+
+        this.setState((prevState) => {
+            return {
+                points:[...this.poiPoints, ...this.startPoints],
+            };
+        });
+
     }
 
     render() {
@@ -235,6 +284,8 @@ export class TravelOverview extends React.Component {
                     points={this.state.points}
                     totalDays={this.totalDays}
                     handleOnDayChange={this.handleOnDayChange}
+                    isLoadingInit={this.state.isLoadingInit}
+                    isGeneratingPath={this.state.isGeneratingPath}
                 />
 
            
@@ -252,10 +303,13 @@ export class TravelOverview extends React.Component {
                             </div>
                         }
                         
-                        <div style={{visibility: this.state.isDayOptionsChosen ? 'visible' : 'hidden',marginTop:'80px',marginLeft:"10px"}}>
+                        <div style={{visibility: this.totalDays > 0 ? 'visible' : 'hidden', marginTop:'80px',marginLeft:"10px"}}>
                             <TravelStartDayInput totalDays={this.totalDays}
                                                  userID={this.props.userID}
-                                                 handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}/>
+                                                 startPoints={this.startPoints}
+                                                 onPlaceChanged={this.addStartPoint}
+                                                 onGenerateButtonPressed={this.handleGenerateButtonPressed}
+                                                 onGeneratePathsObtained={this.handleGeneratePathsObtained}/>
                         </div>
                         <div className="help" style={{ position:"absolute", bottom:"40px", marginLeft:"10px", textAlign:"left"}}><Button onClick={this.handleJoyrideCallback}><Icon type="question-circle"/>Get help from here!</Button> </div> 
                 </div>
