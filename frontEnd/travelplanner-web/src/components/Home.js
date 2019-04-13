@@ -8,6 +8,7 @@ import {TravelOverview} from './TravelOverview'
 import {API_ROOT} from "../constants";
 import {Spin} from 'antd';
 
+
 export class Home extends React.Component{
 
     state = {
@@ -35,6 +36,7 @@ export class Home extends React.Component{
 
                 const savedPoints = data.places.filter(place => place['type'] === "poi");
                 const startPoints = data.places.filter(place => place['type'] === "start");
+
                 if (startPoints === undefined || startPoints === null || startPoints.length === 0) {
                     this.setState((prevState) => { return {disableTabs: true}});
                 } else {
@@ -162,10 +164,13 @@ export class Home extends React.Component{
 
     render() {
       return (
-          <div className="App">
+        <div className="App Re-App Page" style={{position:"relative", height:"500px"}}>
+            <div id="nav_contain" style={{position:"absolute"}}>
             {this.renderNavigation()}
+
+            </div>
             {this.state.fetchFinished ?
-                <div className="App-body">
+                <div className="App-body" style={{width:"100%"}} >
                     {this.renderTabContent()}
                 </div>
                 : <Spin tip="Getting user data..."/>

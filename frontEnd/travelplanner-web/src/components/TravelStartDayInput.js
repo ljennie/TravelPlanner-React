@@ -2,12 +2,19 @@ import React from 'react';
 import {Dropdown} from './Dropdown';
 import {Autocomplete} from "./Autocomplete";
 import { API_ROOT } from "../constants"
+import {notification,Button} from  'antd'
 
 //import 'antd/dist/antd.css';
 //import './index.css';
-
+const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: 'Warning!',
+      description: 'Please enter the start address!',
+    });
+  };
 export class TravelStartDayInput extends React.Component {
 
+    message= ""
     startPoints = []; // with order
     prevDay = 0;
     curObj = {};
@@ -52,6 +59,7 @@ export class TravelStartDayInput extends React.Component {
         }
     }
 
+
     componentWillUnmount() {
         console.log("TravelStartDayInput will unmount");
     }
@@ -85,8 +93,19 @@ export class TravelStartDayInput extends React.Component {
             } else {
                 break;
             }
+            console.log("obj" );
+            // update prev to startPoints
+            this.startPoints[this.prevDay] = obj;
+            for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
+                if (Object.keys(this.startPoints[i]).length === 0) {
+                    this.startPoints[i] = this.startPoints[i - 1];
+                } else {
+                    break;
+                }
+            }
+    
         }
-
+    } 
         // clear autocomplete input
         this.auto.autocompleteInput.current.value = "";
 
@@ -96,6 +115,12 @@ export class TravelStartDayInput extends React.Component {
 
     handleGenerateButtonPressed = () => {
         //TODO: validation firstday
+
+        if(this.startPoint == undefined || this.startPoint[0] == undefined || Object.keys(this.startPoints[0]).length === 0){
+            //console.log(this.startPoints);
+            //console.log(this.day);
+            openNotificationWithIcon('warning')
+        }
 
         this.props.onGenerateButtonPressed();
 
@@ -109,7 +134,7 @@ export class TravelStartDayInput extends React.Component {
 
         const endPoint = 'GeneratePaths';
         //console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
-
+      
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
             body: JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}),
@@ -128,27 +153,25 @@ export class TravelStartDayInput extends React.Component {
 
 
         //TODO: validation all days
-
+    }
 
     }
 
 
     render () {
     return (
-        <div className="div">
-            <div className="Dropdown">
+        <div className="div" style={{ margintop:"30px",textAlign:"left",display:"block"}}>
+            <div className="Dropdown" style={{position:"absolute"}}>
                 <Dropdown onDropdownClick={this.handleDropdownClick}
                           totalDays={this.props.totalDays}/>
             </div>
 
-
-            <div className="Address">
+            <div className="Address" style={{position:"absolute", marginTop:"50px"}} >
                 <Autocomplete onPlaceChanged={this.handlePlaceChanged}
-                              ref={(input) => { this.auto = input; }}
-                />
-                <button onClick={this.handleGenerateButtonPressed}>GeneratePath</button>
+                              ref={(input) => { this.auto = input; }}/>
+                <Button className="button-font generate" style={{position:"absolute", marginTop:"50px"}} onClick={this.handleGenerateButtonPressed}>GeneratePath</Button>
+               
             </div>
-
 
         </div>
     );
