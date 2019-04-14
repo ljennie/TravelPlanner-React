@@ -6,16 +6,16 @@ import { API_ROOT } from "../constants";
 
 
 const SortableItem = SortableElement(({value, index}) =>
- <List.Item><Typography.Text>{<span><b> Stop {index+1}</b></span>}</Typography.Text> {value}</List.Item>
+ <List.Item className="items-font"><Typography.Text>{<span className="items-font"><b style={{color:"#3A94F5"}}> Stop {index+1}: </b></span>}</Typography.Text> {value}</List.Item>
 );
 
 const SortableList = SortableContainer(({items, start}) => {
-  var startname=start[0].type;
+  var startname=start[0].name;
   return (
-     items&&<List  header={<h1><b>Day{items[0].day+1}</b></h1>} bordered>
-      <List.Item><Typography.Text>{<span><b> Start Point:  </b></span>}</Typography.Text>{startname}</List.Item>
+    typeof(items[0])!="undefined"&&typeof(start)!="undefined"&&items[0]!=null&&start!=null&&<List  header={<h1 className="banger" style={{fontSize:"30px"}}><b>Day{items[0].day+1}</b></h1>} bordered>
+      <List.Item className="items-font"><Typography.Text>{<span className="list-title items-font"><b style={{color:"#3A94F5"}}> Start Point: </b></span>}</Typography.Text>{startname}</List.Item>
       {items.map((value, index) => (
-        <SortableItem key={`item-${index}`} index={index} value={value.name} />
+        <SortableItem key={`item-${index}`} index={index} value={value.name} style={{color:"white"}}/>
       ))}
     </List>
   );
@@ -31,9 +31,9 @@ const SortableList = SortableContainer(({items, start}) => {
   render() {
     return (
      
-    <div>
+    <div className="font-white">
       {
-        <SortableList items={this.props.items} onSortEnd={this.onSortEnd} start={this.props.start}/>
+      typeof(this.props.items)!="undefined"&&typeof(this.props.start)!="undefined"&&this.props.items!=null&&this.props.start!=null&&<SortableList items={this.props.items} onSortEnd={this.onSortEnd} start={this.props.start}/>
       }
     </div>
   )

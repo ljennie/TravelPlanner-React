@@ -1,0 +1,12 @@
+.map_container{
+    
+    position: absolute;
+    width:70%;
+    margin-bottom: 10px;
+    height: 800px;
+    left:100px;
+}
+
+#plan_map {
+    width:65%;
+}

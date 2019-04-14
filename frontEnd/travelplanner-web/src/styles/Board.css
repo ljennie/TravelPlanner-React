@@ -1,8 +1,7 @@
-.Board {
-  margin-top: 12px;
-  width: 65vw;
-  margin-right: 0;
-  float:left;
+.DetailPage {
+
+  border-radius: 10px;
+  background: rgba(18, 27, 48, 0.8);
 }
 
 .row{
