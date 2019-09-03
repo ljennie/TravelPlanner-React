@@ -18,3 +18,8 @@ After that, it generates a path for every day plan.
 
 ![12](https://user-images.githubusercontent.com/40128001/64213625-44a90800-ce73-11e9-88d7-2639418a46c2.jpg)
 
+You can see a summary for every day plan.
+![13](https://user-images.githubusercontent.com/40128001/64213754-9c477380-ce73-11e9-9ccf-f92aa3309409.jpg)
+
+You can change your plans by dragging place boxes.
+![15](https://user-images.githubusercontent.com/40128001/64213912-1b3cac00-ce74-11e9-9c29-139e35211e42.jpg)
