@@ -14,6 +14,7 @@ You can also put your mouse on the places, and there is a link to wikipedia. The
 ![03](https://user-images.githubusercontent.com/40128001/64058020-7b78d880-cb6a-11e9-9ba6-c890f55a8cca.jpg)
 
 After that, it generates a path for every day plan.
-![04](https://user-images.githubusercontent.com/40128001/64058040-abc07700-cb6a-11e9-8b8e-196459a896ff.jpg)
+![11](https://user-images.githubusercontent.com/40128001/64213523-e54af800-ce72-11e9-93f6-89c009aace6b.jpg)
 
+![12](https://user-images.githubusercontent.com/40128001/64213625-44a90800-ce73-11e9-88d7-2639418a46c2.jpg)
 
